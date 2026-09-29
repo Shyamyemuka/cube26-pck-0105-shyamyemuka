@@ -1,9 +1,38 @@
-.env
-.env.*
-!.env.example
+# Dependencies
 node_modules/
-__pycache__/
-*.pyc
-.venv/
-venv/
+.pnp
+.pnp.js
+
+# Next.js build output
+.next/
+out/
+build/
+dist/
+
+# Environment files (never commit secrets)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+!.env.example
+
+# Large image fixtures
+eval/fixtures/**/*.jpg
+eval/fixtures/**/*.png
+eval/fixtures/**/*.jpeg
+
+# Logs and debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# OS and IDE files
 .DS_Store
+*.pem
+.idea/
+.vscode/
+*.swp
+*.swo
+*.tsbuildinfo

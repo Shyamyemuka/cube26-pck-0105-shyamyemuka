@@ -1,0 +1,51 @@
+unit_id,verdict,extra_items,notes
+EV-001,SEAL,N,Looks good
+EV-002,SEAL,N,1 charger and 2 pens clear
+EV-003,SEAL,N,Verified bottle and socks
+EV-004,SEAL,N,Verified
+EV-005,SEAL,N,Verified
+EV-006,SEAL,N,Navy notebook and pen clear
+EV-007,SEAL,N,White bottle and mugs clear
+EV-008,SEAL,N,Verified
+EV-009,SEAL,N,2 chargers verified
+EV-010,SEAL,N,Verified
+EV-011,SEAL,N,Verified
+EV-012,SEAL,N,Verified
+EV-013,SEAL,N,Verified
+EV-014,SEAL,N,Verified
+EV-015,SEAL,N,Verified
+EV-016,SEAL,N,Verified
+EV-017,SEAL,N,Verified
+EV-018,SEAL,N,Verified
+EV-019,STOP_AND_FIX,N,No mug in box
+EV-020,STOP_AND_FIX,N,No charger in box
+EV-021,STOP_AND_FIX,N,No bottle in box
+EV-022,STOP_AND_FIX,N,No keychain in box
+EV-023,STOP_AND_FIX,N,No sticker pack in box
+EV-024,STOP_AND_FIX,N,No notebook in box
+EV-025,STOP_AND_FIX,N,No pen pack in box
+EV-026,STOP_AND_FIX,N,Only 1 mug
+EV-027,STOP_AND_FIX,N,Only 2 pen packs
+EV-028,STOP_AND_FIX,N,Only 1 sock pair
+EV-029,STOP_AND_FIX,N,Only 1 charger
+EV-030,STOP_AND_FIX,N,Only 1 notebook
+EV-031,STOP_AND_FIX,N,Duplicate keychains
+EV-032,STOP_AND_FIX,N,Duplicate case
+EV-033,STOP_AND_FIX,N,3 tubes seen
+EV-034,STOP_AND_FIX,N,3 socks seen
+EV-035,STOP_AND_FIX,Y,Extra cord found
+EV-036,STOP_AND_FIX,Y,Extra white charger
+EV-037,STOP_AND_FIX,Y,Extra sample sachet
+EV-038,STOP_AND_FIX,Y,Extra mini fan
+EV-039,STOP_AND_FIX,Y,Extra tool/scissors
+EV-040,SEAL,N,Looked like correct notebook in shadow
+EV-041,STOP_AND_FIX,N,Wrong bottle color
+EV-042,STOP_AND_FIX,N,Wrong notebook color
+EV-043,STOP_AND_FIX,N,Wrong bottle finish
+EV-044,STOP_AND_FIX,N,Socks instead of charger
+EV-045,STOP_AND_FIX,N,Missing bottom socks
+EV-046,UNCERTAIN,?,Left side cut off
+EV-047,UNCERTAIN,?,Can't read text due to glare
+EV-048,UNCERTAIN,?,Too dark
+EV-049,STOP_AND_FIX,N,Looks like item is missing under paper
+EV-050,UNCERTAIN,?,Blurry

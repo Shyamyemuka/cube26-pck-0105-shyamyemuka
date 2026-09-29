@@ -1,182 +1,63 @@
-# Cube Buildathon · 03 · Pack Manager
+# Pack Manager — pre-seal package audit from one phone photo
 
-**Commerce Context stream · Round 2 · Individual Build**
+CUBE Buildathon 2026 · Track 03 · Round 2 (individual) · by Shyam (`Shyamyemuka`)
 
-> Five agents, one unit, one record that follows it.
-> A physical product arrives, gets prepped, gets shipped, comes back. At every step a person makes a fast judgment that nobody records. **You build the agent that makes one of those judgments, and leaves proof.**
+**Placement:** Project Root (replaces the upstream README; keep the upstream problem statement link below).
+> Agent instructions: sections marked `‹FILL›` are completed in Phase 5 from `eval/results/latest.json` and `docs/EVAL_REPORT.md`. Do not leave any `‹FILL›` in the submitted README. Every number must trace to a file in `eval/results/`.
 
-**New here? Read these first:**
+**Live app:** ‹FILL: Vercel URL› · **Demo video:** ‹FILL› · **Problem statement:** https://github.com/Cube-Build-A-Thon/cube-03-pack-manager
 
-1. [`GITHUB-GUIDE.md`](GITHUB-GUIDE.md) explains how to fork the repository, set it up, build and push your work.
-2. [`RULES.md`](RULES.md) covers the repository and engineering rules.
+## What it does
+A packer photographs the open box. Pack Manager compares what is visible to the order lines and returns **SEAL**, **STOP AND FIX**, or **UNCERTAIN**, with a per-check PASS / FAIL / UNCERTAIN trace, a human override that keeps the original verdict, and an evidence record another system can read.
 
----
+## The customer (hypothetical, not interviewed)
+Small merchant-fulfilled sellers and 3PLs packing outbound orders with no fixed station and no scanner budget. Not FBA (Amazon packs those). Not large DCs, where funded vendors already sell pack verification. Details and kill condition: `docs/CUSTOMER_AND_KILL_CONDITION.md`.
 
-## Your problem statement: Pack Manager
+## How it works (one paragraph)
+One batched vision-model call per unit reports observations (what is present, how many, what is unlisted, how good the photo is) with confidences. A deterministic rules engine (`lib/agent/rules.ts`) converts those observations into per-check results and a verdict. The model never decides. If evidence is missing or the photo is poor, the result is UNCERTAIN, never a low-confidence pass. If the model fails, the capture is still saved as `pending` and the operator is never blocked. See `ARCHITECTURE.md`.
 
-|                              |                                                                                                                 |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| **Position in the chain**    | Step 3 of 5. Outbound to buyer.                                                                                 |
-| **Customer**                 | Seller or 3PL packing outbound orders                                                                           |
-| **What gets recorded**       | Contents at seal                                                                                                |
-| **Who consumes your output** | Returns Manager (what was actually sent) and Recovery Manager (buyer disputes, empty-box and wrong-item claims) |
+## Results (held-out, 50 units, staged household items)
+Measured on 50 staged units with two independent human labelers (Cohen's κ = 0.895). See `docs/EVAL_REPORT.md`.
 
-A picker assembles an order and closes the box. If the wrong item or quantity goes in, the customer gets a mis-ship: a refund, a return, a replacement shipment and often the review. Nobody checks, because checking every box by hand costs more than the mis-ships do.
+| Metric | Value | Method |
+|--------|-------|--------|
+| False-SEAL rate (defective boxes sealed) | 0.0% (95% CI [0.0% – 12.9%]) | Defective boxes sealed / total defective boxes (n=26) |
+| False-STOP rate | 0.0% | Good boxes stopped / total good boxes (n=18) |
+| UNCERTAIN rate / coverage | 12.0% / 88.0% | Held for recapture or review (n=6) |
+| Labeler agreement (Cohen's κ) | 0.895 (raw 94.0%) | Two independent labelers on 50 units |
+| Latency p50 / p95 | 1.6 s / 2.0 s | Capture to verdict |
+| Cost per box | $0.00045 | Exactly one vision call per unit |
 
-**What the agent returns, from a photograph of the open box before it is sealed:**
+Kill condition: NOT TRIPPED (False-SEAL on missing/wrong 0.0% < 25%, UNCERTAIN 12.0% < 50%). Full failure-mode breakdown: `docs/EVAL_REPORT.md`.
 
-* Every item present, matched against the order lines
-* Quantities correct per line
-* Nothing extra in the box
-* A verdict: seal it, or stop and fix
-
-> **Know your customer's limits.** This only exists for merchant-fulfilled and 3PL orders. If a seller is fully FBA, Amazon packs the box and there is nothing to verify. That narrows your customer more than the other statements.
-
-> **Be honest about competition.** Three funded companies already sell pack verification into large distribution centers. You will not out-feature them in two weeks. Your question is whether it can work for a seller with no fixed station and no hardware budget, which is a customer they do not call on.
-
-### The chain you are part of
-
-```text
- Supplier delivery      Inbound to Amazon     Outbound to buyer     Customer return        Money back
- ┌──────────────┐      ┌──────────────┐      ┌──────────────┐      ┌──────────────┐      ┌──────────────┐
- │ 01 Receiving │ ───▶ │ 02 Prep      │ ───▶ │ 03 Pack      │ ───▶ │ 04 Returns   │      │ 05 Recovery  │
- │ condition on │      │ compliance   │      │ contents at  │      │ condition &  │      │ reads all    │
- │ arrival      │      │ proof        │      │ seal         │      │ disposition  │      │ four → claim │
- └──────┬───────┘      └──────┬───────┘      └──────┬───────┘      └──────┬───────┘      └──────▲───────┘
-        └─────────────────────┴─────────────────────┴─────────────────────┴─────────────────────┘
+## Run it
+```bash
+git clone https://github.com/Shyamyemuka/cube26-pck-0105-shyamyemuka && cd cube26-pck-0105-shyamyemuka
+cp .env.example .env.local        # fill Supabase + Gemini values
+npm ci
+# apply supabase/migrations/0001_init.sql in the Supabase SQL editor, then:
+npx tsx scripts/seed.ts
+npm run dev                        # http://localhost:3000
+npm test && npm run test:isolation
 ```
+Headless: `npm run agent -- --unit U1 --photos a.jpg,b.jpg --order "SKU-A:1;SKU-B:2"`
+Eval: `npm run eval -- --set dev` (tuning) · `npm run eval -- --set heldout` (final, run once)
+Dry-run on the organiser CSV (rules engine only, no images): `npx tsx scripts/csv-dryrun.ts`
 
-The first four are the same machine: a camera, a model, and a decision bound to a record. What changes is the ruleset, the buyer and the moment. The fifth has no camera. It turns the other four's records into a claim.
+Demo accounts: ‹FILL: provide via the submission form, not in this repo›.
 
-Your output has to be usable by another pod. That's deliberate, and it's scored.
+## Test inputs
+`demo-data/demo_catalogue.json`, `demo-data/demo_orders.csv`, and staged fixtures listed in `eval/units.json`. Paste an order as `SKU:qty;SKU:qty`.
 
----
+## Requirements checklist
+Operational understanding ✓ · Multi-modal ingestion (photos, order files, SKU catalogue, evidence records) ✓ · Traceable JSON decisions ✓ · PASS/FAIL/UNCERTAIN ✓ · Human override with preserved audit ✓ · Tech-stack freedom (Next.js, Supabase, Gemini) ✓
+Engineering rules: tenancy isolation (RLS enabled + forced, tested) · one model call per unit · fail-open · UNCERTAIN first-class · rules looked up, not recalled (pack verification needs only the seller's order lines; no marketplace rule lookup is implemented).
 
-## Reference data
+## Evidence and cross-pod interface
+`GET /api/v1/evidence/{unit_id}` returns a `pack_evidence.v1` record (see `docs/EVIDENCE_CONTRACT.md`). CSV export mirrors the organiser's `pack_sample.csv` columns plus extras. The official contract was not publicly available at build time; an adapter slot exists.
 
-`data/` holds a **dummy** CSV for reference while you design and build. Its columns and meanings are listed in [`data/README.md`](data/README.md).
+## Limitations (honest)
+Staged household items and one phone; n=50; two labelers who know each other; stacked or occluded items are hard and mostly route to UNCERTAIN; look-alike products can be confused; no real customer interviews; the record has a content hash and hash chain but is **not** tamper-proof; the dummy CSV is synthetic and used only for schema and rules-engine tests; FBA is out of scope; requires network for the model call (fail-open otherwise).
 
-**The data is synthetic.** The SKUs, ASINs, FNSKUs, orders, suppliers, operators and amounts are all invented. The requirement flags and fee amounts are **not** Amazon's real rules or fees. Engineering rule 5 applies: look the authoritative rule up. The `photo_refs` paths are placeholders, and no images ship with this repo. Your fixtures and eval set are yours to capture.
-
-All five buildathon repos share the same `unit_id` values (`UNIT-0001` … `UNIT-0100`). You can follow one unit from receiving through recovery, the same way the real records will be joined. In the sample, each unit takes one route: **FBA** (prep, then Amazon ships it and charges fees) or **merchant-fulfilled / 3PL** (the seller packs it). So a unit has a Prep record or a Pack record, never both.
-
----
-
-## How this works
-
-You have a defined problem statement and a repository to build from. Real products are built backwards from the customer and forwards through the evidence. You should understand the customer and the operational workflow before you write code, then build and measure whether the solution works.
-
-Your goal is to turn the Pack Manager problem into a working, measurable agent.
-
-### What you're given
-
-* This problem statement
-* A domain brief covering the real economics, fee structures and what a working day in a warehouse looks like *(shared by the organisers)*
-* The engineering rules in [`RULES.md`](RULES.md)
-* Repository sample data and supporting resources
-* Any additional build resources shared by the organisers
-
-### What you produce
-
-Build your solution in **your own GitHub fork**.
-
-Your final Round 2 submission should include:
-
-* A working Pack Manager
-* An `README.md` explaining your solution, setup, assumptions and limitations
-* An `ARCHITECTURE.md`
-* An eval report/results with numbers and named failure modes
-* A demo video
-* A deployment URL, where applicable
-* Your mandatory LinkedIn post URL
-
-## Build and submission flow
-
-```text
-Understand
-    ↓
-Build
-    ↓
-Test
-    ↓
-Evaluate
-    ↓
-Document
-    ↓
-Demo / Deploy
-    ↓
-Submit
-```
-
-Round 2 is an **individual build**.
-
-The official build phase begins on **25 September 2026 at 9:00 AM IST**.
-
-Submissions open from **27 September 2026**.
-
-The final submission deadline is **1 October 2026 at 6:00 PM IST**.
-
-The submission form closes permanently at the deadline. **There is no resubmission.**
-
-All code commits forming your Round 2 submission must be made during the authorised build phase. Do not continue making Round 2 code changes after the build phase ends.
-
-## What we're being straight with you about
-
-* **The core assumption is untested.** Nobody knows yet whether vision models can identify products and verify box contents reliably across long-tail catalogues without per-SKU training. Finding out that it doesn't hold, and documenting that clearly, counts as a useful outcome.
-* **Nobody has spoken to a customer yet.** If you can get a real prep center or seller on a call, ask them to rank the five problems by urgency. Don't ask whether they'd buy what you're building.
-* **The background documents disagree in places.** A contradiction is a finding. Raise it as an Issue labelled `finding`.
-
----
-
-## Evaluation
-
-Your Round 2 submission is evaluated out of **100 points**:
-
-| Criterion                                    |  Points |
-| -------------------------------------------- | ------: |
-| Problem Understanding & Solution Relevance   |  **15** |
-| Agent Functionality & Decision Quality       |  **25** |
-| Evaluation, Accuracy & Uncertainty Handling  |  **25** |
-| Evidence, Traceability & Engineering Quality |  **20** |
-| UX, Demo & Documentation                     |  **15** |
-| **TOTAL**                                    | **100** |
-
-For the vision-based portions of the Pack Manager, use an appropriate unseen/held-out evaluation set and report your methodology, results, false positives, false negatives, `UNCERTAIN` cases and failure modes.
-
----
-
-## Evidence and decision traceability
-
-Your Pack Manager should leave evidence behind for its decisions.
-
-At minimum, the workflow should make it possible to understand:
-
-```text
-What should be in the box?
-        ↓
-What was actually found?
-        ↓
-What checks were performed?
-        ↓
-What verdict was produced?
-        ↓
-Why?
-```
-
-Use the official evidence contract provided by the organisers as the baseline for interoperability with the other Managers.
-
----
-
-## PASS · FAIL · UNCERTAIN
-
-For individual checks:
-
-* **PASS** — the evidence supports the condition.
-* **FAIL** — the evidence shows the condition is not met.
-* **UNCERTAIN** — the evidence is insufficient for a reliable judgment.
-
-`UNCERTAIN` is not simply a low-confidence PASS.
-
----
-
-*CUBE Buildathon · Commerce Context*
+## Repo map
+`docs/` specs and reports · `lib/agent/` model + rules · `lib/evidence/` records + hashing · `scripts/` seed, dry-run, isolation test · `eval/` labels and results · `supabase/migrations/` schema

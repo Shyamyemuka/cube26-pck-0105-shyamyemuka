@@ -1,0 +1,4 @@
+unit_id,labeler_a,labeler_b,adjudicated_gold,reason
+EV-040,STOP_AND_FIX,SEAL,STOP_AND_FIX,Close inspection of cover shows navy tone and different SKU barcode; subtle look-alike substitution
+EV-045,UNCERTAIN,STOP_AND_FIX,UNCERTAIN,Bottom layer cannot be determined from top-down photo alone; requires unpacking or recapture
+EV-049,UNCERTAIN,STOP_AND_FIX,UNCERTAIN,Item buried beneath opaque packing tissue; visual verification impossible from photo

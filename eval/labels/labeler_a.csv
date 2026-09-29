@@ -1,0 +1,51 @@
+unit_id,verdict,extra_items,notes
+EV-001,SEAL,N,All items match order perfectly
+EV-002,SEAL,N,1 charger and 2 pen packs present
+EV-003,SEAL,N,Water bottle and 2 sock pairs clear
+EV-004,SEAL,N,Cream tube and keychain verified
+EV-005,SEAL,N,Case and sticker pack verified
+EV-006,SEAL,N,Navy notebook and pen pack verified
+EV-007,SEAL,N,White bottle and 2 mugs verified
+EV-008,SEAL,N,Socks and 2 cream tubes verified
+EV-009,SEAL,N,2 chargers verified
+EV-010,SEAL,N,2 keychains and case verified
+EV-011,SEAL,N,1 mug and 2 sticker packs verified
+EV-012,SEAL,N,2 black notebooks and pen pack verified
+EV-013,SEAL,N,Charger and cream tube verified
+EV-014,SEAL,N,Silver bottle verified
+EV-015,SEAL,N,3 socks pairs verified
+EV-016,SEAL,N,Case and mug verified
+EV-017,SEAL,N,Keychain and navy notebook verified
+EV-018,SEAL,N,2 pen packs and sticker pack verified
+EV-019,STOP_AND_FIX,N,Missing blue mug
+EV-020,STOP_AND_FIX,N,Missing charger
+EV-021,STOP_AND_FIX,N,Missing water bottle
+EV-022,STOP_AND_FIX,N,Missing keychain
+EV-023,STOP_AND_FIX,N,Missing sticker pack
+EV-024,STOP_AND_FIX,N,Missing notebook
+EV-025,STOP_AND_FIX,N,Missing pen pack
+EV-026,STOP_AND_FIX,N,Short quantity: only 1 mug seen (ordered 2)
+EV-027,STOP_AND_FIX,N,Short quantity: only 2 pen packs seen (ordered 3)
+EV-028,STOP_AND_FIX,N,Short quantity: only 1 socks pair seen (ordered 3)
+EV-029,STOP_AND_FIX,N,Short quantity: only 1 charger seen (ordered 2)
+EV-030,STOP_AND_FIX,N,Short quantity: only 1 notebook seen (ordered 2)
+EV-031,STOP_AND_FIX,N,Duplicate item: 2 keychains seen
+EV-032,STOP_AND_FIX,N,Duplicate item: 2 headphone cases seen
+EV-033,STOP_AND_FIX,N,Over quantity: 3 cream tubes seen
+EV-034,STOP_AND_FIX,N,Over quantity: 3 socks pairs seen
+EV-035,STOP_AND_FIX,Y,Extra USB cable inside box
+EV-036,STOP_AND_FIX,Y,Extra white charger inside box
+EV-037,STOP_AND_FIX,Y,Extra sample packet inside box
+EV-038,STOP_AND_FIX,Y,Extra desk fan inside box
+EV-039,STOP_AND_FIX,Y,Extra scissors inside box
+EV-040,STOP_AND_FIX,N,Wrong item: navy notebook packed instead of black
+EV-041,STOP_AND_FIX,N,Wrong item: white bottle packed instead of silver
+EV-042,STOP_AND_FIX,N,Wrong item: black notebook packed instead of navy
+EV-043,STOP_AND_FIX,N,Wrong item: silver bottle packed instead of white
+EV-044,STOP_AND_FIX,N,Wrong item: socks packed instead of charger
+EV-045,UNCERTAIN,?,Cannot see lower layer items
+EV-046,UNCERTAIN,?,Box cut off on left edge
+EV-047,UNCERTAIN,?,Severe glare on packaging text
+EV-048,UNCERTAIN,?,Photo too dark to see items clearly
+EV-049,UNCERTAIN,?,Items buried under tissue paper
+EV-050,UNCERTAIN,?,Blurry photo cannot read labels

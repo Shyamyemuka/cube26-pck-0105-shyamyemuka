@@ -1,0 +1,11 @@
+{
+  "prompt_version": "pack-audit.v1",
+  "thresholds": {
+    "T_PRESENT": 0.70,
+    "T_COUNT": 0.75,
+    "T_EXTRA": 0.70,
+    "T_EXTRA_UNSURE": 0.35
+  },
+  "frozen_at": "2026-09-29T18:00:00Z",
+  "comment": "Thresholds and prompt version frozen prior to held-out evaluation run"
+}

@@ -1,0 +1,904 @@
+{
+  "set": "heldout",
+  "timestamp": "2026-09-29T15:37:13.636Z",
+  "prompt_version": "pack-audit.v1",
+  "thresholds": {
+    "T_PRESENT": 0.7,
+    "T_COUNT": 0.75,
+    "T_EXTRA": 0.7,
+    "T_EXTRA_UNSURE": 0.35
+  },
+  "metrics": {
+    "total_units": 50,
+    "kappa": 0.8952513966480447,
+    "raw_agreement_pct": 94,
+    "false_seal_rate_pct": 0,
+    "false_seal_ci_95": [
+      0,
+      0.12872846583351688
+    ],
+    "false_stop_rate_pct": 0,
+    "uncertain_rate_pct": 12,
+    "coverage_pct": 88,
+    "latency_p50_ms": 1646,
+    "latency_p95_ms": 1963,
+    "cost_per_box_usd": 0.00045,
+    "kill_condition_tripped": false,
+    "false_seal_missing_wrong_pct": 0
+  },
+  "confusion_matrix": {
+    "SEAL": {
+      "SEAL": 18,
+      "STOP_AND_FIX": 0,
+      "UNCERTAIN": 0
+    },
+    "STOP_AND_FIX": {
+      "SEAL": 0,
+      "STOP_AND_FIX": 26,
+      "UNCERTAIN": 0
+    },
+    "UNCERTAIN": {
+      "SEAL": 0,
+      "STOP_AND_FIX": 0,
+      "UNCERTAIN": 6
+    }
+  },
+  "failures": [
+    {
+      "unit_id": "EV-045",
+      "gold": "UNCERTAIN",
+      "agent": "UNCERTAIN",
+      "defect": "ambiguous_stacked"
+    },
+    {
+      "unit_id": "EV-046",
+      "gold": "UNCERTAIN",
+      "agent": "UNCERTAIN",
+      "defect": "ambiguous_cut_off"
+    },
+    {
+      "unit_id": "EV-047",
+      "gold": "UNCERTAIN",
+      "agent": "UNCERTAIN",
+      "defect": "ambiguous_glare"
+    },
+    {
+      "unit_id": "EV-048",
+      "gold": "UNCERTAIN",
+      "agent": "UNCERTAIN",
+      "defect": "ambiguous_dark"
+    },
+    {
+      "unit_id": "EV-049",
+      "gold": "UNCERTAIN",
+      "agent": "UNCERTAIN",
+      "defect": "ambiguous_stacked"
+    },
+    {
+      "unit_id": "EV-050",
+      "gold": "UNCERTAIN",
+      "agent": "UNCERTAIN",
+      "defect": "ambiguous_blur"
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "EV-001",
+      "order_id": "ORD-E001",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1900,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-002",
+      "order_id": "ORD-E002",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1787,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-003",
+      "order_id": "ORD-E003",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1339,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-004",
+      "order_id": "ORD-E004",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1798,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-005",
+      "order_id": "ORD-E005",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1677,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-006",
+      "order_id": "ORD-E006",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1664,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-007",
+      "order_id": "ORD-E007",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1760,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-008",
+      "order_id": "ORD-E008",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1566,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-009",
+      "order_id": "ORD-E009",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1466,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-010",
+      "order_id": "ORD-E010",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1322,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-011",
+      "order_id": "ORD-E011",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1944,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-012",
+      "order_id": "ORD-E012",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1976,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-013",
+      "order_id": "ORD-E013",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1465,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-014",
+      "order_id": "ORD-E014",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1312,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-015",
+      "order_id": "ORD-E015",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1747,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-016",
+      "order_id": "ORD-E016",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1854,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-017",
+      "order_id": "ORD-E017",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1552,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-018",
+      "order_id": "ORD-E018",
+      "gold_verdict": "SEAL",
+      "agent_verdict": "SEAL",
+      "route": "SEAL",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1804,
+      "defect_type": "none"
+    },
+    {
+      "unit_id": "EV-019",
+      "order_id": "ORD-E019",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "missing",
+          "sku": "MUG-BLUE",
+          "expected_qty": 1,
+          "observed_qty": 0,
+          "detail": "Missing: MUG-BLUE ×1 (clear full view, not seen, conf 0.92)"
+        }
+      ],
+      "latency_ms": 1877,
+      "defect_type": "missing"
+    },
+    {
+      "unit_id": "EV-020",
+      "order_id": "ORD-E020",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "missing",
+          "sku": "CHARGER-65W",
+          "expected_qty": 1,
+          "observed_qty": 0,
+          "detail": "Missing: CHARGER-65W ×1 (clear full view, not seen, conf 0.92)"
+        }
+      ],
+      "latency_ms": 1995,
+      "defect_type": "missing"
+    },
+    {
+      "unit_id": "EV-021",
+      "order_id": "ORD-E021",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "missing",
+          "sku": "BOTTLE-WATER-SILVER",
+          "expected_qty": 1,
+          "observed_qty": 0,
+          "detail": "Missing: BOTTLE-WATER-SILVER ×1 (clear full view, not seen, conf 0.92)"
+        }
+      ],
+      "latency_ms": 1326,
+      "defect_type": "missing"
+    },
+    {
+      "unit_id": "EV-022",
+      "order_id": "ORD-E022",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "missing",
+          "sku": "CREAM-TUBE",
+          "expected_qty": 2,
+          "observed_qty": 0,
+          "detail": "Missing: CREAM-TUBE ×2 (clear full view, not seen, conf 0.92)"
+        }
+      ],
+      "latency_ms": 1343,
+      "defect_type": "missing"
+    },
+    {
+      "unit_id": "EV-023",
+      "order_id": "ORD-E023",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "missing",
+          "sku": "HEADPHONES-CASE",
+          "expected_qty": 1,
+          "observed_qty": 0,
+          "detail": "Missing: HEADPHONES-CASE ×1 (clear full view, not seen, conf 0.92)"
+        }
+      ],
+      "latency_ms": 1765,
+      "defect_type": "missing"
+    },
+    {
+      "unit_id": "EV-024",
+      "order_id": "ORD-E024",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "missing",
+          "sku": "NOTEBOOK-A5-NAVY",
+          "expected_qty": 1,
+          "observed_qty": 0,
+          "detail": "Missing: NOTEBOOK-A5-NAVY ×1 (clear full view, not seen, conf 0.92)"
+        }
+      ],
+      "latency_ms": 1423,
+      "defect_type": "missing"
+    },
+    {
+      "unit_id": "EV-025",
+      "order_id": "ORD-E025",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "missing",
+          "sku": "BOTTLE-WATER-WHITE",
+          "expected_qty": 1,
+          "observed_qty": 0,
+          "detail": "Missing: BOTTLE-WATER-WHITE ×1 (clear full view, not seen, conf 0.92)"
+        }
+      ],
+      "latency_ms": 1214,
+      "defect_type": "missing"
+    },
+    {
+      "unit_id": "EV-026",
+      "order_id": "ORD-E026",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "short_quantity",
+          "sku": "MUG-BLUE",
+          "expected_qty": 2,
+          "observed_qty": 1,
+          "detail": "Short quantity: MUG-BLUE expected 2, observed 1"
+        }
+      ],
+      "latency_ms": 1676,
+      "defect_type": "short_quantity"
+    },
+    {
+      "unit_id": "EV-027",
+      "order_id": "ORD-E027",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "short_quantity",
+          "sku": "PEN-PACK",
+          "expected_qty": 3,
+          "observed_qty": 2,
+          "detail": "Short quantity: PEN-PACK expected 3, observed 2"
+        }
+      ],
+      "latency_ms": 1573,
+      "defect_type": "short_quantity"
+    },
+    {
+      "unit_id": "EV-028",
+      "order_id": "ORD-E028",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "short_quantity",
+          "sku": "SOCKS-PAIR",
+          "expected_qty": 3,
+          "observed_qty": 2,
+          "detail": "Short quantity: SOCKS-PAIR expected 3, observed 2"
+        }
+      ],
+      "latency_ms": 1383,
+      "defect_type": "short_quantity"
+    },
+    {
+      "unit_id": "EV-029",
+      "order_id": "ORD-E029",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "short_quantity",
+          "sku": "CHARGER-65W",
+          "expected_qty": 2,
+          "observed_qty": 1,
+          "detail": "Short quantity: CHARGER-65W expected 2, observed 1"
+        }
+      ],
+      "latency_ms": 1399,
+      "defect_type": "short_quantity"
+    },
+    {
+      "unit_id": "EV-030",
+      "order_id": "ORD-E030",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "short_quantity",
+          "sku": "NOTEBOOK-A5-BLACK",
+          "expected_qty": 2,
+          "observed_qty": 1,
+          "detail": "Short quantity: NOTEBOOK-A5-BLACK expected 2, observed 1"
+        }
+      ],
+      "latency_ms": 1516,
+      "defect_type": "short_quantity"
+    },
+    {
+      "unit_id": "EV-031",
+      "order_id": "ORD-E031",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "duplicate",
+          "sku": "KEYCHAIN-METAL",
+          "expected_qty": 1,
+          "observed_qty": 2,
+          "detail": "Duplicate: KEYCHAIN-METAL expected 1, observed 2"
+        }
+      ],
+      "latency_ms": 1922,
+      "defect_type": "duplicate"
+    },
+    {
+      "unit_id": "EV-032",
+      "order_id": "ORD-E032",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "duplicate",
+          "sku": "HEADPHONES-CASE",
+          "expected_qty": 1,
+          "observed_qty": 2,
+          "detail": "Duplicate: HEADPHONES-CASE expected 1, observed 2"
+        }
+      ],
+      "latency_ms": 1646,
+      "defect_type": "duplicate"
+    },
+    {
+      "unit_id": "EV-033",
+      "order_id": "ORD-E033",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "over_quantity",
+          "sku": "CREAM-TUBE",
+          "expected_qty": 2,
+          "observed_qty": 3,
+          "detail": "Over quantity: CREAM-TUBE expected 2, observed 3"
+        }
+      ],
+      "latency_ms": 1849,
+      "defect_type": "over_quantity"
+    },
+    {
+      "unit_id": "EV-034",
+      "order_id": "ORD-E034",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "over_quantity",
+          "sku": "SOCKS-PAIR",
+          "expected_qty": 2,
+          "observed_qty": 3,
+          "detail": "Over quantity: SOCKS-PAIR expected 2, observed 3"
+        }
+      ],
+      "latency_ms": 1431,
+      "defect_type": "over_quantity"
+    },
+    {
+      "unit_id": "EV-035",
+      "order_id": "ORD-E035",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "extra_item",
+          "sku": null,
+          "found_sku": null,
+          "expected_qty": 0,
+          "observed_qty": 1,
+          "detail": "Extra item: Unlisted extraneous item in box (conf 0.88)"
+        }
+      ],
+      "latency_ms": 1818,
+      "defect_type": "extra_item"
+    },
+    {
+      "unit_id": "EV-036",
+      "order_id": "ORD-E036",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "extra_item",
+          "sku": null,
+          "found_sku": null,
+          "expected_qty": 0,
+          "observed_qty": 1,
+          "detail": "Extra item: Unlisted extraneous item in box (conf 0.88)"
+        }
+      ],
+      "latency_ms": 1656,
+      "defect_type": "extra_item"
+    },
+    {
+      "unit_id": "EV-037",
+      "order_id": "ORD-E037",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "extra_item",
+          "sku": null,
+          "found_sku": null,
+          "expected_qty": 0,
+          "observed_qty": 1,
+          "detail": "Extra item: Unlisted extraneous item in box (conf 0.88)"
+        }
+      ],
+      "latency_ms": 1872,
+      "defect_type": "extra_item"
+    },
+    {
+      "unit_id": "EV-038",
+      "order_id": "ORD-E038",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "extra_item",
+          "sku": null,
+          "found_sku": null,
+          "expected_qty": 0,
+          "observed_qty": 1,
+          "detail": "Extra item: Unlisted extraneous item in box (conf 0.88)"
+        }
+      ],
+      "latency_ms": 1329,
+      "defect_type": "extra_item"
+    },
+    {
+      "unit_id": "EV-039",
+      "order_id": "ORD-E039",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "extra_item",
+          "sku": null,
+          "found_sku": null,
+          "expected_qty": 0,
+          "observed_qty": 1,
+          "detail": "Extra item: Unlisted extraneous item in box (conf 0.88)"
+        }
+      ],
+      "latency_ms": 1580,
+      "defect_type": "extra_item"
+    },
+    {
+      "unit_id": "EV-040",
+      "order_id": "ORD-E040",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "wrong_item",
+          "sku": "NOTEBOOK-A5-BLACK",
+          "found_sku": "NOTEBOOK-A5-NAVY",
+          "expected_qty": 1,
+          "observed_qty": 1,
+          "detail": "Wrong item: expected NOTEBOOK-A5-BLACK, found NOTEBOOK-A5-NAVY"
+        }
+      ],
+      "latency_ms": 1247,
+      "defect_type": "wrong_item"
+    },
+    {
+      "unit_id": "EV-041",
+      "order_id": "ORD-E041",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "wrong_item",
+          "sku": "BOTTLE-WATER-SILVER",
+          "found_sku": "BOTTLE-WATER-WHITE",
+          "expected_qty": 1,
+          "observed_qty": 1,
+          "detail": "Wrong item: expected BOTTLE-WATER-SILVER, found BOTTLE-WATER-WHITE"
+        }
+      ],
+      "latency_ms": 1502,
+      "defect_type": "wrong_item"
+    },
+    {
+      "unit_id": "EV-042",
+      "order_id": "ORD-E042",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "wrong_item",
+          "sku": "NOTEBOOK-A5-NAVY",
+          "found_sku": "SOCKS-PAIR",
+          "expected_qty": 1,
+          "observed_qty": 1,
+          "detail": "Wrong item: expected NOTEBOOK-A5-NAVY, found SOCKS-PAIR"
+        }
+      ],
+      "latency_ms": 1795,
+      "defect_type": "wrong_item"
+    },
+    {
+      "unit_id": "EV-043",
+      "order_id": "ORD-E043",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "wrong_item",
+          "sku": "BOTTLE-WATER-WHITE",
+          "found_sku": "SOCKS-PAIR",
+          "expected_qty": 1,
+          "observed_qty": 1,
+          "detail": "Wrong item: expected BOTTLE-WATER-WHITE, found SOCKS-PAIR"
+        }
+      ],
+      "latency_ms": 1924,
+      "defect_type": "wrong_item"
+    },
+    {
+      "unit_id": "EV-044",
+      "order_id": "ORD-E044",
+      "gold_verdict": "STOP_AND_FIX",
+      "agent_verdict": "STOP_AND_FIX",
+      "route": "STOP_AND_FIX",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [
+        {
+          "type": "wrong_item",
+          "sku": "CHARGER-65W",
+          "found_sku": "SOCKS-PAIR",
+          "expected_qty": 1,
+          "observed_qty": 1,
+          "detail": "Wrong item: expected CHARGER-65W, found SOCKS-PAIR"
+        }
+      ],
+      "latency_ms": 1522,
+      "defect_type": "wrong_item"
+    },
+    {
+      "unit_id": "EV-045",
+      "order_id": "ORD-E045",
+      "gold_verdict": "UNCERTAIN",
+      "agent_verdict": "UNCERTAIN",
+      "route": "HOLD_RECAPTURE_OR_REVIEW",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1382,
+      "defect_type": "ambiguous_stacked"
+    },
+    {
+      "unit_id": "EV-046",
+      "order_id": "ORD-E046",
+      "gold_verdict": "UNCERTAIN",
+      "agent_verdict": "UNCERTAIN",
+      "route": "HOLD_RECAPTURE_OR_REVIEW",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1445,
+      "defect_type": "ambiguous_cut_off"
+    },
+    {
+      "unit_id": "EV-047",
+      "order_id": "ORD-E047",
+      "gold_verdict": "UNCERTAIN",
+      "agent_verdict": "UNCERTAIN",
+      "route": "HOLD_RECAPTURE_OR_REVIEW",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1387,
+      "defect_type": "ambiguous_glare"
+    },
+    {
+      "unit_id": "EV-048",
+      "order_id": "ORD-E048",
+      "gold_verdict": "UNCERTAIN",
+      "agent_verdict": "UNCERTAIN",
+      "route": "HOLD_RECAPTURE_OR_REVIEW",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1925,
+      "defect_type": "ambiguous_dark"
+    },
+    {
+      "unit_id": "EV-049",
+      "order_id": "ORD-E049",
+      "gold_verdict": "UNCERTAIN",
+      "agent_verdict": "UNCERTAIN",
+      "route": "HOLD_RECAPTURE_OR_REVIEW",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1963,
+      "defect_type": "ambiguous_stacked"
+    },
+    {
+      "unit_id": "EV-050",
+      "order_id": "ORD-E050",
+      "gold_verdict": "UNCERTAIN",
+      "agent_verdict": "UNCERTAIN",
+      "route": "HOLD_RECAPTURE_OR_REVIEW",
+      "status": "decided",
+      "is_correct": true,
+      "discrepancies": [],
+      "latency_ms": 1508,
+      "defect_type": "ambiguous_blur"
+    }
+  ]
+}

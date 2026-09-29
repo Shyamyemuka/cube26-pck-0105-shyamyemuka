@@ -1,0 +1,74 @@
+[
+  {
+    "sku": "MUG-BLUE",
+    "name": "Ceramic Blue Coffee Mug",
+    "description": "Standard 350ml matte blue ceramic mug with handle",
+    "attributes": { "color": "blue", "material": "ceramic", "capacity": "350ml" }
+  },
+  {
+    "sku": "NOTEBOOK-A5-BLACK",
+    "name": "Hardcover A5 Notebook - Black",
+    "description": "A5 ruled journal notebook with black faux-leather cover and ribbon bookmark",
+    "attributes": { "color": "black", "size": "A5", "pages": 192 }
+  },
+  {
+    "sku": "NOTEBOOK-A5-NAVY",
+    "name": "Hardcover A5 Notebook - Navy Blue",
+    "description": "A5 ruled journal notebook with navy blue cover, look-alike to black edition",
+    "attributes": { "color": "navy", "size": "A5", "pages": 192 }
+  },
+  {
+    "sku": "CHARGER-65W",
+    "name": "65W USB-C Fast Charger",
+    "description": "Compact GaN wall charger plug, white, single USB-C port",
+    "attributes": { "color": "white", "wattage": "65W", "port": "USB-C" }
+  },
+  {
+    "sku": "SOCKS-PAIR",
+    "name": "Cotton Crew Socks Pair",
+    "description": "Heather grey ribbed cotton everyday athletic crew socks",
+    "attributes": { "color": "grey", "size": "M (8-10)", "material": "cotton" }
+  },
+  {
+    "sku": "CREAM-TUBE",
+    "name": "Moisturizing Hand Cream Tube",
+    "description": "75ml squeeze tube with white screw cap, unscented lotion",
+    "attributes": { "volume": "75ml", "packaging": "squeeze tube" }
+  },
+  {
+    "sku": "BOTTLE-WATER-SILVER",
+    "name": "Insulated Water Bottle - Silver",
+    "description": "500ml double-walled stainless steel vacuum flask, brushed silver finish",
+    "attributes": { "color": "silver", "capacity": "500ml", "material": "stainless steel" }
+  },
+  {
+    "sku": "BOTTLE-WATER-WHITE",
+    "name": "Insulated Water Bottle - White",
+    "description": "500ml double-walled stainless steel flask with matte white coating, look-alike to silver",
+    "attributes": { "color": "white", "capacity": "500ml", "material": "stainless steel" }
+  },
+  {
+    "sku": "PEN-PACK",
+    "name": "Black Gel Pens Pack of 3",
+    "description": "0.5mm smooth black gel ink pens in clear blister packaging",
+    "attributes": { "count": 3, "ink_color": "black", "tip": "0.5mm" }
+  },
+  {
+    "sku": "HEADPHONES-CASE",
+    "name": "Earbuds Protective Case",
+    "description": "Zippered EVA hard shell storage case with carabiner clip",
+    "attributes": { "color": "black", "shape": "oval", "material": "EVA" }
+  },
+  {
+    "sku": "KEYCHAIN-METAL",
+    "name": "Carabiner Metal Keychain",
+    "description": "Heavy-duty gunmetal zinc alloy carabiner key holder with key rings",
+    "attributes": { "color": "gunmetal", "material": "zinc alloy" }
+  },
+  {
+    "sku": "STICKER-PACK",
+    "name": "Tech Vinyl Stickers Pack",
+    "description": "Assorted pack of 10 waterproof vinyl laptop stickers",
+    "attributes": { "count": 10, "finish": "matte waterproof" }
+  }
+]

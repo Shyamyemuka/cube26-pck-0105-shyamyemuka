@@ -1,0 +1,40 @@
+{
+  "name": "cube26-pck-0105-shyamyemuka",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:isolation": "tsx scripts/isolation-test.ts",
+    "agent": "tsx scripts/agent-cli.ts",
+    "eval": "tsx eval/run.ts"
+  },
+  "dependencies": {
+    "@google/genai": "2.24.0",
+    "@supabase/ssr": "0.12.7",
+    "@supabase/supabase-js": "2.117.2",
+    "csv-parse": "5.6.0",
+    "lucide-react": "0.475.0",
+    "next": "16.3.7",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "zod": "3.24.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.0.9",
+    "@types/node": "22.13.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "9.20.1",
+    "eslint-config-next": "16.3.7",
+    "postcss": "8.5.3",
+    "tailwindcss": "4.0.9",
+    "tsx": "4.19.3",
+    "typescript": "5.7.3",
+    "vitest": "3.0.5"
+  }
+}
