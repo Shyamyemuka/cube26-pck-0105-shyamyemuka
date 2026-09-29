@@ -1,0 +1,20 @@
+
+> cube26-pck-0105-shyamyemuka@1.0.0 dev
+> next dev
+
+▲ Next.js 16.3.7 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+✓ Ready in 538ms
+✓ Running next.config.mjs took 25ms
+
+ GET /api/health 200 in 745ms (next.js: 701ms, application-code: 43ms)
+ GET /queue 200 in 3.2s (next.js: 2.9s, application-code: 307ms)
+ GET /api/units?org_id=org_demo_alpha 200 in 390ms (next.js: 362ms, application-code: 28ms)
+ GET /api/units?org_id=org_demo_alpha 200 in 8ms (next.js: 3ms, application-code: 5ms)
+ GET /queue/import 200 in 519ms (next.js: 396ms, application-code: 122ms)
+ POST /api/units 200 in 14ms (next.js: 3ms, application-code: 11ms)
+ GET /units/UNIT-5525/capture 200 in 1280ms
+ GET /queue 200 in 94ms (next.js: 7ms, application-code: 88ms)
+ GET /api/units?org_id=org_demo_alpha 200 in 17ms (next.js: 11ms, application-code: 5ms)
+ GET /api/units?org_id=org_demo_alpha 200 in 21ms (next.js: 10ms, application-code: 11ms)

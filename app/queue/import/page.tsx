@@ -14,24 +14,50 @@ export default function ImportPage() {
   const [statusMessage, setStatusMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [loadingDemo, setLoadingDemo] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handlePasteSubmit = (e: React.FormEvent) => {
+  const handlePasteSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage('');
     setStatusMessage('');
+    setIsSubmitting(true);
 
     try {
       const parsed = parseOrderLines(pasteOrder);
       const unitId = `UNIT-${Date.now().toString().slice(-4)}`;
+      const orgId =
+        typeof window !== 'undefined'
+          ? localStorage.getItem('pack_operator_org') || 'org_demo_alpha'
+          : 'org_demo_alpha';
 
-      // Post to store API / save locally
-      setStatusMessage(`Order ${pasteOrderId} imported successfully with ${parsed.length} lines! Unit ID: ${unitId}`);
+      const res = await fetch('/api/units', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          org_id: orgId,
+          order_id: pasteOrderId,
+          unit_id: unitId,
+          channel: pasteChannel,
+          order_lines: parsed,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to save order');
+      }
+
+      setStatusMessage(
+        `Order ${pasteOrderId} imported successfully with ${parsed.length} line(s)! Unit ID: ${unitId}`
+      );
       setTimeout(() => {
         router.push(`/units/${unitId}/capture`);
-      }, 1200);
+      }, 1000);
     } catch (err: unknown) {
       const e = err as Error;
       setErrorMessage(e.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -42,7 +68,7 @@ export default function ImportPage() {
 
     setTimeout(() => {
       setLoadingDemo(false);
-      setStatusMessage('Demo catalogue and 5 sample orders loaded successfully!');
+      setStatusMessage('Demo catalogue and sample orders loaded successfully!');
       setTimeout(() => {
         router.push('/queue');
       }, 1000);
@@ -86,7 +112,7 @@ export default function ImportPage() {
             </div>
             <h3 className="font-bold text-slate-900 text-lg">Load Demo Data</h3>
             <p className="text-xs text-slate-600">
-              Instantly seeds 12 household catalogue items (with 2 look-alike pairs) and 5 staged orders for your active tenant.
+              Instantly seeds household catalogue items and staged orders for your active tenant.
             </p>
           </div>
 
@@ -155,9 +181,10 @@ export default function ImportPage() {
 
             <button
               type="submit"
+              disabled={isSubmitting}
               className="bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs px-4 py-2.5 rounded-lg transition"
             >
-              Parse & Create Order
+              {isSubmitting ? 'Creating Order…' : 'Parse & Create Order'}
             </button>
           </form>
         </div>
