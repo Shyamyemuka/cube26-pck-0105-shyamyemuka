@@ -101,7 +101,7 @@ export default function LoginPage() {
     <div className="max-w-md mx-auto py-8 space-y-6">
       <div className="text-center space-y-2">
         <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center p-2 overflow-hidden">
-          <img src="/p_mlogo.png" alt="Pack Manager" className="w-full h-full object-contain" />
+          <img src="/icon.png" alt="Pack Manager" className="w-full h-full object-contain" />
         </div>
         <h1 className="font-display font-extrabold text-2xl text-slate-900 dark:text-white tracking-tight">
           {mode === 'signin' ? 'Operator Sign In' : 'Create Operator Account'}
