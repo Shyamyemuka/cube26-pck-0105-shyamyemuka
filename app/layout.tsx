@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Link from 'next/link';
-import { Package, ShieldCheck, BarChart3, Database } from 'lucide-react';
+import { Package, ShieldCheck, BarChart3 } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeToggle';
 import AuroraBackground from '@/components/AuroraBackground';
 
@@ -64,16 +64,9 @@ export default function RootLayout({
                 <BarChart3 className="w-4 h-4 text-[#773C30] dark:text-[#6BFF86]" />
                 <span>Benchmarks</span>
               </Link>
-              <Link
-                href="/api/v1/evidence"
-                target="_blank"
-                className="px-4 py-2 rounded-2xl text-slate-700 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white neu-flat-sm hover:translate-y-[-1px] transition-all hidden sm:flex items-center gap-1.5"
-              >
-                <Database className="w-4 h-4 text-[#773C30] dark:text-[#6BFF86]" />
-                <span>API</span>
-              </Link>
 
               {/* Theme Toggle Button */}
+
               <ThemeToggle />
 
               <Link

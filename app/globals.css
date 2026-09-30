@@ -58,6 +58,15 @@ body {
   transition: color 0.3s ease;
 }
 
+/* CSS gradient fallback behind the WebGL canvas — ensures background is never plain white */
+html:not(.dark) body {
+  background: linear-gradient(180deg, #CDD5E0 0%, #D8CDCF 50%, #F0E6DF 100%) fixed;
+}
+
+html.dark body {
+  background: #000000;
+}
+
 h1, h2, h3, h4, h5, h6, .font-display {
   font-family: 'Plus Jakarta Sans', sans-serif;
 }

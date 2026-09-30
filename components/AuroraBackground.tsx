@@ -70,11 +70,11 @@ export default function AuroraBackground() {
         float t = u_time * 0.28;
 
         if (u_isDark > 0.5) {
-          // DARK MODE: EXACT AURORA PALETTE
+          // DARK MODE: MUTED AURORA PALETTE (readable green, not fluorescent)
           vec3 rainMist = vec3(0.0, 0.0, 0.0);           // #000000
-          vec3 bambooHaze = vec3(0.420, 1.0, 0.525);     // #6BFF86
-          vec3 shrimpBrown = vec3(0.467, 0.235, 0.188);  // #773C30
-          vec3 pineLeaf = vec3(0.0, 1.0, 0.667);        // #00FFAA
+          vec3 bambooHaze = vec3(0.255, 0.62, 0.36);     // muted emerald ~#41A05C
+          vec3 shrimpBrown = vec3(0.38, 0.185, 0.145);   // #613019
+          vec3 pineLeaf = vec3(0.0, 0.58, 0.44);        // muted cyan ~#009470
 
           // S-curve flowing curtain arch
           float arc1 = 0.14 * sin(p.x * 1.5 + t * 0.75) + 0.07 * cos(p.x * 2.8 - t * 0.45);
@@ -86,40 +86,45 @@ export default function AuroraBackground() {
           // Vertical fluted curtain rays
           float ray1 = noise(vec2(p.x * 28.0 + t * 0.35, p.y * 2.5));
           float ray2 = noise(vec2(p.x * 64.0 - t * 0.65, p.y * 4.5));
-          float rays = pow(ray1 * 0.6 + ray2 * 0.4, 1.9) * 1.85;
+          float rays = pow(ray1 * 0.6 + ray2 * 0.4, 1.9) * 1.5;
 
           // Lower fringe warm shrimp brown
-          float brownFringe = smoothstep(-0.25, -0.02, distY) * smoothstep(0.08, -0.04, distY) * 0.85;
+          float brownFringe = smoothstep(-0.25, -0.02, distY) * smoothstep(0.08, -0.04, distY) * 0.7;
 
           // Emerald Bamboo Haze body
           float greenCore = smoothstep(-0.06, 0.14, distY) * smoothstep(0.42, 0.06, distY);
 
           // Pine leaf cyan vertical upper rays
-          float cyanRays = smoothstep(0.04, 0.52, distY) * rays * 0.95;
+          float cyanRays = smoothstep(0.04, 0.52, distY) * rays * 0.75;
 
           vec3 col = rainMist;
-          col += shrimpBrown * brownFringe * (0.8 + 0.5 * rays);
-          col += bambooHaze * greenCore * (0.95 + 0.8 * rays);
+          col += shrimpBrown * brownFringe * (0.7 + 0.4 * rays);
+          col += bambooHaze * greenCore * (0.75 + 0.55 * rays);
           col += pineLeaf * cyanRays;
 
           // Subtle night sky stars
-          float stars = pow(hash(gl_FragCoord.xy + vec2(19.0, 71.0)), 420.0) * 0.65;
+          float stars = pow(hash(gl_FragCoord.xy + vec2(19.0, 71.0)), 420.0) * 0.55;
           col += vec3(stars);
 
           gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
         } else {
-          // LIGHT MODE: SOFT PORCELAIN DAYBREAK MIST (NOT BLACK)
-          vec3 skyBase = vec3(0.955, 0.965, 0.98);      // #F1F5F9 porcelain
-          vec3 warmMist = vec3(0.98, 0.94, 0.92);      // Pearlescent daybreak mist
-          vec3 shrimpSoft = vec3(0.88, 0.76, 0.72);    // Gentle shrimp blush
-          vec3 skyTint = vec3(0.82, 0.91, 0.94);       // Ethereal pale daylight tint
+          // LIGHT MODE: WARM-TO-COOL GRADIENT — clearly visible, not white-on-white
+          // Top: soft lilac-slate (#CDD5E0), bottom: warm peach blush (#F0E6DF)
+          vec3 topColor = vec3(0.804, 0.835, 0.878);   // #CDD5E0 cool slate top
+          vec3 botColor = vec3(0.941, 0.902, 0.875);   // #F0E6DF warm peach bottom
+          vec3 midAccent = vec3(0.847, 0.804, 0.824);  // #D8CDCF dusky rose mid
 
-          float arc = 0.09 * sin(p.x * 1.4 + t * 0.5);
-          float curtain = smoothstep(-0.35, 0.0, p.y - arc) * smoothstep(0.45, 0.0, p.y - arc);
+          // Gradient from top to bottom
+          vec3 col = mix(topColor, botColor, uv.y);
 
-          vec3 col = mix(skyBase, warmMist, uv.y);
-          col = mix(col, shrimpSoft, curtain * 0.22);
-          col = mix(col, skyTint, smoothstep(0.2, -0.15, p.y) * 0.15);
+          // Soft horizontal band accent at mid-screen
+          float band = smoothstep(0.35, 0.5, uv.y) * smoothstep(0.75, 0.5, uv.y);
+          float slowWave = 0.04 * sin(p.x * 1.2 + t * 0.3);
+          col = mix(col, midAccent, band * 0.28 + slowWave * 0.05);
+
+          // Gentle vignette at edges
+          float vignette = 1.0 - smoothstep(0.3, 1.0, length(p * vec2(0.6, 0.8)));
+          col *= 0.92 + 0.08 * vignette;
 
           gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
         }
