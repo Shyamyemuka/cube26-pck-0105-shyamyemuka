@@ -60,7 +60,7 @@ body {
 
 /* CSS gradient fallback behind the WebGL canvas — ensures background is never plain white */
 html:not(.dark) body {
-  background: linear-gradient(180deg, #B8C2D6 0%, #D4A89A 45%, #C8B5D0 100%) fixed;
+  background: linear-gradient(180deg, #9EABC7 0%, #D4A89A 45%, #B299E6 100%) fixed;
 }
 
 html.dark body {
@@ -151,35 +151,34 @@ html.dark [class*="text-[#C4F82A]"] {
    Uses SVG feTurbulence + feDisplacementMap (defined in layout.tsx) to
    produce organic, bristle-edged paint-stroke edges — not a rectangle.
    Light Mode: warm amber / shrimp-brown stroke, black cherry ink
-   Dark Mode:  muted emerald stroke, white ink
+   Dark Mode:  NO brush stroke — accent text color only, no background paint
    ========================================================================= */
 
 .hl-green, .hl-highlight {
   position: relative;
   display: inline;
-  padding: 0.08em 0.52em;
-  margin: 0 0.1em;
+  padding: 0.04em 0.32em;
+  margin: 0 0.06em;
   font-weight: 800;
-  /* no clip-path — edges are shaped by the ::before filter */
 }
 
 .hl-green::before, .hl-highlight::before {
   content: '';
   position: absolute;
-  inset: -0.2em -0.44em;
+  inset: -0.05em -0.16em;
   z-index: -1;
-  border-radius: 3px;
+  border-radius: 2px;
   filter: url(#brush-stroke-filter);
 }
 
-/* Light Mode: warm amber brush stroke */
+/* Light Mode: warm amber brush stroke, tight around text */
 html:not(.dark) .hl-green::before,
 html:not(.dark) .hl-highlight::before {
   background: linear-gradient(104deg,
-    rgba(200, 120, 38, 0.32) 0%,
-    rgba(215, 135, 42, 0.78) 7%,
+    rgba(200, 120, 38, 0.28) 0%,
+    rgba(215, 135, 42, 0.80) 7%,
     rgba(205, 125, 40, 0.82) 88%,
-    rgba(175, 100, 30, 0.36) 100%
+    rgba(175, 100, 30, 0.32) 100%
   );
 }
 
@@ -189,20 +188,15 @@ html:not(.dark) .hl-highlight {
   text-shadow: none;
 }
 
-/* Dark Mode: muted emerald brush stroke */
+/* Dark Mode: NO brush stroke background — just accent green text color */
 html.dark .hl-green::before,
 html.dark .hl-highlight::before {
-  background: linear-gradient(104deg,
-    rgba(60, 155, 82, 0.28) 0%,
-    rgba(70, 175, 95, 0.72) 7%,
-    rgba(62, 162, 88, 0.74) 88%,
-    rgba(48, 138, 70, 0.30) 100%
-  );
+  display: none;
 }
 
 html.dark .hl-green,
 html.dark .hl-highlight {
-  color: #FFFFFF !important;
+  color: #6BFF86 !important;
   text-shadow: none;
 }
 

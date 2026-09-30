@@ -108,40 +108,39 @@ export default function AuroraBackground() {
 
           gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
         } else {
-          // LIGHT MODE: VISIBLE AURORA — warm amber/peach bands on a slate canvas
-          // Palette: cool slate sky, amber glow, shrimp blush, soft lilac
-          vec3 skyBase  = vec3(0.72, 0.76, 0.84);   // #B8C2D6 slate sky
-          vec3 amber    = vec3(0.96, 0.78, 0.54);   // #F5C78A warm amber band
-          vec3 blush    = vec3(0.88, 0.62, 0.62);   // #E09E9E shrimp blush
-          vec3 lilac    = vec3(0.74, 0.68, 0.86);   // #BDADDB soft lilac
+          // LIGHT MODE: BOLD AURORA — unmistakable warm/cool bands on a blue-grey sky
+          vec3 skyBase  = vec3(0.62, 0.67, 0.78);   // #9EABC7 deeper slate sky
+          vec3 amber    = vec3(0.98, 0.72, 0.38);   // #FAB761 vivid warm amber
+          vec3 rose     = vec3(0.92, 0.52, 0.58);   // #EB8595 warm rose-blush
+          vec3 lilac    = vec3(0.70, 0.60, 0.90);   // #B299E6 deeper lilac
 
-          // Animated slow arch — same curtain mechanics as dark mode
-          float arc1 = 0.18 * sin(p.x * 1.3 + t * 0.4) + 0.08 * cos(p.x * 2.6 - t * 0.3);
-          float arc2 = 0.05 * sin(p.x * 4.1 - t * 0.5) + 0.03 * cos(p.x * 6.2 + t * 0.7);
-          float arcY = 0.05 + arc1 + arc2;
+          // Two overlapping animated curtain arches
+          float arc1 = 0.22 * sin(p.x * 1.2 + t * 0.38) + 0.10 * cos(p.x * 2.4 - t * 0.28);
+          float arc2 = 0.06 * sin(p.x * 3.8 - t * 0.52) + 0.04 * cos(p.x * 5.5 + t * 0.65);
+          float arcY = 0.08 + arc1 + arc2;
           float distY = p.y - arcY;
 
-          // Soft curtain rays in light mode
-          float ray1 = noise(vec2(p.x * 18.0 + t * 0.25, p.y * 2.0));
-          float ray2 = noise(vec2(p.x * 42.0 - t * 0.4,  p.y * 3.5));
-          float rays = pow(ray1 * 0.55 + ray2 * 0.45, 1.6) * 1.2;
+          // Curtain rays — finer vertical fluting
+          float ray1 = noise(vec2(p.x * 22.0 + t * 0.28, p.y * 2.2));
+          float ray2 = noise(vec2(p.x * 50.0 - t * 0.45, p.y * 4.0));
+          float rays = pow(ray1 * 0.58 + ray2 * 0.42, 1.5) * 1.4;
 
-          // Amber core band
-          float amberCore = smoothstep(-0.18, 0.12, distY) * smoothstep(0.46, 0.05, distY);
+          // Wide amber curtain body
+          float amberCore = smoothstep(-0.28, 0.08, distY) * smoothstep(0.55, 0.05, distY);
 
-          // Blush fringe below the amber band
-          float blushFringe = smoothstep(-0.32, -0.04, distY) * smoothstep(0.04, -0.12, distY) * 0.75;
+          // Rose fringe below amber
+          float roseFringe = smoothstep(-0.42, -0.06, distY) * smoothstep(0.0, -0.18, distY);
 
-          // Lilac upper rays
-          float lilacRays = smoothstep(0.08, 0.55, distY) * rays * 0.65;
+          // Lilac upper curtain rays
+          float lilacRays = smoothstep(0.06, 0.60, distY) * rays * 0.80;
 
           vec3 col = skyBase;
-          col = mix(col, amber, amberCore * (0.55 + 0.45 * rays));
-          col = mix(col, blush, blushFringe);
+          col = mix(col, amber, amberCore * (0.72 + 0.38 * rays));
+          col = mix(col, rose,  roseFringe * 0.68);
           col = mix(col, lilac, lilacRays);
 
-          // Soft top-to-bottom atmospheric fade
-          col = mix(col, skyBase * 0.88, smoothstep(0.0, 1.0, uv.y) * 0.3);
+          // Soft atmospheric darkening at very bottom
+          col = mix(col, skyBase * 0.82, smoothstep(0.6, 1.0, uv.y) * 0.35);
 
           gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
         }

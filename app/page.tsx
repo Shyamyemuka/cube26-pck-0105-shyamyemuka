@@ -24,7 +24,7 @@ export default function LandingPage() {
         <h1 className="font-display font-extrabold text-4xl sm:text-6xl text-slate-900 dark:text-white tracking-tight leading-tight">
           Audit the Open Box{' '}
           <br className="hidden sm:inline" />
-          <span className="hl-green">Before You Tape It Shut.</span>
+          Before You Tape It Shut.
         </h1>
 
         <p className="text-base sm:text-lg font-medium text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
