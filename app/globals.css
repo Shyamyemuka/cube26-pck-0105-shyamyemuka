@@ -1,100 +1,150 @@
 @import "tailwindcss";
 
 :root {
-  --neu-bg: #E0E5EC;
-  --neu-surface: #E0E5EC;
-  --neu-text-primary: #1C2024;
-  --neu-text-secondary: #4A545E;
-  --neu-text-muted: #606C78;
-  --neu-brown-dark: #382417;
-  --neu-brown-accent: #6E492F;
-  --neu-border-color: rgba(163, 177, 198, 0.4);
+  --neu-bg: #E2E6EC;
+  --neu-surface: rgba(226, 230, 236, 0.88);
+  --neu-text-primary: #111827;
+  --neu-text-secondary: #374151;
+  --neu-text-muted: #6B7280;
+  --neu-brown-dark: #380C14;
+  --neu-brown-accent: #D84315;
+  --neu-border-color: rgba(163, 177, 198, 0.45);
 
-  --neu-card-shadow: 9px 9px 16px rgb(163, 177, 198, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5);
-  --neu-card-hover-shadow: 12px 12px 20px rgb(163, 177, 198, 0.7), -12px -12px 20px rgba(255, 255, 255, 0.6);
-  --neu-card-sm-shadow: 5px 5px 10px rgb(163, 177, 198, 0.6), -5px -5px 10px rgba(255, 255, 255, 0.5);
-  --neu-pressed-shadow: inset 6px 6px 10px rgb(163, 177, 198, 0.6), inset -6px -6px 10px rgba(255, 255, 255, 0.5);
-  --neu-pressed-deep-shadow: inset 10px 10px 20px rgb(163, 177, 198, 0.7), inset -10px -10px 20px rgba(255, 255, 255, 0.6);
-  --neu-pressed-sm-shadow: inset 3px 3px 6px rgb(163, 177, 198, 0.6), inset -3px -3px 6px rgba(255, 255, 255, 0.5);
-  --neu-icon-well-shadow: inset 5px 5px 9px rgb(163, 177, 198, 0.6), inset -5px -5px 9px rgba(255, 255, 255, 0.6);
+  --neu-card-shadow: 9px 9px 18px rgba(163, 177, 198, 0.6), -9px -9px 18px rgba(255, 255, 255, 0.65);
+  --neu-card-hover-shadow: 12px 12px 22px rgba(163, 177, 198, 0.72), -12px -12px 22px rgba(255, 255, 255, 0.75);
+  --neu-card-sm-shadow: 5px 5px 12px rgba(163, 177, 198, 0.58), -5px -5px 12px rgba(255, 255, 255, 0.6);
+  --neu-pressed-shadow: inset 6px 6px 12px rgba(163, 177, 198, 0.62), inset -6px -6px 12px rgba(255, 255, 255, 0.65);
+  --neu-pressed-deep-shadow: inset 10px 10px 20px rgba(163, 177, 198, 0.72), inset -10px -10px 20px rgba(255, 255, 255, 0.75);
+  --neu-pressed-sm-shadow: inset 3px 3px 7px rgba(163, 177, 198, 0.6), inset -3px -3px 7px rgba(255, 255, 255, 0.6);
+  --neu-icon-well-shadow: inset 5px 5px 10px rgba(163, 177, 198, 0.6), inset -5px -5px 10px rgba(255, 255, 255, 0.65);
 }
 
-.dark {
-  --neu-bg: #0D0E12;
-  --neu-surface: #14171E;
-  --neu-text-primary: #F3F4F6;
-  --neu-text-secondary: #9CA3AF;
-  --neu-text-muted: #6B7280;
-  --neu-brown-dark: #2A1D15;
-  --neu-brown-accent: #9A6735;
-  --neu-border-color: rgba(255, 255, 255, 0.08);
+html.dark, :root[class~="dark"], body.dark, .dark {
+  --neu-bg: #080A0E !important;
+  --neu-surface: rgba(18, 22, 30, 0.88) !important;
+  --neu-text-primary: #FFFFFF !important;
+  --neu-text-secondary: #CBD5E1 !important;
+  --neu-text-muted: #94A3B8 !important;
+  --neu-brown-dark: #1E120D !important;
+  --neu-brown-accent: #C4F82A !important;
+  --neu-border-color: rgba(255, 255, 255, 0.1) !important;
 
-  --neu-card-shadow: 8px 8px 20px rgba(0, 0, 0, 0.75), -6px -6px 16px rgba(255, 255, 255, 0.035);
-  --neu-card-hover-shadow: 12px 12px 26px rgba(0, 0, 0, 0.88), -8px -8px 20px rgba(255, 255, 255, 0.05);
-  --neu-card-sm-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7), -4px -4px 10px rgba(255, 255, 255, 0.03);
-  --neu-pressed-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.75), inset -4px -4px 8px rgba(255, 255, 255, 0.04);
-  --neu-pressed-deep-shadow: inset 8px 8px 18px rgba(0, 0, 0, 0.85), inset -6px -6px 14px rgba(255, 255, 255, 0.05);
-  --neu-pressed-sm-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.7), inset -2px -2px 5px rgba(255, 255, 255, 0.03);
-  --neu-icon-well-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.8), inset -4px -4px 8px rgba(255, 255, 255, 0.04);
+  --neu-card-shadow: 8px 8px 24px rgba(0, 0, 0, 0.85), -6px -6px 18px rgba(255, 255, 255, 0.04) !important;
+  --neu-card-hover-shadow: 12px 12px 30px rgba(0, 0, 0, 0.95), -8px -8px 22px rgba(255, 255, 255, 0.06) !important;
+  --neu-card-sm-shadow: 4px 4px 12px rgba(0, 0, 0, 0.8), -4px -4px 10px rgba(255, 255, 255, 0.035) !important;
+  --neu-pressed-shadow: inset 5px 5px 12px rgba(0, 0, 0, 0.85), inset -4px -4px 10px rgba(255, 255, 255, 0.045) !important;
+  --neu-pressed-deep-shadow: inset 8px 8px 20px rgba(0, 0, 0, 0.92), inset -6px -6px 16px rgba(255, 255, 255, 0.055) !important;
+  --neu-pressed-sm-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.8), inset -2px -2px 6px rgba(255, 255, 255, 0.04) !important;
+  --neu-icon-well-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.85), inset -4px -4px 10px rgba(255, 255, 255, 0.045) !important;
 }
 
 body {
-  background-color: var(--neu-bg);
+  background-color: transparent;
   color: var(--neu-text-primary);
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   min-height: 100vh;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: color 0.3s ease;
+}
+
+/* Enforce crisp high-contrast readability in dark mode */
+.dark body {
+  color: #FFFFFF !important;
+}
+
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+  color: #FFFFFF !important;
+}
+
+.dark input, .dark textarea {
+  color: #FFFFFF !important;
+}
+
+.dark input::placeholder, .dark textarea::placeholder {
+  color: #94A3B8 !important;
 }
 
 h1, h2, h3, h4, h5, h6, .font-display {
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-/* REAL ON-PAPER GREEN HIGHLIGHTER EFFECT */
-.hl-green {
-  background: linear-gradient(104deg, rgba(186, 245, 61, 0.15) 0%, rgba(196, 248, 42, 0.82) 3%, rgba(206, 252, 60, 0.88) 96%, rgba(186, 245, 61, 0.25) 100%);
+/* =========================================================================
+   AUTHENTIC HIGHLIGHTER SYSTEM
+   - Light Mode: Warm vermilion and black cherry ink wash (#380C14 ink on #D84315/#561B28)
+   - Dark Mode: Authentic fluorescent chisel-tip green (#070B10 ink on #C4F82A)
+   ========================================================================= */
+
+/* Light Mode Text Highlighter */
+.hl-green, .hl-highlight {
+  background: linear-gradient(104deg, rgba(216, 67, 21, 0.16) 0%, rgba(216, 67, 21, 0.3) 4%, rgba(86, 27, 40, 0.25) 96%, rgba(74, 18, 26, 0.16) 100%);
+  border-bottom: 2px solid rgba(216, 67, 21, 0.55);
   padding: 0.12em 0.42em;
   border-radius: 4px;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
-  color: #0A0F17 !important;
+  color: #380C14 !important; /* Deep black cherry ink */
   font-weight: 800;
   display: inline;
 }
 
-.dark .hl-green {
-  background: linear-gradient(104deg, rgba(186, 245, 61, 0.2) 0%, rgba(196, 248, 42, 0.85) 3%, rgba(206, 252, 60, 0.9) 96%, rgba(186, 245, 61, 0.3) 100%);
-  color: #080C12 !important;
+/* Dark Mode Text Highlighter */
+.dark .hl-green, .dark .hl-highlight {
+  background: linear-gradient(104deg, rgba(186, 245, 61, 0.2) 0%, rgba(196, 248, 42, 0.92) 3%, rgba(206, 252, 60, 0.95) 96%, rgba(186, 245, 61, 0.3) 100%);
+  border-bottom: 2px solid rgba(196, 248, 42, 0.7);
+  color: #070B10 !important; /* Jet black ink on bright highlighter */
   font-weight: 800;
 }
 
-/* HIGHLIGHTED CTA BUTTONS */
+/* Light Mode Button Highlighter */
 .neu-btn-highlight {
-  background: #C4F82A;
-  color: #0A0F17 !important;
+  background: linear-gradient(135deg, #D84315 0%, #8A1C2C 60%, #4A121D 100%);
+  color: #FFFFFF !important;
   font-weight: 800;
-  box-shadow: 0 4px 18px rgba(196, 248, 42, 0.35), 4px 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 18px rgba(216, 67, 21, 0.35), 4px 4px 10px rgba(0, 0, 0, 0.18);
   transition: all 0.25s ease-out;
 }
 
 .neu-btn-highlight:hover {
-  background: #B4ED18;
+  background: linear-gradient(135deg, #E64A19 0%, #9C2235 60%, #561623 100%);
   transform: translateY(-1px);
-  box-shadow: 0 6px 22px rgba(196, 248, 42, 0.5), 5px 5px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 22px rgba(216, 67, 21, 0.48), 5px 5px 14px rgba(0, 0, 0, 0.22);
 }
 
 .neu-btn-highlight:active {
   transform: translateY(1px);
-  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.35);
 }
 
-/* NEUMORPHIC SHADOW UTILITIES */
+/* Dark Mode Button Highlighter */
+.dark .neu-btn-highlight {
+  background: #C4F82A;
+  color: #070B10 !important;
+  font-weight: 800;
+  box-shadow: 0 4px 20px rgba(196, 248, 42, 0.35), 4px 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.dark .neu-btn-highlight:hover {
+  background: #D4FF38;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(196, 248, 42, 0.5), 5px 5px 14px rgba(0, 0, 0, 0.7);
+}
+
+.dark .neu-btn-highlight:active {
+  transform: translateY(1px);
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+/* =========================================================================
+   NEUMORPHIC SHADOW UTILITIES (PHYSICALLY GROUNDED SURFACES)
+   ========================================================================= */
+
 .neu-flat {
   background-color: var(--neu-surface);
   box-shadow: var(--neu-card-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -110,39 +160,47 @@ h1, h2, h3, h4, h5, h6, .font-display {
 .neu-flat-sm {
   background-color: var(--neu-surface);
   box-shadow: var(--neu-card-sm-shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .neu-pressed {
   background-color: var(--neu-surface);
   box-shadow: var(--neu-pressed-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .neu-pressed-deep {
   background-color: var(--neu-surface);
   box-shadow: var(--neu-pressed-deep-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .neu-pressed-sm {
   background-color: var(--neu-surface);
   box-shadow: var(--neu-pressed-sm-shadow);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* BUTTONS */
 .neu-btn-primary {
   background-color: #23201D;
-  color: #FFFFFF;
-  box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.4), -4px -4px 10px rgba(255, 255, 255, 0.05);
+  color: #FFFFFF !important;
+  box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.35), -4px -4px 10px rgba(255, 255, 255, 0.05);
   transition: all 0.25s ease-out;
 }
 
 .dark .neu-btn-primary {
-  background-color: #1F232B;
-  color: #F3F4F6;
-  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7), -3px -3px 8px rgba(255, 255, 255, 0.04);
+  background-color: #1A1F29;
+  color: #FFFFFF !important;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.8), -3px -3px 8px rgba(255, 255, 255, 0.04);
 }
 
 .neu-btn-primary:hover {
@@ -151,8 +209,8 @@ h1, h2, h3, h4, h5, h6, .font-display {
 }
 
 .dark .neu-btn-primary:hover {
-  background-color: #292F3A;
-  color: #FFFFFF;
+  background-color: #242B38;
+  color: #FFFFFF !important;
 }
 
 .neu-btn-primary:active {
@@ -163,7 +221,13 @@ h1, h2, h3, h4, h5, h6, .font-display {
   background-color: var(--neu-surface);
   color: var(--neu-text-primary);
   box-shadow: var(--neu-card-sm-shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition: all 0.25s ease-out;
+}
+
+.dark .neu-btn-secondary {
+  color: #FFFFFF !important;
 }
 
 .neu-btn-secondary:hover {
@@ -181,6 +245,8 @@ h1, h2, h3, h4, h5, h6, .font-display {
   box-shadow: var(--neu-pressed-shadow);
   border: none;
   outline: none;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition: box-shadow 0.2s ease, background-color 0.3s ease;
 }
 
@@ -196,6 +262,8 @@ h1, h2, h3, h4, h5, h6, .font-display {
 .neu-icon-well {
   background-color: var(--neu-surface);
   box-shadow: var(--neu-icon-well-shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 

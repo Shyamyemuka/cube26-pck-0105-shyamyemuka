@@ -199,16 +199,16 @@ export default function CapturePage() {
         <div className="flex items-center gap-4">
           <Link
             href="/queue"
-            className="w-12 h-12 rounded-2xl neu-flat hover:neu-flat-hover flex items-center justify-center text-[var(--neu-text-secondary)] hover:text-[var(--neu-text-primary)] transition-all"
+            className="w-12 h-12 rounded-2xl neu-flat hover:neu-flat-hover flex items-center justify-center text-slate-700 dark:text-slate-200 hover:text-black dark:hover:text-white transition-all"
           >
             <ArrowLeft className="w-5 h-5 stroke-[2.2]" />
           </Link>
           <div>
             <div className="flex items-center gap-2.5">
-              <h1 className="font-display font-extrabold text-2xl text-[var(--neu-text-primary)] tracking-tight">
+              <h1 className="font-display font-extrabold text-2xl text-slate-900 dark:text-white tracking-tight">
                 {orderId}
               </h1>
-              <span className="font-mono text-xs font-bold text-[#5A3E2B] dark:text-[#C4F82A] neu-pressed-sm px-2.5 py-1 rounded-xl">
+              <span className="font-mono text-xs font-bold text-[#6E492F] dark:text-[#C4F82A] neu-pressed-sm px-2.5 py-1 rounded-xl">
                 {unitId}
               </span>
             </div>
@@ -218,7 +218,7 @@ export default function CapturePage() {
           </div>
         </div>
 
-        <div className="w-11 h-11 rounded-2xl neu-icon-well flex items-center justify-center text-[#5A3E2B] dark:text-[#C4F82A]">
+        <div className="w-11 h-11 rounded-2xl neu-icon-well flex items-center justify-center text-[#6E492F] dark:text-[#C4F82A]">
           <Camera className="w-6 h-6 stroke-[2.2]" />
         </div>
       </div>
@@ -226,17 +226,17 @@ export default function CapturePage() {
       {/* Target Items Checklist */}
       <div className="rounded-[32px] neu-flat p-6 sm:p-8 space-y-4">
         <div className="flex items-center justify-between pb-1">
-          <span className="font-display font-bold text-sm text-[var(--neu-text-primary)] uppercase tracking-wider flex items-center gap-2">
-            <Package className="w-4 h-4 text-[#5A3E2B] dark:text-[#C4F82A]" />
+          <span className="font-display font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <Package className="w-4 h-4 text-[#6E492F] dark:text-[#C4F82A]" />
             Order Packing Manifest
           </span>
-          <span className="text-xs font-bold text-[var(--neu-text-secondary)]">
+          <span className="text-xs font-bold text-slate-600 dark:text-slate-300">
             {lines.length} {lines.length === 1 ? 'Line Item' : 'Line Items'}
           </span>
         </div>
 
         {lines.length === 0 ? (
-          <div className="rounded-2xl neu-pressed p-4 text-xs font-semibold text-[var(--neu-text-muted)]">
+          <div className="rounded-2xl neu-pressed p-4 text-xs font-semibold text-slate-500 dark:text-slate-400">
             No pre-defined SKU lines found for this unit. Photograph the open box to evaluate packaging integrity.
           </div>
         ) : (
@@ -247,12 +247,12 @@ export default function CapturePage() {
                 className="rounded-2xl neu-pressed-sm p-4 flex items-center justify-between"
               >
                 <div>
-                  <span className="font-mono font-bold text-sm text-[var(--neu-text-primary)]">{l.sku}</span>
-                  {l.name && <p className="text-xs font-medium text-[var(--neu-text-secondary)]">{l.name}</p>}
+                  <span className="font-mono font-bold text-sm text-slate-900 dark:text-white">{l.sku}</span>
+                  {l.name && <p className="text-xs font-medium text-slate-600 dark:text-slate-300">{l.name}</p>}
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-[var(--neu-text-muted)]">Target Qty:</span>
-                  <span className="px-3 py-1 rounded-xl neu-flat-sm text-xs font-mono font-extrabold text-[#5A3E2B] dark:text-[#C4F82A]">
+                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400">Target Qty:</span>
+                  <span className="px-3 py-1 rounded-xl neu-flat-sm text-xs font-mono font-extrabold text-[#6E492F] dark:text-[#C4F82A]">
                     {l.qty}
                   </span>
                 </div>
@@ -275,10 +275,10 @@ export default function CapturePage() {
       {/* Photo Capture Section */}
       <div className="rounded-[32px] neu-flat p-6 sm:p-8 space-y-6">
         <div>
-          <h2 className="font-display font-extrabold text-base text-[var(--neu-text-primary)]">
+          <h2 className="font-display font-extrabold text-base text-slate-900 dark:text-white">
             Pre-Seal Photos ({photos.length}/3)
           </h2>
-          <p className="text-xs font-medium text-[var(--neu-text-secondary)] mt-0.5">
+          <p className="text-xs font-medium text-slate-600 dark:text-slate-300 mt-0.5">
             Capture 1 to 3 photos: recommended top-down interior, 45-degree angle, or close-up.
           </p>
         </div>
@@ -331,14 +331,14 @@ export default function CapturePage() {
                     </div>
                   </>
                 ) : (
-                  <div className="space-y-2 text-[var(--neu-text-muted)]">
-                    <div className="w-10 h-10 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#5A3E2B] dark:text-[#C4F82A]">
+                  <div className="space-y-2 text-slate-500 dark:text-slate-400">
+                    <div className="w-10 h-10 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#6E492F] dark:text-[#C4F82A]">
                       <ImageIcon className="w-5 h-5 stroke-[2]" />
                     </div>
-                    <span className="text-xs font-bold block text-[var(--neu-text-secondary)]">
+                    <span className="text-xs font-bold block text-slate-700 dark:text-slate-200">
                       Angle {idx + 1}
                     </span>
-                    <span className="text-[10px] text-[var(--neu-text-muted)] block">Empty Slot</span>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Empty Slot</span>
                   </div>
                 )}
               </div>
@@ -352,9 +352,9 @@ export default function CapturePage() {
             type="button"
             onClick={() => cameraInputRef.current?.click()}
             disabled={photos.length >= 3 || analyzing}
-            className="py-3.5 px-4 rounded-2xl neu-btn-secondary font-display font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-2 disabled:opacity-50"
+            className="py-3.5 px-4 rounded-2xl neu-btn-secondary font-display font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-2 text-slate-900 dark:text-white disabled:opacity-50"
           >
-            <Camera className="w-4 h-4 text-[#5A3E2B] dark:text-[#C4F82A] stroke-[2.2]" />
+            <Camera className="w-4 h-4 text-[#6E492F] dark:text-[#C4F82A] stroke-[2.2]" />
             <span>Open Camera</span>
           </button>
 
@@ -362,9 +362,9 @@ export default function CapturePage() {
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={photos.length >= 3 || analyzing}
-            className="py-3.5 px-4 rounded-2xl neu-btn-secondary font-display font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-2 disabled:opacity-50"
+            className="py-3.5 px-4 rounded-2xl neu-btn-secondary font-display font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-2 text-slate-900 dark:text-white disabled:opacity-50"
           >
-            <Upload className="w-4 h-4 text-[#5A3E2B] dark:text-[#C4F82A] stroke-[2.2]" />
+            <Upload className="w-4 h-4 text-[#6E492F] dark:text-[#C4F82A] stroke-[2.2]" />
             <span>Upload Photo File</span>
           </button>
         </div>
@@ -389,7 +389,7 @@ export default function CapturePage() {
               </>
             )}
           </button>
-          <p className="text-[11px] font-medium text-[var(--neu-text-muted)] text-center mt-2.5">
+          <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400 text-center mt-2.5">
             Single model observation call • Photos hashed and stored fail-open • Verdicts evaluated by deterministic code
           </p>
         </div>

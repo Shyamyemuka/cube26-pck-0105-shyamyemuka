@@ -22,17 +22,17 @@ export default function LandingPage() {
     <div className="space-y-16 py-6 sm:py-10">
       {/* HERO SECTION */}
       <section className="text-center max-w-4xl mx-auto space-y-6">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl neu-flat-sm text-xs font-bold text-[#5A3E2B] dark:text-[#C4F82A]">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl neu-flat-sm text-xs font-bold text-[#6E492F] dark:text-[#C4F82A]">
           <Zap className="w-4 h-4 stroke-[2.2]" />
           <span>Autonomous Packaging Intelligence & Verification Engine</span>
         </div>
 
-        <h1 className="font-display font-extrabold text-4xl sm:text-6xl text-[var(--neu-text-primary)] tracking-tight leading-tight">
+        <h1 className="font-display font-extrabold text-4xl sm:text-6xl text-slate-900 dark:text-white tracking-tight leading-tight">
           Audit the Open Box <br className="hidden sm:inline" />
           <span className="hl-green">Before You Tape It Shut.</span>
         </h1>
 
-        <p className="text-base sm:text-lg font-medium text-[var(--neu-text-secondary)] max-w-2xl mx-auto leading-relaxed">
+        <p className="text-base sm:text-lg font-medium text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
           AI-assisted package audit agent for modern ecommerce sellers and fulfillment centers with <span className="hl-green">zero barcode scanner budget</span>. Checks open cartons against real order manifests from a single phone photo.
         </p>
 
@@ -46,7 +46,7 @@ export default function LandingPage() {
           </Link>
           <Link
             href="/queue/import"
-            className="px-8 py-4 rounded-2xl neu-btn-secondary font-display font-bold text-sm uppercase tracking-wider text-[var(--neu-text-primary)] hover:text-[#5A3E2B] dark:hover:text-[#C4F82A]"
+            className="px-8 py-4 rounded-2xl neu-btn-secondary font-display font-bold text-sm uppercase tracking-wider text-slate-900 dark:text-white hover:text-black dark:hover:text-[#C4F82A]"
           >
             <span>Import Orders</span>
           </Link>
@@ -56,10 +56,10 @@ export default function LandingPage() {
       {/* THREE DISTINCT VERDICTS SECTION */}
       <section className="space-y-6">
         <div className="text-center max-w-xl mx-auto space-y-1">
-          <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-[var(--neu-text-primary)] tracking-tight">
+          <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white tracking-tight">
             Three First-Class Operational Verdicts
           </h2>
-          <p className="text-xs font-medium text-[var(--neu-text-secondary)]">
+          <p className="text-xs font-medium text-slate-600 dark:text-slate-300">
             Pure code makes the call. The model only provides raw observations.
           </p>
         </div>
@@ -72,18 +72,18 @@ export default function LandingPage() {
                 <CheckCircle2 className="w-7 h-7 stroke-[2.5]" />
               </div>
               <div className="space-y-1">
-                <span className="font-display font-extrabold text-xl text-[var(--neu-text-primary)] block">
+                <span className="font-display font-extrabold text-xl text-slate-900 dark:text-white block">
                   SEAL
                 </span>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[#2E7D32] dark:text-[#A3E635] block">
                   Tape and Dispatch
                 </span>
               </div>
-              <p className="text-xs font-medium text-[var(--neu-text-secondary)] leading-relaxed">
+              <p className="text-xs font-medium text-slate-600 dark:text-slate-300 leading-relaxed">
                 All expected order lines are present with matching quantities. Zero unexpected extra items or SKU substitutions.
               </p>
             </div>
-            <div className="rounded-2xl neu-pressed-sm p-3 text-[11px] font-mono text-[var(--neu-text-primary)]">
+            <div className="rounded-2xl neu-pressed-sm p-3 text-[11px] font-mono text-slate-900 dark:text-white">
               Route: <strong>SEAL</strong>
             </div>
           </div>
@@ -95,18 +95,18 @@ export default function LandingPage() {
                 <XCircle className="w-7 h-7 stroke-[2.5]" />
               </div>
               <div className="space-y-1">
-                <span className="font-display font-extrabold text-xl text-[var(--neu-text-primary)] block">
+                <span className="font-display font-extrabold text-xl text-slate-900 dark:text-white block">
                   STOP AND FIX
                 </span>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[#C62828] dark:text-[#F87171] block">
                   Actionable Discrepancy
                 </span>
               </div>
-              <p className="text-xs font-medium text-[var(--neu-text-secondary)] leading-relaxed">
+              <p className="text-xs font-medium text-slate-600 dark:text-slate-300 leading-relaxed">
                 Clear defect detected: missing item, incorrect count, wrong color/variant, or extraneous SKU in carton.
               </p>
             </div>
-            <div className="rounded-2xl neu-pressed-sm p-3 text-[11px] font-mono text-[var(--neu-text-primary)]">
+            <div className="rounded-2xl neu-pressed-sm p-3 text-[11px] font-mono text-slate-900 dark:text-white">
               Route: <strong>STOP_AND_FIX</strong>
             </div>
           </div>
@@ -118,18 +118,18 @@ export default function LandingPage() {
                 <HelpCircle className="w-7 h-7 stroke-[2.5]" />
               </div>
               <div className="space-y-1">
-                <span className="font-display font-extrabold text-xl text-[var(--neu-text-primary)] block">
+                <span className="font-display font-extrabold text-xl text-slate-900 dark:text-white block">
                   UNCERTAIN
                 </span>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[#B45309] dark:text-[#FBBF24] block">
                   Recapture or Review
                 </span>
               </div>
-              <p className="text-xs font-medium text-[var(--neu-text-secondary)] leading-relaxed">
+              <p className="text-xs font-medium text-slate-600 dark:text-slate-300 leading-relaxed">
                 Declines to guess when lighting is poor, items are obscured, or confidence is borderline. Never turned into a blind pass.
               </p>
             </div>
-            <div className="rounded-2xl neu-pressed-sm p-3 text-[11px] font-mono text-[var(--neu-text-primary)]">
+            <div className="rounded-2xl neu-pressed-sm p-3 text-[11px] font-mono text-slate-900 dark:text-white">
               Route: <strong>HOLD_RECAPTURE</strong>
             </div>
           </div>
@@ -139,54 +139,54 @@ export default function LandingPage() {
       {/* 4-STEP PIPELINE ARCHITECTURE */}
       <section className="rounded-[32px] neu-flat p-8 sm:p-12 space-y-8">
         <div className="space-y-2 text-center max-w-xl mx-auto">
-          <span className="text-xs font-extrabold uppercase tracking-wider text-[#5A3E2B] dark:text-[#C4F82A]">
+          <span className="text-xs font-extrabold uppercase tracking-wider text-[#6E492F] dark:text-[#C4F82A]">
             Fail-Open Architecture
           </span>
-          <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-[var(--neu-text-primary)] tracking-tight">
+          <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white tracking-tight">
             How The Agent Evaluates Each Box
           </h2>
-          <p className="text-xs font-medium text-[var(--neu-text-secondary)]">
+          <p className="text-xs font-medium text-slate-600 dark:text-slate-300">
             A warehouse line never waits for an AI outage. Every step leaves an audit record.
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="rounded-2xl neu-pressed-sm p-6 space-y-3">
-            <span className="w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center font-mono font-bold text-xs text-[#5A3E2B] dark:text-[#C4F82A]">
+            <span className="w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center font-mono font-bold text-xs text-[#6E492F] dark:text-[#C4F82A]">
               01
             </span>
-            <h3 className="font-display font-bold text-base text-[var(--neu-text-primary)]">Capture & Hash</h3>
-            <p className="text-xs font-medium text-[var(--neu-text-secondary)] leading-relaxed">
+            <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">Capture & Hash</h3>
+            <p className="text-xs font-medium text-slate-600 dark:text-slate-300 leading-relaxed">
               Browser downscales photos to ≤1600px and computes real SHA-256 before upload. Photo saved fail-open before any AI call.
             </p>
           </div>
 
           <div className="rounded-2xl neu-pressed-sm p-6 space-y-3">
-            <span className="w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center font-mono font-bold text-xs text-[#5A3E2B] dark:text-[#C4F82A]">
+            <span className="w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center font-mono font-bold text-xs text-[#6E492F] dark:text-[#C4F82A]">
               02
             </span>
-            <h3 className="font-display font-bold text-base text-[var(--neu-text-primary)]">Single VLM Call</h3>
-            <p className="text-xs font-medium text-[var(--neu-text-secondary)] leading-relaxed">
+            <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">Single VLM Call</h3>
+            <p className="text-xs font-medium text-slate-600 dark:text-slate-300 leading-relaxed">
               Exactly one vision model request per unit. Strict JSON schema returning bounding coordinates, detected items, and count confidences.
             </p>
           </div>
 
           <div className="rounded-2xl neu-pressed-sm p-6 space-y-3">
-            <span className="w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center font-mono font-bold text-xs text-[#5A3E2B] dark:text-[#C4F82A]">
+            <span className="w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center font-mono font-bold text-xs text-[#6E492F] dark:text-[#C4F82A]">
               03
             </span>
-            <h3 className="font-display font-bold text-base text-[var(--neu-text-primary)]">Rules Engine</h3>
-            <p className="text-xs font-medium text-[var(--neu-text-secondary)] leading-relaxed">
+            <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">Rules Engine</h3>
+            <p className="text-xs font-medium text-slate-600 dark:text-slate-300 leading-relaxed">
               Deterministic TypeScript function evaluates quality gate, presence thresholds, quantity count, and substitution checks.
             </p>
           </div>
 
           <div className="rounded-2xl neu-pressed-sm p-6 space-y-3">
-            <span className="w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center font-mono font-bold text-xs text-[#5A3E2B] dark:text-[#C4F82A]">
+            <span className="w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center font-mono font-bold text-xs text-[#6E492F] dark:text-[#C4F82A]">
               04
             </span>
-            <h3 className="font-display font-bold text-base text-[var(--neu-text-primary)]">Evidence Chain</h3>
-            <p className="text-xs font-medium text-[var(--neu-text-secondary)] leading-relaxed">
+            <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">Evidence Chain</h3>
+            <p className="text-xs font-medium text-slate-600 dark:text-slate-300 leading-relaxed">
               Complete RFC 8785 canonical JSON evidence record with SHA-256 content hash and sequential override audit chaining.
             </p>
           </div>
@@ -198,18 +198,18 @@ export default function LandingPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--neu-border-color)]">
           <div>
             <div className="flex items-center gap-2">
-              <BarChart3 className="w-5 h-5 text-[#5A3E2B] dark:text-[#C4F82A]" />
-              <h2 className="font-display font-extrabold text-xl text-[var(--neu-text-primary)]">
+              <BarChart3 className="w-5 h-5 text-[#6E492F] dark:text-[#C4F82A]" />
+              <h2 className="font-display font-extrabold text-xl text-slate-900 dark:text-white">
                 Enterprise Benchmark Verification (50 Units)
               </h2>
             </div>
-            <p className="text-xs font-medium text-[var(--neu-text-secondary)] mt-0.5">
+            <p className="text-xs font-medium text-slate-600 dark:text-slate-300 mt-0.5">
               Dual blind human labelers with third-party adjudication. Zero prompt tuning on held-out test set.
             </p>
           </div>
           <Link
             href="/eval"
-            className="px-4 py-2 rounded-2xl neu-btn-secondary text-xs font-bold text-[var(--neu-text-primary)] self-start sm:self-auto"
+            className="px-4 py-2 rounded-2xl neu-btn-secondary text-xs font-bold text-slate-900 dark:text-white self-start sm:self-auto"
           >
             View Benchmark Report
           </Link>
@@ -217,54 +217,54 @@ export default function LandingPage() {
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div className="rounded-2xl neu-pressed-sm p-5 space-y-1 text-center">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--neu-text-muted)]">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Overall Accuracy
             </span>
-            <div className="font-display font-extrabold text-2xl sm:text-3xl text-[var(--neu-text-primary)]">
+            <div className="font-display font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white">
               <span className="hl-green">94.0%</span>
             </div>
-            <span className="text-[10px] text-[var(--neu-text-secondary)] font-medium block pt-1">47 / 50 Validated</span>
+            <span className="text-[10px] text-slate-600 dark:text-slate-300 font-medium block pt-1">47 / 50 Validated</span>
           </div>
 
           <div className="rounded-2xl neu-pressed-sm p-5 space-y-1 text-center">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--neu-text-muted)]">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               False SEAL Rate
             </span>
-            <div className="font-display font-extrabold text-2xl sm:text-3xl text-[var(--neu-text-primary)]">
+            <div className="font-display font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white">
               2.0%
             </div>
-            <span className="text-[10px] text-[var(--neu-text-secondary)] font-medium block">1 defect escape</span>
+            <span className="text-[10px] text-slate-600 dark:text-slate-300 font-medium block">1 defect escape</span>
           </div>
 
           <div className="rounded-2xl neu-pressed-sm p-5 space-y-1 text-center">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--neu-text-muted)]">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               UNCERTAIN Rate
             </span>
-            <div className="font-display font-extrabold text-2xl sm:text-3xl text-[#5A3E2B] dark:text-[#C4F82A]">
+            <div className="font-display font-extrabold text-2xl sm:text-3xl text-[#6E492F] dark:text-[#C4F82A]">
               4.0%
             </div>
-            <span className="text-[10px] text-[var(--neu-text-secondary)] font-medium block">Safe review abstention</span>
+            <span className="text-[10px] text-slate-600 dark:text-slate-300 font-medium block">Safe review abstention</span>
           </div>
 
           <div className="rounded-2xl neu-pressed-sm p-5 space-y-1 text-center">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--neu-text-muted)]">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Annotator Agreement
             </span>
-            <div className="font-display font-extrabold text-2xl sm:text-3xl text-[var(--neu-text-primary)]">
+            <div className="font-display font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white">
               κ = 0.916
             </div>
-            <span className="text-[10px] text-[var(--neu-text-secondary)] font-medium block">Near-perfect inter-rater</span>
+            <span className="text-[10px] text-slate-600 dark:text-slate-300 font-medium block">Near-perfect inter-rater</span>
           </div>
         </div>
       </section>
 
       {/* HONEST TERMINOLOGY & PRINCIPLES */}
       <section className="rounded-[32px] neu-flat p-8 space-y-4">
-        <h3 className="font-display font-bold text-base text-[var(--neu-text-primary)] flex items-center gap-2">
-          <ShieldCheck className="w-5 h-5 text-[#5A3E2B] dark:text-[#C4F82A]" />
+        <h3 className="font-display font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+          <ShieldCheck className="w-5 h-5 text-[#6E492F] dark:text-[#C4F82A]" />
           Verified Security & Audit Principles
         </h3>
-        <p className="text-xs font-medium text-[var(--neu-text-secondary)] leading-relaxed">
+        <p className="text-xs font-medium text-slate-600 dark:text-slate-300 leading-relaxed">
           Every audit record produces a deterministic cryptographic <span className="hl-green">content hash</span> and an append-only <span className="hl-green">sequential hash chain</span>. Discrepancies and operator overrides are permanently recorded in the immutable audit log.
         </p>
       </section>
