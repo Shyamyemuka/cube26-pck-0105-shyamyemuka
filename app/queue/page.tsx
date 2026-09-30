@@ -33,69 +33,28 @@ export default function QueuePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let activeOrg = 'org_demo_alpha';
     if (typeof window !== 'undefined') {
       const savedOrg = localStorage.getItem('pack_operator_org');
-      if (savedOrg) setOrgId(savedOrg);
+      if (savedOrg) {
+        activeOrg = savedOrg;
+        setOrgId(savedOrg);
+      }
     }
 
-    // Load demo orders list from store / API
     async function loadOrders() {
       try {
-        // Fallback default mock items
-        const defaultItems: QueueItem[] = [
-          {
-            order_id: 'ORD-5001',
-            unit_id: 'UNIT-5001',
-            channel: 'shopify',
-            status: 'open',
-            order_lines: [
-              { sku: 'MUG-BLUE', qty: 1, name: 'Ceramic Blue Coffee Mug' },
-              { sku: 'NOTEBOOK-A5-BLACK', qty: 1, name: 'Hardcover A5 Notebook - Black' },
-            ],
-          },
-          {
-            order_id: 'ORD-5002',
-            unit_id: 'UNIT-5002',
-            channel: 'amazon_mfn',
-            status: 'open',
-            order_lines: [
-              { sku: 'CHARGER-65W', qty: 1, name: '65W USB-C Fast Charger' },
-              { sku: 'PEN-PACK', qty: 2, name: 'Black Gel Pens Pack of 3' },
-            ],
-          },
-          {
-            order_id: 'ORD-5003',
-            unit_id: 'UNIT-5003',
-            channel: 'walmart',
-            status: 'open',
-            order_lines: [
-              { sku: 'BOTTLE-WATER-SILVER', qty: 1, name: 'Insulated Water Bottle - Silver' },
-              { sku: 'SOCKS-PAIR', qty: 2, name: 'Cotton Crew Socks Pair' },
-            ],
-          },
-          {
-            order_id: 'ORD-5004',
-            unit_id: 'UNIT-5004',
-            channel: '3pl_client',
-            status: 'open',
-            order_lines: [
-              { sku: 'CREAM-TUBE', qty: 1, name: 'Moisturizing Hand Cream Tube' },
-              { sku: 'KEYCHAIN-METAL', qty: 1, name: 'Carabiner Metal Keychain' },
-            ],
-          },
-          {
-            order_id: 'ORD-5005',
-            unit_id: 'UNIT-5005',
-            channel: 'shopify',
-            status: 'open',
-            order_lines: [
-              { sku: 'HEADPHONES-CASE', qty: 1, name: 'Earbuds Protective Case' },
-              { sku: 'STICKER-PACK', qty: 1, name: 'Tech Vinyl Stickers Pack' },
-            ],
-          },
-        ];
-
-        setOrders(defaultItems);
+        setLoading(true);
+        const res = await fetch(`/api/units?org_id=${encodeURIComponent(activeOrg)}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data.units)) {
+            setOrders(data.units);
+            return;
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching queue units:', err);
       } finally {
         setLoading(false);
       }

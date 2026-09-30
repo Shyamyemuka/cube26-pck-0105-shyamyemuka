@@ -14,7 +14,6 @@ import {
   Package,
   Loader2,
 } from 'lucide-react';
-import { sha256Hex } from '@/lib/evidence/hash';
 
 interface PhotoItem {
   dataUrl: string;
@@ -38,6 +37,42 @@ export default function CapturePage() {
   const [analyzing, setAnalyzing] = useState(false);
   const [error, setError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    let orgId = 'org_demo_alpha';
+    if (typeof window !== 'undefined') {
+      const savedOrg = localStorage.getItem('pack_operator_org');
+      if (savedOrg) orgId = savedOrg;
+    }
+
+    async function loadUnitDetails() {
+      try {
+        const res = await fetch(`/api/units/${encodeURIComponent(unitId)}?org_id=${encodeURIComponent(orgId)}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.unit) {
+            if (data.unit.order_id) setOrderId(data.unit.order_id);
+            if (data.unit.channel) setChannel(data.unit.channel);
+            if (Array.isArray(data.unit.order_lines) && data.unit.order_lines.length > 0) {
+              setLines(
+                data.unit.order_lines.map((l: { sku: string; qty: number; name?: string }) => ({
+                  sku: l.sku,
+                  qty: l.qty,
+                  name: l.name || l.sku,
+                }))
+              );
+            }
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load unit details:', err);
+      }
+    }
+
+    if (unitId) {
+      loadUnitDetails();
+    }
+  }, [unitId]);
 
   // Client-side downscaling and SHA-256 hashing
   const processImageFile = async (file: File): Promise<PhotoItem> => {
