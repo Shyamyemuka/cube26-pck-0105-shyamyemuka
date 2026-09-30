@@ -14,6 +14,8 @@ import {
   Loader2,
   Image as ImageIcon,
   ShieldCheck,
+  X,
+  RefreshCw,
 } from 'lucide-react';
 import { sha256Hex } from '@/lib/evidence/hash';
 
@@ -39,6 +41,13 @@ export default function CapturePage() {
   const [error, setError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
+
+  // Live Camera Viewfinder State
+  const [cameraActive, setCameraActive] = useState(false);
+  const [cameraFacing, setCameraFacing] = useState<'environment' | 'user'>('environment');
+  const [cameraLoading, setCameraLoading] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
 
   useEffect(() => {
     let savedOrg = 'org_demo_alpha';
@@ -152,6 +161,129 @@ export default function CapturePage() {
 
   const handleRemovePhoto = (idx: number) => {
     setPhotos((prev) => prev.filter((_, i) => i !== idx));
+  };
+
+  // Clean up camera stream on unmount
+  useEffect(() => {
+    return () => {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+        streamRef.current = null;
+      }
+    };
+  }, []);
+
+  const startCamera = async (facing: 'environment' | 'user' = cameraFacing) => {
+    if (photos.length >= 3) {
+      setError('Maximum 3 photos per pack audit attempt.');
+      return;
+    }
+    setError('');
+    setCameraLoading(true);
+
+    // Stop existing stream if any
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((t) => t.stop());
+      streamRef.current = null;
+    }
+
+    try {
+      if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
+        setCameraLoading(false);
+        cameraInputRef.current?.click();
+        return;
+      }
+
+      const constraints: MediaStreamConstraints = {
+        video: {
+          facingMode: { ideal: facing },
+          width: { ideal: 1920 },
+          height: { ideal: 1080 },
+        },
+        audio: false,
+      };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      streamRef.current = stream;
+      setCameraFacing(facing);
+      setCameraActive(true);
+      setCameraLoading(false);
+
+      setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          videoRef.current.play().catch(() => {});
+        }
+      }, 50);
+    } catch (err: unknown) {
+      console.warn('getUserMedia failed, falling back to camera input:', err);
+      setCameraLoading(false);
+      // Fall back directly to native camera input
+      cameraInputRef.current?.click();
+    }
+  };
+
+  const stopCamera = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((t) => t.stop());
+      streamRef.current = null;
+    }
+    setCameraActive(false);
+    setCameraLoading(false);
+  };
+
+  const switchCameraFacing = async () => {
+    const nextFacing = cameraFacing === 'environment' ? 'user' : 'environment';
+    await startCamera(nextFacing);
+  };
+
+  const snapPhoto = async () => {
+    if (!videoRef.current) return;
+    const video = videoRef.current;
+
+    const canvas = document.createElement('canvas');
+    let width = video.videoWidth || 1280;
+    let height = video.videoHeight || 720;
+    const maxDim = 1600;
+
+    if (width > maxDim || height > maxDim) {
+      if (width > height) {
+        height = Math.round((height * maxDim) / width);
+        width = maxDim;
+      } else {
+        width = Math.round((width * maxDim) / height);
+        height = maxDim;
+      }
+    }
+
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    ctx.drawImage(video, 0, 0, width, height);
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+    const base64 = dataUrl.split(',')[1];
+    const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+
+    try {
+      const hashBuffer = await crypto.subtle.digest('SHA-256', bytes);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+
+      setPhotos((prev) => [
+        ...prev,
+        {
+          dataUrl,
+          sha256: hashHex,
+          sizeKb: Math.round(bytes.length / 1024),
+        },
+      ]);
+      stopCamera();
+    } catch (e) {
+      setError('Failed to compute photo hash');
+    }
   };
 
   const handleAnalyze = async () => {
@@ -350,12 +482,16 @@ export default function CapturePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
           <button
             type="button"
-            onClick={() => cameraInputRef.current?.click()}
-            disabled={photos.length >= 3 || analyzing}
-            className="py-3.5 px-4 rounded-2xl neu-btn-secondary font-display font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-2 text-slate-900 dark:text-white disabled:opacity-50"
+            onClick={() => startCamera('environment')}
+            disabled={photos.length >= 3 || analyzing || cameraLoading}
+            className="py-3.5 px-4 rounded-2xl neu-btn-secondary font-display font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-2 text-slate-900 dark:text-white disabled:opacity-50 transition-all"
           >
-            <Camera className="w-4 h-4 text-[#773C30] dark:text-[#6BFF86] stroke-[2.2]" />
-            <span>Open Camera</span>
+            {cameraLoading ? (
+              <Loader2 className="w-4 h-4 animate-spin text-[#773C30] dark:text-[#6BFF86]" />
+            ) : (
+              <Camera className="w-4 h-4 text-[#773C30] dark:text-[#6BFF86] stroke-[2.2]" />
+            )}
+            <span>{cameraLoading ? 'Starting Camera...' : 'Open Camera'}</span>
           </button>
 
           <button
@@ -394,6 +530,74 @@ export default function CapturePage() {
           </p>
         </div>
       </div>
+
+      {/* Live Camera Viewfinder Modal */}
+      {cameraActive && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex flex-col items-center justify-center p-4">
+          <div className="w-full max-w-2xl bg-slate-900 rounded-[32px] overflow-hidden border border-white/10 shadow-2xl relative flex flex-col">
+            {/* Viewfinder Top Bar */}
+            <div className="p-4 flex items-center justify-between bg-black/50 z-10">
+              <div className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-wider">
+                <Camera className="w-4 h-4 text-[#773C30] dark:text-[#6BFF86]" />
+                <span>Live Carton Camera</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={switchCameraFacing}
+                  className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all flex items-center gap-1.5 text-xs font-semibold"
+                  title="Switch Camera (Front/Rear)"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Flip</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={stopCamera}
+                  className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all"
+                  title="Close Camera"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Live Video Frame */}
+            <div className="relative aspect-video sm:aspect-[4/3] bg-black flex items-center justify-center overflow-hidden">
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                className="w-full h-full object-cover"
+              />
+              {/* Box Framing Reticle Guide */}
+              <div className="absolute inset-8 sm:inset-12 border-2 border-dashed border-white/40 rounded-2xl pointer-events-none flex flex-col justify-between p-3">
+                <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-white/80 bg-black/50 px-2 py-0.5 rounded self-start">
+                  Position open carton inside frame
+                </span>
+                <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-white/80 bg-black/50 px-2 py-0.5 rounded self-end">
+                  Ensure all items are visible
+                </span>
+              </div>
+            </div>
+
+            {/* Shutter Controls */}
+            <div className="p-5 bg-black/70 flex items-center justify-center gap-6">
+              <button
+                type="button"
+                onClick={snapPhoto}
+                className="w-18 h-18 rounded-full bg-white hover:bg-slate-100 border-4 border-slate-300 dark:border-slate-700 flex items-center justify-center shadow-2xl active:scale-95 transition-all group"
+                title="Snap Box Photo"
+              >
+                <div className="w-12 h-12 rounded-full bg-[#773C30] dark:bg-[#6BFF86] flex items-center justify-center group-hover:scale-105 transition-transform">
+                  <Camera className="w-6 h-6 text-white dark:text-black" />
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

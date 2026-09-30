@@ -5,19 +5,19 @@ import { PullCord } from 'pullcord';
 import 'pullcord/pullcord.css';
 
 export default function ThemeToggle() {
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    // Default to dark mode unless explicitly set to light
+    // Default to light mode unless explicitly set to dark
     const saved = localStorage.getItem('pack_theme');
-    if (saved === 'light') {
-      setDark(false);
-      document.documentElement.classList.remove('dark');
-    } else {
+    if (saved === 'dark') {
       setDark(true);
       document.documentElement.classList.add('dark');
+    } else {
+      setDark(false);
+      document.documentElement.classList.remove('dark');
     }
   }, []);
 

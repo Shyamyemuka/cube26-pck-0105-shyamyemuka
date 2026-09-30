@@ -9,27 +9,28 @@
 
 :root {
   --pullcord-top: 0px;     /* anchor offset from the top */
-  --pullcord-right: 7rem;  /* distance from the right edge */
-  --pullcord-z: 5;         /* wrapper z-index */
-  --pullcord-ink: rgba(255, 255, 255, 0.24); /* rope colour */
+  --pullcord-right: 1.5rem; /* distance from the right edge — pushed safely outside navbar */
+  --pullcord-z: 70;        /* wrapper z-index above header */
+  --pullcord-ink: rgba(100, 116, 139, 0.45); /* rope colour in light mode */
 
   --neu-bg: #E8EDF5;
-  --neu-surface: rgba(255, 255, 255, 0.72);
+  --neu-surface: rgba(255, 255, 255, 0.82);
   --neu-surface-solid: #FFFFFF;
   --neu-text-primary: #0F172A;
   --neu-text-secondary: #334155;
   --neu-text-muted: #64748B;
   --neu-accent: #773C30;
   --neu-accent-hover: #991B1B;
-  --neu-border-color: rgba(148, 163, 184, 0.28);
+  --neu-border-color: rgba(148, 163, 184, 0.22);
 
-  --neu-card-shadow: 8px 8px 20px rgba(148, 163, 184, 0.35), -8px -8px 20px rgba(255, 255, 255, 0.9);
-  --neu-card-hover-shadow: 12px 12px 26px rgba(148, 163, 184, 0.45), -12px -12px 26px rgba(255, 255, 255, 0.95);
-  --neu-card-sm-shadow: 4px 4px 12px rgba(148, 163, 184, 0.3), -4px -4px 12px rgba(255, 255, 255, 0.85);
-  --neu-pressed-shadow: inset 4px 4px 9px rgba(148, 163, 184, 0.38), inset -4px -4px 9px rgba(255, 255, 255, 0.9);
-  --neu-pressed-deep-shadow: inset 7px 7px 14px rgba(148, 163, 184, 0.45), inset -7px -7px 14px rgba(255, 255, 255, 0.95);
-  --neu-pressed-sm-shadow: inset 2px 2px 6px rgba(148, 163, 184, 0.35), inset -2px -2px 6px rgba(255, 255, 255, 0.85);
-  --neu-icon-well-shadow: inset 4px 4px 8px rgba(148, 163, 184, 0.38), inset -4px -4px 8px rgba(255, 255, 255, 0.9);
+  /* Clean, subtle depth in light mode WITHOUT the white halo bloom */
+  --neu-card-shadow: 0 4px 18px -2px rgba(15, 23, 42, 0.07), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  --neu-card-hover-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.05);
+  --neu-card-sm-shadow: 0 2px 8px -1px rgba(15, 23, 42, 0.06);
+  --neu-pressed-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.06);
+  --neu-pressed-deep-shadow: inset 0 3px 6px rgba(15, 23, 42, 0.08);
+  --neu-pressed-sm-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.05);
+  --neu-icon-well-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.06);
 }
 
 html.dark, :root[class~="dark"], body.dark, .dark {

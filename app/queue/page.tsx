@@ -130,7 +130,7 @@ export default function QueuePage() {
             </span>
           </div>
           <p className="text-sm font-medium text-slate-600 dark:text-slate-300 mt-1">
-            Active order manifest queue awaiting <span className="hl-green">pre-seal audit</span>. Select a box to photograph and evaluate.
+            Active order manifest queue awaiting pre-seal audit. Select a box to photograph and evaluate.
           </p>
         </div>
 
