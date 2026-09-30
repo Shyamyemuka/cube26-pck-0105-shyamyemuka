@@ -74,42 +74,42 @@ export default function QueuePage() {
     switch (status) {
       case 'sealed':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#23201D] text-[#FFFFFF] neu-flat-sm">
-            <CheckCircle2 className="w-3.5 h-3.5 text-[#A3E635]" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#142318] text-[#A3E635] neu-flat-sm border border-[#224824]">
+            <CheckCircle2 className="w-3.5 h-3.5" />
             SEALED
           </span>
         );
       case 'stopped':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#381E18] text-[#FFFFFF] neu-flat-sm">
-            <XCircle className="w-3.5 h-3.5 text-[#F87171]" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#381816] text-[#F87171] neu-flat-sm border border-[#5A2320]">
+            <XCircle className="w-3.5 h-3.5" />
             STOP & FIX
           </span>
         );
       case 'uncertain':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#3D2C1A] text-[#FFFFFF] neu-flat-sm">
-            <HelpCircle className="w-3.5 h-3.5 text-[#FBBF24]" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#382614] text-[#FBBF24] neu-flat-sm border border-[#583C1A]">
+            <HelpCircle className="w-3.5 h-3.5" />
             UNCERTAIN
           </span>
         );
       case 'pending':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#2A3038] text-[#FFFFFF] neu-flat-sm">
-            <Clock className="w-3.5 h-3.5 text-[#94A3B8]" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#1E232B] text-[#94A3B8] neu-flat-sm border border-[#333B49]">
+            <Clock className="w-3.5 h-3.5" />
             PENDING
           </span>
         );
       case 'overridden':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#5A3E2B] text-[#FFFFFF] neu-flat-sm">
-            <RotateCcw className="w-3.5 h-3.5 text-[#FDE68A]" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#3A2A1A] text-[#FDE68A] neu-flat-sm border border-[#5E4226]">
+            <RotateCcw className="w-3.5 h-3.5" />
             OVERRIDDEN
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#D4DCE6] text-[#1C2024] neu-flat-sm">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold neu-pressed-sm text-[var(--neu-text-secondary)]">
             OPEN
           </span>
         );
@@ -122,42 +122,42 @@ export default function QueuePage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-[#1C2024] tracking-tight">
+            <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-[var(--neu-text-primary)] tracking-tight">
               Packing Station Queue
             </h1>
-            <span className="px-3 py-1 rounded-xl neu-pressed-sm text-xs font-bold text-[#5A3E2B] uppercase">
+            <span className="px-3 py-1 rounded-xl neu-pressed-sm text-xs font-bold text-[#5A3E2B] dark:text-[#C4F82A] uppercase">
               {orgId}
             </span>
           </div>
-          <p className="text-sm font-medium text-[#4A545E] mt-1">
-            Real orders awaiting pre-seal photo audit. Select a box to capture and verify.
+          <p className="text-sm font-medium text-[var(--neu-text-secondary)] mt-1">
+            Active order manifest queue awaiting <span className="hl-green">pre-seal audit</span>. Select a box to photograph and evaluate.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           {/* Tenant Switcher */}
-          <div className="flex items-center gap-1.5 rounded-2xl neu-pressed-sm p-1 bg-[#E0E5EC]">
+          <div className="flex items-center gap-1.5 rounded-2xl neu-pressed-sm p-1">
             <button
               onClick={() => handleOrgSwitch('org_demo_alpha')}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                orgId === 'org_demo_alpha' ? 'neu-btn-primary' : 'text-[#4A545E] hover:text-[#1C2024]'
+                orgId === 'org_demo_alpha' ? 'neu-btn-primary' : 'text-[var(--neu-text-secondary)] hover:text-[var(--neu-text-primary)]'
               }`}
             >
-              Alpha
+              Alpha Tenant
             </button>
             <button
               onClick={() => handleOrgSwitch('org_demo_bravo')}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                orgId === 'org_demo_bravo' ? 'neu-btn-primary' : 'text-[#4A545E] hover:text-[#1C2024]'
+                orgId === 'org_demo_bravo' ? 'neu-btn-primary' : 'text-[var(--neu-text-secondary)] hover:text-[var(--neu-text-primary)]'
               }`}
             >
-              Bravo
+              Bravo Tenant
             </button>
           </div>
 
           <Link
             href="/queue/import"
-            className="flex items-center gap-2 px-5 py-2.5 rounded-2xl neu-btn-primary text-xs font-bold tracking-wide uppercase transition-all"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-2xl neu-btn-highlight text-xs font-bold tracking-wide uppercase transition-all"
           >
             <Plus className="w-4 h-4 stroke-[2.5]" />
             <span>Import Order</span>
@@ -168,13 +168,13 @@ export default function QueuePage() {
       {/* Search and Filters Bar */}
       <div className="rounded-[28px] neu-flat p-4 sm:p-5 flex flex-col md:flex-row items-center gap-4">
         <div className="relative flex-1 w-full">
-          <Search className="w-5 h-5 text-[#606C78] absolute left-4 top-1/2 -translate-y-1/2" />
+          <Search className="w-5 h-5 text-[var(--neu-text-muted)] absolute left-4 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search by order ID, unit ID, or SKU..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 rounded-2xl neu-input text-sm font-semibold text-[#1C2024]"
+            className="w-full pl-12 pr-4 py-3 rounded-2xl neu-input text-sm font-semibold text-[var(--neu-text-primary)]"
           />
         </div>
 
@@ -186,8 +186,8 @@ export default function QueuePage() {
               onClick={() => setFilterStatus(st)}
               className={`px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
                 filterStatus === st
-                  ? 'neu-pressed text-[#1C2024]'
-                  : 'neu-flat-sm text-[#4A545E] hover:text-[#1C2024]'
+                  ? 'neu-pressed text-[var(--neu-text-primary)] dark:text-[#C4F82A]'
+                  : 'neu-flat-sm text-[var(--neu-text-secondary)] hover:text-[var(--neu-text-primary)]'
               }`}
             >
               {st}
@@ -199,23 +199,23 @@ export default function QueuePage() {
       {/* Orders List or Empty State */}
       {loading ? (
         <div className="rounded-[32px] neu-flat p-16 text-center space-y-3">
-          <div className="w-12 h-12 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#5A3E2B] animate-pulse">
+          <div className="w-12 h-12 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#5A3E2B] dark:text-[#C4F82A] animate-pulse">
             <Clock className="w-6 h-6 stroke-[2.2]" />
           </div>
-          <p className="text-sm font-bold text-[#1C2024]">Loading real tenant queue...</p>
+          <p className="text-sm font-bold text-[var(--neu-text-primary)]">Loading tenant queue...</p>
         </div>
       ) : filteredOrders.length === 0 ? (
         <div className="rounded-[32px] neu-flat p-16 text-center space-y-5">
-          <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center text-[#5A3E2B]">
+          <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center text-[#5A3E2B] dark:text-[#C4F82A]">
             <Inbox className="w-8 h-8 stroke-[2.2]" />
           </div>
           <div className="max-w-md mx-auto space-y-1">
-            <h3 className="font-display font-extrabold text-xl text-[#1C2024]">
+            <h3 className="font-display font-extrabold text-xl text-[var(--neu-text-primary)]">
               {orders.length === 0 ? 'No Orders in Queue' : 'No Matching Orders Found'}
             </h3>
-            <p className="text-xs font-medium text-[#4A545E]">
+            <p className="text-xs font-medium text-[var(--neu-text-secondary)]">
               {orders.length === 0
-                ? `Tenant ${orgId} has no active orders awaiting audit. Import your orders to begin.`
+                ? `Tenant ${orgId} has no active orders awaiting audit. Import your customer order lines to begin.`
                 : 'Try adjusting your search criteria or filter status.'}
             </p>
           </div>
@@ -223,7 +223,7 @@ export default function QueuePage() {
             <div className="pt-2">
               <Link
                 href="/queue/import"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl neu-btn-primary font-display font-bold text-xs uppercase tracking-wide"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl neu-btn-highlight font-display font-bold text-xs uppercase tracking-wide"
               >
                 <Plus className="w-4 h-4 stroke-[2.5]" />
                 <span>Import First Order</span>
@@ -242,16 +242,16 @@ export default function QueuePage() {
               >
                 <div>
                   <div className="flex items-center justify-between pb-3">
-                    <span className="font-mono text-xs font-bold text-[#5A3E2B] bg-[#D4DCE6] px-2.5 py-1 rounded-xl">
+                    <span className="font-mono text-xs font-bold text-[#5A3E2B] dark:text-[#C4F82A] neu-pressed-sm px-2.5 py-1 rounded-xl">
                       {order.unit_id}
                     </span>
                     {getStatusBadge(order.status)}
                   </div>
 
-                  <h3 className="font-display font-extrabold text-lg text-[#1C2024] tracking-tight">
+                  <h3 className="font-display font-extrabold text-lg text-[var(--neu-text-primary)] tracking-tight">
                     {order.order_id}
                   </h3>
-                  <div className="flex items-center gap-2 text-xs font-semibold text-[#4A545E] mt-1">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-[var(--neu-text-secondary)] mt-1">
                     <span className="capitalize">{order.channel.replace('_', ' ')}</span>
                     <span>•</span>
                     <span>{totalItems} total {totalItems === 1 ? 'item' : 'items'}</span>
@@ -259,17 +259,17 @@ export default function QueuePage() {
 
                   {/* Order lines preview well */}
                   <div className="mt-4 rounded-2xl neu-pressed-sm p-3.5 space-y-1.5">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#606C78] block">
-                      Target Contents:
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--neu-text-muted)] block">
+                      Manifest Lines:
                     </span>
                     {order.order_lines.slice(0, 3).map((l, i) => (
                       <div key={i} className="flex items-center justify-between text-xs font-mono font-medium">
-                        <span className="text-[#1C2024] truncate mr-2">{l.sku}</span>
-                        <span className="text-[#5A3E2B] font-bold">x{l.qty}</span>
+                        <span className="text-[var(--neu-text-primary)] truncate mr-2">{l.sku}</span>
+                        <span className="text-[#5A3E2B] dark:text-[#C4F82A] font-bold">x{l.qty}</span>
                       </div>
                     ))}
                     {order.order_lines.length > 3 && (
-                      <div className="text-[11px] text-[#606C78] font-bold pt-1">
+                      <div className="text-[11px] text-[var(--neu-text-muted)] font-bold pt-1">
                         + {order.order_lines.length - 3} more items...
                       </div>
                     )}
@@ -279,7 +279,7 @@ export default function QueuePage() {
                 <div className="pt-6 mt-2 flex items-center gap-2">
                   <Link
                     href={`/units/${order.unit_id}/capture`}
-                    className="flex-1 py-3 rounded-2xl neu-btn-primary font-display font-bold text-xs uppercase tracking-wide text-center flex items-center justify-center gap-2"
+                    className="flex-1 py-3 rounded-2xl neu-btn-highlight font-display font-bold text-xs uppercase tracking-wide text-center flex items-center justify-center gap-2"
                   >
                     <Camera className="w-4 h-4 stroke-[2.2]" />
                     <span>Audit Unit</span>
@@ -288,7 +288,7 @@ export default function QueuePage() {
                   <Link
                     href={`/units/${order.unit_id}/record`}
                     title="View Evidence Record"
-                    className="w-12 h-12 rounded-2xl neu-btn-secondary flex items-center justify-center text-[#3D4852] hover:text-[#5A3E2B]"
+                    className="w-12 h-12 rounded-2xl neu-btn-secondary flex items-center justify-center text-[var(--neu-text-secondary)] hover:text-[#5A3E2B] dark:hover:text-[#C4F82A]"
                   >
                     <FileText className="w-4 h-4 stroke-[2.2]" />
                   </Link>

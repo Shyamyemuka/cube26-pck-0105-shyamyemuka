@@ -44,54 +44,54 @@ export default function LoginPage() {
   return (
     <div className="max-w-md mx-auto py-10 space-y-6">
       <div className="text-center space-y-2">
-        <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center text-[#5A3E2B]">
+        <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center text-[#5A3E2B] dark:text-[#C4F82A]">
           <Package className="w-8 h-8 stroke-[2.2]" />
         </div>
-        <h1 className="font-display font-extrabold text-2xl text-[#1C2024] tracking-tight">
+        <h1 className="font-display font-extrabold text-2xl text-[var(--neu-text-primary)] tracking-tight">
           Operator Sign In
         </h1>
-        <p className="text-xs font-medium text-[#4A545E]">
+        <p className="text-xs font-medium text-[var(--neu-text-secondary)]">
           Select an organization to switch tenancy and view its isolated queue
         </p>
       </div>
 
       <div className="rounded-[32px] neu-flat p-8 space-y-6">
         {error && (
-          <div className="p-3.5 rounded-2xl neu-pressed bg-[#E0E5EC] text-[#6B2D1C] text-xs font-bold">
+          <div className="p-3.5 rounded-2xl neu-pressed text-[#C62828] dark:text-[#F87171] text-xs font-bold">
             {error}
           </div>
         )}
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-[#3D4852] uppercase tracking-wider block">
+            <label className="text-xs font-bold text-[var(--neu-text-secondary)] uppercase tracking-wider block">
               Operator Email
             </label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-[#606C78] absolute left-4 top-1/2 -translate-y-1/2" />
+              <Mail className="w-4 h-4 text-[var(--neu-text-muted)] absolute left-4 top-1/2 -translate-y-1/2" />
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-11 pr-4 py-3 rounded-2xl neu-input text-sm font-semibold text-[#1C2024]"
+                className="w-full pl-11 pr-4 py-3 rounded-2xl neu-input text-sm font-semibold text-[var(--neu-text-primary)]"
                 placeholder="operator@example.test"
               />
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-[#3D4852] uppercase tracking-wider block">
+            <label className="text-xs font-bold text-[var(--neu-text-secondary)] uppercase tracking-wider block">
               Password
             </label>
             <div className="relative">
-              <Lock className="w-4 h-4 text-[#606C78] absolute left-4 top-1/2 -translate-y-1/2" />
+              <Lock className="w-4 h-4 text-[var(--neu-text-muted)] absolute left-4 top-1/2 -translate-y-1/2" />
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-11 pr-4 py-3 rounded-2xl neu-input text-sm font-semibold text-[#1C2024]"
+                className="w-full pl-11 pr-4 py-3 rounded-2xl neu-input text-sm font-semibold text-[var(--neu-text-primary)]"
                 placeholder="••••••••"
               />
             </div>
@@ -100,15 +100,15 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 rounded-2xl neu-btn-primary font-display font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2"
+            className="w-full py-4 rounded-2xl neu-btn-highlight font-display font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2"
           >
             <span>{loading ? 'Authenticating...' : 'Sign In To Station'}</span>
             <ArrowRight className="w-4 h-4 stroke-[2.5]" />
           </button>
         </form>
 
-        <div className="border-t border-[#D4DCE6]/50 pt-5 space-y-3">
-          <div className="text-[11px] font-bold text-[#606C78] uppercase tracking-wider text-center">
+        <div className="border-t border-[var(--neu-border-color)] pt-5 space-y-3">
+          <div className="text-[11px] font-bold text-[var(--neu-text-muted)] uppercase tracking-wider text-center">
             Switch Active Tenant
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -117,28 +117,28 @@ export default function LoginPage() {
               onClick={() => handleQuickLogin('operator.alpha@example.test')}
               className="p-3.5 rounded-2xl neu-flat-sm hover:neu-flat-hover transition-all text-left group"
             >
-              <div className="font-display font-bold text-xs text-[#1C2024] group-hover:text-[#5A3E2B]">
+              <div className="font-display font-bold text-xs text-[var(--neu-text-primary)] group-hover:text-[#5A3E2B] dark:group-hover:text-[#C4F82A]">
                 Alpha Tenant
               </div>
-              <div className="text-[10px] font-mono text-[#606C78] truncate">org_demo_alpha</div>
+              <div className="text-[10px] font-mono text-[var(--neu-text-muted)] truncate">org_demo_alpha</div>
             </button>
             <button
               type="button"
               onClick={() => handleQuickLogin('operator.bravo@example.test')}
               className="p-3.5 rounded-2xl neu-flat-sm hover:neu-flat-hover transition-all text-left group"
             >
-              <div className="font-display font-bold text-xs text-[#1C2024] group-hover:text-[#5A3E2B]">
+              <div className="font-display font-bold text-xs text-[var(--neu-text-primary)] group-hover:text-[#5A3E2B] dark:group-hover:text-[#C4F82A]">
                 Bravo Tenant
               </div>
-              <div className="text-[10px] font-mono text-[#606C78] truncate">org_demo_bravo</div>
+              <div className="text-[10px] font-mono text-[var(--neu-text-muted)] truncate">org_demo_bravo</div>
             </button>
           </div>
         </div>
       </div>
 
-      <div className="text-center text-xs font-medium text-[#4A545E] flex items-center justify-center gap-1.5">
-        <ShieldCheck className="w-4 h-4 text-[#5A3E2B]" />
-        <span>Org-scoped tenancy enforced by PostgreSQL Row-Level Security</span>
+      <div className="text-center text-xs font-medium text-[var(--neu-text-secondary)] flex items-center justify-center gap-1.5">
+        <ShieldCheck className="w-4 h-4 text-[#5A3E2B] dark:text-[#C4F82A]" />
+        <span>Org-scoped multi-tenancy enforced by Row-Level Security</span>
       </div>
     </div>
   );

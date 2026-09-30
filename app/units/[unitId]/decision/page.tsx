@@ -73,7 +73,6 @@ export default function DecisionPage() {
 
       setOverrideSuccess(true);
       setShowOverrideModal(false);
-      // Update local state to reflect overridden verdict
       const updated: AgentResult = {
         ...result,
         verdict: overrideVerdict,
@@ -93,19 +92,19 @@ export default function DecisionPage() {
   if (!result) {
     return (
       <div className="max-w-2xl mx-auto rounded-[32px] neu-flat p-12 text-center space-y-6">
-        <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center text-[#5A3E2B]">
+        <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center text-[#5A3E2B] dark:text-[#C4F82A]">
           <Package className="w-8 h-8 stroke-[2.2]" />
         </div>
         <div>
-          <h2 className="font-display font-extrabold text-2xl text-[#1C2024]">No Audit Run Yet</h2>
-          <p className="text-sm font-medium text-[#4A545E] mt-1">
-            Box <span className="font-mono font-bold text-[#1C2024]">{unitId}</span> has not been photographed or analyzed yet.
+          <h2 className="font-display font-extrabold text-2xl text-[var(--neu-text-primary)]">No Audit Run Yet</h2>
+          <p className="text-sm font-medium text-[var(--neu-text-secondary)] mt-1">
+            Carton <span className="font-mono font-bold text-[var(--neu-text-primary)]">{unitId}</span> has not been photographed or evaluated yet.
           </p>
         </div>
         <div>
           <Link
             href={`/units/${unitId}/capture`}
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl neu-btn-primary font-display font-bold text-xs uppercase tracking-wide"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl neu-btn-highlight font-display font-bold text-xs uppercase tracking-wide"
           >
             <Camera className="w-4 h-4 stroke-[2.2]" />
             <span>Proceed to Photo Capture</span>
@@ -126,40 +125,40 @@ export default function DecisionPage() {
         <div className="flex items-center gap-4">
           <Link
             href={`/units/${unitId}/capture`}
-            className="w-12 h-12 rounded-2xl neu-flat hover:neu-flat-hover flex items-center justify-center text-[#3D4852] hover:text-[#1C2024] transition-all"
+            className="w-12 h-12 rounded-2xl neu-flat hover:neu-flat-hover flex items-center justify-center text-[var(--neu-text-secondary)] hover:text-[var(--neu-text-primary)] transition-all"
           >
             <RotateCcw className="w-5 h-5 stroke-[2.2]" />
           </Link>
           <div>
             <div className="flex items-center gap-2.5">
-              <h1 className="font-display font-extrabold text-2xl text-[#1C2024] tracking-tight">
+              <h1 className="font-display font-extrabold text-2xl text-[var(--neu-text-primary)] tracking-tight">
                 Package Audit Verdict
               </h1>
-              <span className="font-mono text-xs font-bold text-[#5A3E2B] bg-[#D4DCE6] px-2.5 py-1 rounded-xl">
+              <span className="font-mono text-xs font-bold text-[#5A3E2B] dark:text-[#C4F82A] neu-pressed-sm px-2.5 py-1 rounded-xl">
                 {unitId}
               </span>
             </div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#6E492F] mt-0.5">
-              Route: {result.route} • Status: {result.status}
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#6E492F] dark:text-[#C4F82A] mt-0.5">
+              Route: {result.route} • Pipeline: {result.status}
             </p>
           </div>
         </div>
 
         <Link
           href={`/units/${unitId}/record`}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-2xl neu-btn-secondary text-xs font-bold text-[#1C2024]"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-2xl neu-btn-secondary text-xs font-bold text-[var(--neu-text-primary)]"
         >
-          <FileText className="w-4 h-4 text-[#5A3E2B] stroke-[2.2]" />
+          <FileText className="w-4 h-4 text-[#5A3E2B] dark:text-[#C4F82A] stroke-[2.2]" />
           <span>Evidence Record</span>
         </Link>
       </div>
 
       {overrideSuccess && (
-        <div className="p-5 rounded-2xl neu-flat bg-[#E0E5EC] flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl neu-icon-well flex items-center justify-center text-[#5A3E2B]">
+        <div className="p-5 rounded-2xl neu-flat flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl neu-icon-well flex items-center justify-center text-[#2E7D32] dark:text-[#A3E635]">
             <CheckCircle2 className="w-5 h-5 stroke-[2.5]" />
           </div>
-          <span className="text-sm font-bold text-[#1C2024]">
+          <span className="text-sm font-bold text-[var(--neu-text-primary)]">
             Operator override logged and securely appended to sequential hash chain!
           </span>
         </div>
@@ -169,21 +168,21 @@ export default function DecisionPage() {
       <div className="rounded-[32px] neu-flat p-8 sm:p-10 space-y-6 text-center">
         {isSeal && (
           <div className="space-y-4">
-            <div className="w-20 h-20 rounded-[28px] neu-icon-well mx-auto flex items-center justify-center text-[#2E7D32]">
+            <div className="w-20 h-20 rounded-[28px] neu-icon-well mx-auto flex items-center justify-center text-[#2E7D32] dark:text-[#A3E635]">
               <CheckCircle2 className="w-10 h-10 stroke-[2.5]" />
             </div>
             <div>
-              <div className="inline-block px-5 py-2 rounded-2xl bg-[#23201D] text-[#FFFFFF] font-display font-extrabold text-2xl tracking-wide neu-flat-sm">
+              <div className="inline-block px-5 py-2 rounded-2xl bg-[#142618] text-[#A3E635] border border-[#27502B] font-display font-extrabold text-2xl tracking-wide neu-flat-sm">
                 SEAL CARTON
               </div>
-              <p className="text-sm font-semibold text-[#3D4852] mt-3">
-                All order lines verified. Quantities match. No extra or substituted items.
+              <p className="text-sm font-semibold text-[var(--neu-text-secondary)] mt-3">
+                All manifest lines verified. Quantities match. No extra or substituted items.
               </p>
             </div>
             <div className="pt-2">
               <Link
                 href="/queue"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl neu-btn-primary font-display font-extrabold text-sm uppercase tracking-wider"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl neu-btn-highlight font-display font-extrabold text-sm uppercase tracking-wider"
               >
                 <span>Tape & Next Order</span>
                 <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -194,14 +193,14 @@ export default function DecisionPage() {
 
         {isStop && (
           <div className="space-y-4">
-            <div className="w-20 h-20 rounded-[28px] neu-icon-well mx-auto flex items-center justify-center text-[#C62828]">
+            <div className="w-20 h-20 rounded-[28px] neu-icon-well mx-auto flex items-center justify-center text-[#C62828] dark:text-[#F87171]">
               <XCircle className="w-10 h-10 stroke-[2.5]" />
             </div>
             <div>
-              <div className="inline-block px-5 py-2 rounded-2xl bg-[#3E1A14] text-[#FFFFFF] font-display font-extrabold text-2xl tracking-wide neu-flat-sm">
+              <div className="inline-block px-5 py-2 rounded-2xl bg-[#3A1715] text-[#F87171] border border-[#5C2320] font-display font-extrabold text-2xl tracking-wide neu-flat-sm">
                 STOP AND FIX
               </div>
-              <p className="text-sm font-semibold text-[#3D4852] mt-3">
+              <p className="text-sm font-semibold text-[var(--neu-text-secondary)] mt-3">
                 Discrepancy detected between box contents and customer manifest. Do not seal!
               </p>
             </div>
@@ -210,15 +209,15 @@ export default function DecisionPage() {
 
         {isUncertain && (
           <div className="space-y-4">
-            <div className="w-20 h-20 rounded-[28px] neu-icon-well mx-auto flex items-center justify-center text-[#B45309]">
+            <div className="w-20 h-20 rounded-[28px] neu-icon-well mx-auto flex items-center justify-center text-[#B45309] dark:text-[#FBBF24]">
               <HelpCircle className="w-10 h-10 stroke-[2.5]" />
             </div>
             <div>
-              <div className="inline-block px-5 py-2 rounded-2xl bg-[#3D2C1A] text-[#FFFFFF] font-display font-extrabold text-2xl tracking-wide neu-flat-sm">
+              <div className="inline-block px-5 py-2 rounded-2xl bg-[#3B2915] text-[#FBBF24] border border-[#5C3F1E] font-display font-extrabold text-2xl tracking-wide neu-flat-sm">
                 UNCERTAIN — RECAPTURE OR REVIEW
               </div>
-              <p className="text-sm font-semibold text-[#3D4852] mt-3">
-                Model declined to judge due to lighting, angle, or low confidence. First-class operational state.
+              <p className="text-sm font-semibold text-[var(--neu-text-secondary)] mt-3">
+                Model declined to judge due to lighting, angle, or low confidence. Safe operational abstention.
               </p>
             </div>
             <div className="pt-2">
@@ -226,7 +225,7 @@ export default function DecisionPage() {
                 href={`/units/${unitId}/capture`}
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl neu-btn-secondary font-display font-bold text-xs uppercase tracking-wide"
               >
-                <Camera className="w-4 h-4 stroke-[2.2] text-[#5A3E2B]" />
+                <Camera className="w-4 h-4 stroke-[2.2] text-[#5A3E2B] dark:text-[#C4F82A]" />
                 <span>Recapture Photos</span>
               </Link>
             </div>
@@ -237,8 +236,8 @@ export default function DecisionPage() {
       {/* Discrepancies / Fix List */}
       {result.discrepancies && result.discrepancies.length > 0 && (
         <div className="rounded-[32px] neu-flat p-6 sm:p-8 space-y-4">
-          <h2 className="font-display font-bold text-base text-[#1C2024] flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-[#C62828]" />
+          <h2 className="font-display font-bold text-base text-[var(--neu-text-primary)] flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 text-[#C62828] dark:text-[#F87171]" />
             Required Corrections ({result.discrepancies.length})
           </h2>
           <div className="space-y-3">
@@ -249,13 +248,13 @@ export default function DecisionPage() {
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-sm text-[#1C2024]">{d.sku || d.kind}</span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#3E1A14] text-[#FFFFFF]">
+                    <span className="font-mono font-bold text-sm text-[var(--neu-text-primary)]">{d.sku || d.kind}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#3A1715] text-[#F87171]">
                       {d.kind}
                     </span>
                   </div>
-                  <p className="text-xs font-semibold text-[#4A545E]">
-                    Expected: <strong className="text-[#1C2024]">{d.expected_qty ?? 'N/A'}</strong> • Detected: <strong className="text-[#1C2024]">{d.detected_qty ?? 'N/A'}</strong>
+                  <p className="text-xs font-semibold text-[var(--neu-text-secondary)]">
+                    Expected: <strong className="text-[var(--neu-text-primary)]">{d.expected_qty ?? 'N/A'}</strong> • Detected: <strong className="text-[var(--neu-text-primary)]">{d.detected_qty ?? 'N/A'}</strong>
                   </p>
                 </div>
               </div>
@@ -266,7 +265,7 @@ export default function DecisionPage() {
 
       {/* Verification Checks Trace */}
       <div className="rounded-[32px] neu-flat p-6 sm:p-8 space-y-4">
-        <h2 className="font-display font-bold text-base text-[#1C2024]">
+        <h2 className="font-display font-bold text-base text-[var(--neu-text-primary)]">
           Deterministic Rule Verification Checks
         </h2>
         <div className="space-y-2">
@@ -280,7 +279,7 @@ export default function DecisionPage() {
               >
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center ${
-                    isPass ? 'text-[#2E7D32]' : isFail ? 'text-[#C62828]' : 'text-[#B45309]'
+                    isPass ? 'text-[#2E7D32] dark:text-[#A3E635]' : isFail ? 'text-[#C62828] dark:text-[#F87171]' : 'text-[#B45309] dark:text-[#FBBF24]'
                   }`}>
                     {isPass ? (
                       <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
@@ -291,16 +290,16 @@ export default function DecisionPage() {
                     )}
                   </div>
                   <div>
-                    <span className="font-mono text-xs font-bold text-[#1C2024] block">
+                    <span className="font-mono text-xs font-bold text-[var(--neu-text-primary)] block">
                       {chk.id}
                     </span>
-                    <span className="text-xs font-medium text-[#4A545E] block">
+                    <span className="text-xs font-medium text-[var(--neu-text-secondary)] block">
                       {chk.reason}
                     </span>
                   </div>
                 </div>
                 <span className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-extrabold ${
-                  isPass ? 'bg-[#23201D] text-[#A3E635]' : isFail ? 'bg-[#3E1A14] text-[#F87171]' : 'bg-[#3D2C1A] text-[#FBBF24]'
+                  isPass ? 'bg-[#142618] text-[#A3E635]' : isFail ? 'bg-[#3A1715] text-[#F87171]' : 'bg-[#3B2915] text-[#FBBF24]'
                 }`}>
                   {chk.status}
                 </span>
@@ -317,21 +316,21 @@ export default function DecisionPage() {
           onClick={() => setShowWhyExpander(!showWhyExpander)}
           className="w-full flex items-center justify-between text-left"
         >
-          <span className="font-display font-bold text-sm text-[#1C2024] flex items-center gap-2">
-            <Info className="w-4 h-4 text-[#5A3E2B]" />
+          <span className="font-display font-bold text-sm text-[var(--neu-text-primary)] flex items-center gap-2">
+            <Info className="w-4 h-4 text-[#5A3E2B] dark:text-[#C4F82A]" />
             Why this verdict? (Rule Logic & Thresholds)
           </span>
           {showWhyExpander ? (
-            <ChevronUp className="w-4 h-4 text-[#4A545E]" />
+            <ChevronUp className="w-4 h-4 text-[var(--neu-text-secondary)]" />
           ) : (
-            <ChevronDown className="w-4 h-4 text-[#4A545E]" />
+            <ChevronDown className="w-4 h-4 text-[var(--neu-text-secondary)]" />
           )}
         </button>
 
         {showWhyExpander && (
-          <div className="mt-4 pt-4 border-t border-[#D4DCE6]/50 space-y-3 text-xs text-[#4A545E]">
+          <div className="mt-4 pt-4 border-t border-[var(--neu-border-color)] space-y-3 text-xs text-[var(--neu-text-secondary)]">
             <p>
-              Under <strong className="text-[#1C2024]">CLAUDE.md</strong> and <strong className="text-[#1C2024]">docs/AGENT_SPEC.md</strong>, the vision model returns strictly raw observations (bounding coordinates, confidence ratings). The final verdict is determined by deterministic code in <code className="text-[#5A3E2B] font-mono">lib/agent/rules.ts</code>:
+              The vision model returns raw observations (bounding coordinates, confidence ratings). The final verdict is determined by deterministic code:
             </p>
             <ul className="list-disc pl-5 space-y-1">
               <li>Photo Gate: Requires clarity confidence ≥ 0.70</li>
@@ -346,15 +345,15 @@ export default function DecisionPage() {
       {/* Operator Override Trigger */}
       <div className="rounded-[32px] neu-flat p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <h3 className="font-display font-bold text-sm text-[#1C2024]">Dispute or Override Agent Verdict</h3>
-          <p className="text-xs font-medium text-[#4A545E] mt-0.5">
+          <h3 className="font-display font-bold text-sm text-[var(--neu-text-primary)]">Dispute or Override Agent Verdict</h3>
+          <p className="text-xs font-medium text-[var(--neu-text-secondary)] mt-0.5">
             Overrides are data. Never discarded. Appended to the sequential audit hash chain.
           </p>
         </div>
         <button
           type="button"
           onClick={() => setShowOverrideModal(true)}
-          className="px-5 py-2.5 rounded-2xl neu-btn-secondary text-xs font-bold text-[#1C2024] hover:text-[#5A3E2B] transition-all whitespace-nowrap"
+          className="px-5 py-2.5 rounded-2xl neu-btn-secondary text-xs font-bold text-[var(--neu-text-primary)] hover:text-[#5A3E2B] dark:hover:text-[#C4F82A] transition-all whitespace-nowrap"
         >
           Override Verdict
         </button>
@@ -362,14 +361,14 @@ export default function DecisionPage() {
 
       {/* Override Modal */}
       {showOverrideModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-          <div className="w-full max-w-lg rounded-[32px] neu-flat p-8 space-y-5 bg-[#E0E5EC]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="w-full max-w-lg rounded-[32px] neu-flat p-8 space-y-5">
             <div className="flex items-center justify-between">
-              <h3 className="font-display font-bold text-lg text-[#1C2024]">Operator Override</h3>
+              <h3 className="font-display font-bold text-lg text-[var(--neu-text-primary)]">Operator Override</h3>
               <button
                 type="button"
                 onClick={() => setShowOverrideModal(false)}
-                className="text-xs font-bold text-[#4A545E] hover:text-[#1C2024]"
+                className="text-xs font-bold text-[var(--neu-text-secondary)] hover:text-[var(--neu-text-primary)]"
               >
                 Cancel
               </button>
@@ -377,7 +376,7 @@ export default function DecisionPage() {
 
             <form onSubmit={handleOverrideSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-[#3D4852] uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-[var(--neu-text-secondary)] uppercase tracking-wider mb-2">
                   New Verdict
                 </label>
                 <div className="grid grid-cols-2 gap-3">
@@ -385,7 +384,7 @@ export default function DecisionPage() {
                     type="button"
                     onClick={() => setOverrideVerdict('SEAL')}
                     className={`py-3 rounded-2xl text-xs font-bold transition-all ${
-                      overrideVerdict === 'SEAL' ? 'neu-btn-primary' : 'neu-btn-secondary'
+                      overrideVerdict === 'SEAL' ? 'neu-btn-highlight' : 'neu-btn-secondary'
                     }`}
                   >
                     SEAL
@@ -403,13 +402,13 @@ export default function DecisionPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#3D4852] uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-[var(--neu-text-secondary)] uppercase tracking-wider mb-2">
                   Reason Code
                 </label>
                 <select
                   value={overrideReasonCode}
                   onChange={(e) => setOverrideReasonCode(e.target.value)}
-                  className="w-full p-3.5 rounded-2xl neu-input text-xs font-semibold text-[#1C2024]"
+                  className="w-full p-3.5 rounded-2xl neu-input text-xs font-semibold text-[var(--neu-text-primary)]"
                 >
                   <option value="agent_wrong_count">Agent miscounted items</option>
                   <option value="agent_wrong_item">Agent misidentified an item</option>
@@ -420,7 +419,7 @@ export default function DecisionPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#3D4852] uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-[var(--neu-text-secondary)] uppercase tracking-wider mb-2">
                   Operator Notes (Mandatory)
                 </label>
                 <textarea
@@ -429,7 +428,7 @@ export default function DecisionPage() {
                   value={overrideReasonText}
                   onChange={(e) => setOverrideReasonText(e.target.value)}
                   placeholder="Explain why the agent's decision was overridden..."
-                  className="w-full p-3.5 rounded-2xl neu-input text-xs font-medium text-[#1C2024]"
+                  className="w-full p-3.5 rounded-2xl neu-input text-xs font-medium text-[var(--neu-text-primary)]"
                 />
               </div>
 
@@ -437,7 +436,7 @@ export default function DecisionPage() {
                 <button
                   type="submit"
                   disabled={overrideSubmitting || !overrideReasonText.trim()}
-                  className="w-full py-3.5 rounded-2xl neu-btn-primary font-display font-bold text-xs uppercase tracking-wider disabled:opacity-50"
+                  className="w-full py-3.5 rounded-2xl neu-btn-highlight font-display font-bold text-xs uppercase tracking-wider disabled:opacity-50"
                 >
                   {overrideSubmitting ? 'Recording Override...' : 'Confirm & Log Override'}
                 </button>

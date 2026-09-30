@@ -170,29 +170,29 @@ export default function ImportPage() {
         <div className="flex items-center gap-4">
           <Link
             href="/queue"
-            className="w-12 h-12 rounded-2xl neu-flat hover:neu-flat-hover flex items-center justify-center text-[#3D4852] hover:text-[#1C2024] transition-all"
+            className="w-12 h-12 rounded-2xl neu-flat hover:neu-flat-hover flex items-center justify-center text-[var(--neu-text-secondary)] hover:text-[var(--neu-text-primary)] transition-all"
           >
             <ArrowLeft className="w-5 h-5 stroke-[2.2]" />
           </Link>
           <div>
-            <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-[#1C2024] tracking-tight">
+            <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-[var(--neu-text-primary)] tracking-tight">
               Import Orders
             </h1>
-            <p className="text-sm font-medium text-[#4A545E] mt-0.5">
-              Enter real order lines to populate the active tenant audit queue.
+            <p className="text-sm font-medium text-[var(--neu-text-secondary)] mt-0.5">
+              Enter customer manifests to populate the active tenant audit queue.
             </p>
           </div>
         </div>
 
         {/* Tenant Pill Selector */}
-        <div className="flex items-center gap-2 rounded-2xl neu-pressed-sm p-1.5 bg-[#E0E5EC]">
+        <div className="flex items-center gap-2 rounded-2xl neu-pressed-sm p-1.5">
           <button
             type="button"
             onClick={() => handleOrgChange('org_demo_alpha')}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
               orgId === 'org_demo_alpha'
                 ? 'neu-btn-primary'
-                : 'text-[#4A545E] hover:text-[#1C2024]'
+                : 'text-[var(--neu-text-secondary)] hover:text-[var(--neu-text-primary)]'
             }`}
           >
             Alpha Tenant
@@ -203,7 +203,7 @@ export default function ImportPage() {
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
               orgId === 'org_demo_bravo'
                 ? 'neu-btn-primary'
-                : 'text-[#4A545E] hover:text-[#1C2024]'
+                : 'text-[var(--neu-text-secondary)] hover:text-[var(--neu-text-primary)]'
             }`}
           >
             Bravo Tenant
@@ -213,20 +213,20 @@ export default function ImportPage() {
 
       {/* Notifications */}
       {statusMessage && (
-        <div className="p-5 rounded-2xl neu-flat bg-[#E0E5EC] flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl neu-icon-well flex items-center justify-center text-[#5A3E2B]">
+        <div className="p-5 rounded-2xl neu-flat flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl neu-icon-well flex items-center justify-center text-[#2E7D32] dark:text-[#A3E635]">
             <CheckCircle2 className="w-5 h-5 stroke-[2.5]" />
           </div>
-          <span className="text-sm font-bold text-[#1C2024]">{statusMessage}</span>
+          <span className="text-sm font-bold text-[var(--neu-text-primary)]">{statusMessage}</span>
         </div>
       )}
 
       {errorMessage && (
-        <div className="p-5 rounded-2xl neu-flat bg-[#E0E5EC] flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl neu-icon-well flex items-center justify-center text-[#6B2D1C]">
+        <div className="p-5 rounded-2xl neu-flat flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl neu-icon-well flex items-center justify-center text-[#C62828] dark:text-[#F87171]">
             <AlertCircle className="w-5 h-5 stroke-[2.5]" />
           </div>
-          <span className="text-sm font-bold text-[#6B2D1C]">{errorMessage}</span>
+          <span className="text-sm font-bold text-[#C62828] dark:text-[#F87171]">{errorMessage}</span>
         </div>
       )}
 
@@ -234,19 +234,19 @@ export default function ImportPage() {
         {/* Main Manual Import Form */}
         <div className="lg:col-span-2 rounded-[32px] neu-flat p-8 sm:p-10 space-y-6">
           <div className="flex items-center gap-3 pb-2">
-            <div className="w-10 h-10 rounded-2xl neu-icon-well flex items-center justify-center text-[#5A3E2B]">
+            <div className="w-10 h-10 rounded-2xl neu-icon-well flex items-center justify-center text-[#5A3E2B] dark:text-[#C4F82A]">
               <PackagePlus className="w-5 h-5 stroke-[2.2]" />
             </div>
             <div>
-              <h2 className="font-display font-bold text-lg text-[#1C2024]">Single Unit Import</h2>
-              <p className="text-xs font-medium text-[#4A545E]">Define exact order requirements and target SKUs</p>
+              <h2 className="font-display font-bold text-lg text-[var(--neu-text-primary)]">Single Unit Manifest</h2>
+              <p className="text-xs font-medium text-[var(--neu-text-secondary)]">Define exact order requirements and target SKUs</p>
             </div>
           </div>
 
           <form onSubmit={handleImportSubmit} className="space-y-5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-[#3D4852] uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-[var(--neu-text-secondary)] uppercase tracking-wider mb-2">
                   Order ID
                 </label>
                 <input
@@ -255,12 +255,12 @@ export default function ImportPage() {
                   onChange={(e) => setOrderId(e.target.value)}
                   placeholder="e.g. ORD-1001"
                   required
-                  className="w-full px-4 py-3.5 rounded-2xl neu-input text-sm font-semibold text-[#1C2024]"
+                  className="w-full px-4 py-3.5 rounded-2xl neu-input text-sm font-semibold text-[var(--neu-text-primary)]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#3D4852] uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-[var(--neu-text-secondary)] uppercase tracking-wider mb-2">
                   Unit ID (Physical Box)
                 </label>
                 <input
@@ -269,19 +269,19 @@ export default function ImportPage() {
                   onChange={(e) => setUnitId(e.target.value)}
                   placeholder="e.g. UNIT-1001"
                   required
-                  className="w-full px-4 py-3.5 rounded-2xl neu-input text-sm font-semibold text-[#1C2024]"
+                  className="w-full px-4 py-3.5 rounded-2xl neu-input text-sm font-semibold text-[var(--neu-text-primary)]"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#3D4852] uppercase tracking-wider mb-2">
+              <label className="block text-xs font-bold text-[var(--neu-text-secondary)] uppercase tracking-wider mb-2">
                 Sales Channel
               </label>
               <select
                 value={channel}
                 onChange={(e) => setChannel(e.target.value as any)}
-                className="w-full px-4 py-3.5 rounded-2xl neu-input text-sm font-semibold text-[#1C2024] cursor-pointer"
+                className="w-full px-4 py-3.5 rounded-2xl neu-input text-sm font-semibold text-[var(--neu-text-primary)] cursor-pointer"
               >
                 <option value="shopify">Shopify Store</option>
                 <option value="amazon_mfn">Amazon Merchant Fulfilled (MFN)</option>
@@ -292,10 +292,10 @@ export default function ImportPage() {
 
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-xs font-bold text-[#3D4852] uppercase tracking-wider">
-                  Order Lines (`SKU:qty;SKU:qty`)
+                <label className="block text-xs font-bold text-[var(--neu-text-secondary)] uppercase tracking-wider">
+                  Order Lines (<span className="hl-green">SKU:qty;SKU:qty</span>)
                 </label>
-                <span className="text-[11px] font-bold text-[#6E492F]">Format: SKU:quantity</span>
+                <span className="text-[11px] font-bold text-[#5A3E2B] dark:text-[#C4F82A]">Format: SKU:quantity</span>
               </div>
               <textarea
                 rows={3}
@@ -303,9 +303,9 @@ export default function ImportPage() {
                 onChange={(e) => setOrderLinesInput(e.target.value)}
                 placeholder="e.g. MUG-BLUE:1;NOTEBOOK-A5-BLACK:2"
                 required
-                className="w-full p-4 rounded-2xl neu-input text-sm font-mono text-[#1C2024]"
+                className="w-full p-4 rounded-2xl neu-input text-sm font-mono text-[var(--neu-text-primary)]"
               />
-              <p className="text-[11px] font-medium text-[#4A545E] mt-1.5">
+              <p className="text-[11px] font-medium text-[var(--neu-text-muted)] mt-1.5">
                 Separate multiple lines with semicolons (;). Whitespace around SKUs and counts is automatically trimmed.
               </p>
             </div>
@@ -313,26 +313,26 @@ export default function ImportPage() {
             {/* Parsed Live Preview */}
             <div className="rounded-2xl neu-pressed-deep p-4 space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-[#3D4852] flex items-center gap-1.5">
-                  <Eye className="w-3.5 h-3.5 text-[#5A3E2B]" />
+                <span className="text-xs font-bold text-[var(--neu-text-secondary)] flex items-center gap-1.5">
+                  <Eye className="w-3.5 h-3.5 text-[#5A3E2B] dark:text-[#C4F82A]" />
                   Verified Line Items ({parsedPreview.length})
                 </span>
                 {previewError && (
-                  <span className="text-xs font-bold text-[#6B2D1C]">{previewError}</span>
+                  <span className="text-xs font-bold text-[#C62828] dark:text-[#F87171]">{previewError}</span>
                 )}
               </div>
 
               {parsedPreview.length === 0 ? (
-                <p className="text-xs text-[#6C7682] italic">No valid lines parsed yet.</p>
+                <p className="text-xs text-[var(--neu-text-muted)] italic">No valid lines parsed yet.</p>
               ) : (
                 <div className="flex flex-wrap gap-2 pt-1">
                   {parsedPreview.map((line, idx) => (
                     <div
                       key={idx}
-                      className="px-3 py-1.5 rounded-xl neu-flat-sm text-xs font-mono font-bold text-[#1C2024] flex items-center gap-2"
+                      className="px-3 py-1.5 rounded-xl neu-flat-sm text-xs font-mono font-bold text-[var(--neu-text-primary)] flex items-center gap-2"
                     >
-                      <span className="text-[#5A3E2B]">{line.sku}</span>
-                      <span className="text-[#4A545E] bg-[#D4DCE6] px-1.5 py-0.5 rounded-md text-[10px]">
+                      <span className="text-[#5A3E2B] dark:text-[#C4F82A]">{line.sku}</span>
+                      <span className="text-[var(--neu-text-secondary)] neu-pressed-sm px-1.5 py-0.5 rounded-md text-[10px]">
                         x{line.qty}
                       </span>
                     </div>
@@ -344,7 +344,7 @@ export default function ImportPage() {
             <button
               type="submit"
               disabled={isSubmitting || parsedPreview.length === 0}
-              className="w-full py-4 rounded-2xl neu-btn-primary font-display font-bold text-sm tracking-wide uppercase transition-all disabled:opacity-50"
+              className="w-full py-4 rounded-2xl neu-btn-highlight font-display font-bold text-sm tracking-wide uppercase transition-all disabled:opacity-50"
             >
               {isSubmitting ? 'Saving to Tenant Queue...' : 'Import Order Into Queue'}
             </button>
@@ -355,13 +355,13 @@ export default function ImportPage() {
         <div className="space-y-6">
           {/* CSV File Drop */}
           <div className="rounded-[32px] neu-flat p-8 space-y-4 text-center">
-            <div className="w-14 h-14 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#5A3E2B]">
+            <div className="w-14 h-14 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#5A3E2B] dark:text-[#C4F82A]">
               <Upload className="w-7 h-7 stroke-[2.2]" />
             </div>
             <div>
-              <h3 className="font-display font-bold text-base text-[#1C2024]">Bulk CSV Upload</h3>
-              <p className="text-xs font-medium text-[#4A545E] mt-1">
-                Upload a real CSV file containing order lines.
+              <h3 className="font-display font-bold text-base text-[var(--neu-text-primary)]">Bulk CSV Ingest</h3>
+              <p className="text-xs font-medium text-[var(--neu-text-secondary)] mt-1">
+                Upload customer shipment manifest spreadsheets.
               </p>
             </div>
 
@@ -373,27 +373,27 @@ export default function ImportPage() {
                 disabled={isSubmitting}
                 className="hidden"
               />
-              <div className="py-3 px-4 rounded-2xl neu-btn-secondary text-xs font-bold text-[#1C2024] hover:text-[#5A3E2B] transition-all">
+              <div className="py-3 px-4 rounded-2xl neu-btn-secondary text-xs font-bold text-[var(--neu-text-primary)] hover:text-[#5A3E2B] dark:hover:text-[#C4F82A] transition-all">
                 Select CSV File
               </div>
             </label>
 
             <div className="rounded-2xl neu-pressed p-3 text-left">
-              <span className="text-[11px] font-bold text-[#3D4852] block mb-1">Expected CSV columns:</span>
-              <code className="text-[10px] text-[#4A545E] font-mono block">
+              <span className="text-[11px] font-bold text-[var(--neu-text-secondary)] block mb-1">Expected CSV columns:</span>
+              <code className="text-[10px] text-[var(--neu-text-muted)] font-mono block">
                 order_id,unit_id,channel,order_lines
               </code>
             </div>
           </div>
 
-          {/* Verification Rules Pill */}
+          {/* Tenancy Guarantee Pill */}
           <div className="rounded-[32px] neu-flat p-6 space-y-3">
-            <h4 className="font-display font-bold text-sm text-[#1C2024] flex items-center gap-2">
-              <FileText className="w-4 h-4 text-[#5A3E2B]" />
-              Tenancy Guarantee
+            <h4 className="font-display font-bold text-sm text-[var(--neu-text-primary)] flex items-center gap-2">
+              <FileText className="w-4 h-4 text-[#5A3E2B] dark:text-[#C4F82A]" />
+              Enterprise Tenancy Guarantee
             </h4>
-            <p className="text-xs font-medium text-[#4A545E] leading-relaxed">
-              Every imported unit is securely isolated under tenant <strong className="text-[#1C2024]">{orgId}</strong>.
+            <p className="text-xs font-medium text-[var(--neu-text-secondary)] leading-relaxed">
+              Every imported unit is securely isolated under tenant <strong className="text-[var(--neu-text-primary)]">{orgId}</strong>.
               Operators of other tenants cannot access or view these units.
             </p>
           </div>

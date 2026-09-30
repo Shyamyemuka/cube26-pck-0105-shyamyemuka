@@ -2,14 +2,40 @@
 
 :root {
   --neu-bg: #E0E5EC;
+  --neu-surface: #E0E5EC;
   --neu-text-primary: #1C2024;
   --neu-text-secondary: #4A545E;
   --neu-text-muted: #606C78;
   --neu-brown-dark: #382417;
   --neu-brown-accent: #6E492F;
-  --neu-brown-light: #9B6C48;
-  --neu-shadow-dark: rgba(163, 177, 198, 0.65);
-  --neu-shadow-light: rgba(255, 255, 255, 0.6);
+  --neu-border-color: rgba(163, 177, 198, 0.4);
+
+  --neu-card-shadow: 9px 9px 16px rgb(163, 177, 198, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5);
+  --neu-card-hover-shadow: 12px 12px 20px rgb(163, 177, 198, 0.7), -12px -12px 20px rgba(255, 255, 255, 0.6);
+  --neu-card-sm-shadow: 5px 5px 10px rgb(163, 177, 198, 0.6), -5px -5px 10px rgba(255, 255, 255, 0.5);
+  --neu-pressed-shadow: inset 6px 6px 10px rgb(163, 177, 198, 0.6), inset -6px -6px 10px rgba(255, 255, 255, 0.5);
+  --neu-pressed-deep-shadow: inset 10px 10px 20px rgb(163, 177, 198, 0.7), inset -10px -10px 20px rgba(255, 255, 255, 0.6);
+  --neu-pressed-sm-shadow: inset 3px 3px 6px rgb(163, 177, 198, 0.6), inset -3px -3px 6px rgba(255, 255, 255, 0.5);
+  --neu-icon-well-shadow: inset 5px 5px 9px rgb(163, 177, 198, 0.6), inset -5px -5px 9px rgba(255, 255, 255, 0.6);
+}
+
+.dark {
+  --neu-bg: #0D0E12;
+  --neu-surface: #14171E;
+  --neu-text-primary: #F3F4F6;
+  --neu-text-secondary: #9CA3AF;
+  --neu-text-muted: #6B7280;
+  --neu-brown-dark: #2A1D15;
+  --neu-brown-accent: #9A6735;
+  --neu-border-color: rgba(255, 255, 255, 0.08);
+
+  --neu-card-shadow: 8px 8px 20px rgba(0, 0, 0, 0.75), -6px -6px 16px rgba(255, 255, 255, 0.035);
+  --neu-card-hover-shadow: 12px 12px 26px rgba(0, 0, 0, 0.88), -8px -8px 20px rgba(255, 255, 255, 0.05);
+  --neu-card-sm-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7), -4px -4px 10px rgba(255, 255, 255, 0.03);
+  --neu-pressed-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.75), inset -4px -4px 8px rgba(255, 255, 255, 0.04);
+  --neu-pressed-deep-shadow: inset 8px 8px 18px rgba(0, 0, 0, 0.85), inset -6px -6px 14px rgba(255, 255, 255, 0.05);
+  --neu-pressed-sm-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.7), inset -2px -2px 5px rgba(255, 255, 255, 0.03);
+  --neu-icon-well-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.8), inset -4px -4px 8px rgba(255, 255, 255, 0.04);
 }
 
 body {
@@ -20,16 +46,56 @@ body {
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6, .font-display {
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-/* Neumorphic Shadow Utility Classes */
+/* REAL ON-PAPER GREEN HIGHLIGHTER EFFECT */
+.hl-green {
+  background: linear-gradient(104deg, rgba(186, 245, 61, 0.15) 0%, rgba(196, 248, 42, 0.82) 3%, rgba(206, 252, 60, 0.88) 96%, rgba(186, 245, 61, 0.25) 100%);
+  padding: 0.12em 0.42em;
+  border-radius: 4px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  color: #0A0F17 !important;
+  font-weight: 800;
+  display: inline;
+}
+
+.dark .hl-green {
+  background: linear-gradient(104deg, rgba(186, 245, 61, 0.2) 0%, rgba(196, 248, 42, 0.85) 3%, rgba(206, 252, 60, 0.9) 96%, rgba(186, 245, 61, 0.3) 100%);
+  color: #080C12 !important;
+  font-weight: 800;
+}
+
+/* HIGHLIGHTED CTA BUTTONS */
+.neu-btn-highlight {
+  background: #C4F82A;
+  color: #0A0F17 !important;
+  font-weight: 800;
+  box-shadow: 0 4px 18px rgba(196, 248, 42, 0.35), 4px 4px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s ease-out;
+}
+
+.neu-btn-highlight:hover {
+  background: #B4ED18;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(196, 248, 42, 0.5), 5px 5px 12px rgba(0, 0, 0, 0.25);
+}
+
+.neu-btn-highlight:active {
+  transform: translateY(1px);
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* NEUMORPHIC SHADOW UTILITIES */
 .neu-flat {
-  background-color: #E0E5EC;
-  box-shadow: 9px 9px 16px rgb(163, 177, 198, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5);
+  background-color: var(--neu-surface);
+  box-shadow: var(--neu-card-shadow);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .neu-flat-hover {
@@ -38,108 +104,99 @@ h1, h2, h3, h4, h5, h6, .font-display {
 
 .neu-flat-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 12px 12px 20px rgb(163, 177, 198, 0.7), -12px -12px 20px rgba(255, 255, 255, 0.6);
+  box-shadow: var(--neu-card-hover-shadow);
 }
 
 .neu-flat-sm {
-  background-color: #E0E5EC;
-  box-shadow: 5px 5px 10px rgb(163, 177, 198, 0.6), -5px -5px 10px rgba(255, 255, 255, 0.5);
+  background-color: var(--neu-surface);
+  box-shadow: var(--neu-card-sm-shadow);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .neu-pressed {
-  background-color: #E0E5EC;
-  box-shadow: inset 6px 6px 10px rgb(163, 177, 198, 0.6), inset -6px -6px 10px rgba(255, 255, 255, 0.5);
+  background-color: var(--neu-surface);
+  box-shadow: var(--neu-pressed-shadow);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .neu-pressed-deep {
-  background-color: #E0E5EC;
-  box-shadow: inset 10px 10px 20px rgb(163, 177, 198, 0.7), inset -10px -10px 20px rgba(255, 255, 255, 0.6);
+  background-color: var(--neu-surface);
+  box-shadow: var(--neu-pressed-deep-shadow);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .neu-pressed-sm {
-  background-color: #E0E5EC;
-  box-shadow: inset 3px 3px 6px rgb(163, 177, 198, 0.6), inset -3px -3px 6px rgba(255, 255, 255, 0.5);
+  background-color: var(--neu-surface);
+  box-shadow: var(--neu-pressed-sm-shadow);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Primary Neumorphic Button in Dark Charcoal / Espresso */
+/* BUTTONS */
 .neu-btn-primary {
   background-color: #23201D;
   color: #FFFFFF;
-  box-shadow: 6px 6px 14px rgb(163, 177, 198, 0.6), -6px -6px 14px rgba(255, 255, 255, 0.5);
+  box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.4), -4px -4px 10px rgba(255, 255, 255, 0.05);
   transition: all 0.25s ease-out;
+}
+
+.dark .neu-btn-primary {
+  background-color: #1F232B;
+  color: #F3F4F6;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7), -3px -3px 8px rgba(255, 255, 255, 0.04);
 }
 
 .neu-btn-primary:hover {
   transform: translateY(-1px);
   background-color: #1A1715;
-  box-shadow: 8px 8px 18px rgb(163, 177, 198, 0.7), -8px -8px 18px rgba(255, 255, 255, 0.6);
+}
+
+.dark .neu-btn-primary:hover {
+  background-color: #292F3A;
+  color: #FFFFFF;
 }
 
 .neu-btn-primary:active {
   transform: translateY(1px);
-  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.8), inset -3px -3px 6px rgba(255, 255, 255, 0.1);
 }
 
-/* Secondary Neumorphic Button (molded from surface) */
 .neu-btn-secondary {
-  background-color: #E0E5EC;
-  color: #1C2024;
-  box-shadow: 6px 6px 14px rgb(163, 177, 198, 0.6), -6px -6px 14px rgba(255, 255, 255, 0.5);
+  background-color: var(--neu-surface);
+  color: var(--neu-text-primary);
+  box-shadow: var(--neu-card-sm-shadow);
   transition: all 0.25s ease-out;
 }
 
 .neu-btn-secondary:hover {
   transform: translateY(-1px);
-  box-shadow: 8px 8px 18px rgb(163, 177, 198, 0.7), -8px -8px 18px rgba(255, 255, 255, 0.6);
-  color: #382417;
 }
 
 .neu-btn-secondary:active {
   transform: translateY(1px);
-  box-shadow: inset 4px 4px 8px rgb(163, 177, 198, 0.7), inset -4px -4px 8px rgba(255, 255, 255, 0.6);
 }
 
-/* Rich Brown Accent Button */
-.neu-btn-brown {
-  background-color: #5A3E2B;
-  color: #FFFFFF;
-  box-shadow: 6px 6px 14px rgb(163, 177, 198, 0.6), -6px -6px 14px rgba(255, 255, 255, 0.5);
-  transition: all 0.25s ease-out;
-}
-
-.neu-btn-brown:hover {
-  transform: translateY(-1px);
-  background-color: #4A3323;
-  box-shadow: 8px 8px 18px rgb(163, 177, 198, 0.7), -8px -8px 18px rgba(255, 255, 255, 0.6);
-}
-
-.neu-btn-brown:active {
-  transform: translateY(1px);
-  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.6), inset -3px -3px 6px rgba(255, 255, 255, 0.15);
-}
-
-/* Neumorphic Input Well */
+/* INPUTS */
 .neu-input {
-  background-color: #E0E5EC;
-  color: #1C2024;
-  box-shadow: inset 6px 6px 12px rgb(163, 177, 198, 0.65), inset -6px -6px 12px rgba(255, 255, 255, 0.6);
+  background-color: var(--neu-surface);
+  color: var(--neu-text-primary);
+  box-shadow: var(--neu-pressed-shadow);
   border: none;
   outline: none;
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease, background-color 0.3s ease;
 }
 
 .neu-input:focus {
-  box-shadow: inset 8px 8px 16px rgb(163, 177, 198, 0.8), inset -8px -8px 16px rgba(255, 255, 255, 0.7);
+  box-shadow: var(--neu-pressed-deep-shadow);
 }
 
 .neu-input::placeholder {
-  color: #6C7682;
+  color: var(--neu-text-muted);
 }
 
-/* Icon Well (Drilled look) */
+/* ICON WELL */
 .neu-icon-well {
-  background-color: #E0E5EC;
-  box-shadow: inset 5px 5px 9px rgb(163, 177, 198, 0.6), inset -5px -5px 9px rgba(255, 255, 255, 0.6);
+  background-color: var(--neu-surface);
+  box-shadow: var(--neu-icon-well-shadow);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 button {
