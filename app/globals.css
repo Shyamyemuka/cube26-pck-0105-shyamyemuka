@@ -5,9 +5,14 @@
  * Explicitly define dark mode variant to use .dark class on <html> 
  * instead of operating system media query prefers-color-scheme!
  */
-@custom-variant dark (&:where(.dark, .dark *));
+@variant dark (&:where(.dark, .dark *));
 
 :root {
+  --pullcord-top: 0px;     /* anchor offset from the top */
+  --pullcord-right: 7rem;  /* distance from the right edge */
+  --pullcord-z: 5;         /* wrapper z-index */
+  --pullcord-ink: rgba(255, 255, 255, 0.24); /* rope colour */
+
   --neu-bg: #E8EDF5;
   --neu-surface: rgba(255, 255, 255, 0.72);
   --neu-surface-solid: #FFFFFF;
@@ -78,6 +83,10 @@ h1, h2, h3, h4, h5, h6, .font-display {
 /* LIGHT MODE: High-contrast dark ink across all headings, inputs, and text */
 html:not(.dark) body {
   color: #0F172A !important;
+}
+
+html:not(.dark) {
+  --pullcord-ink: rgba(15, 23, 42, 0.4);
 }
 
 html:not(.dark) h1, 

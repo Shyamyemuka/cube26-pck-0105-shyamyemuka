@@ -9,7 +9,7 @@ export class GeminiVisionProvider implements VisionProvider {
 
   constructor(apiKey?: string, modelName?: string) {
     this.apiKey = apiKey || process.env.GEMINI_API_KEY || '';
-    this.modelName = modelName || process.env.VLM_MODEL || 'gemini-2.5-flash';
+    this.modelName = modelName || process.env.VLM_MODEL || 'gemini-3.5-flash';
     if (this.apiKey) {
       this.client = new GoogleGenAI({ apiKey: this.apiKey });
     }

@@ -155,7 +155,7 @@ export async function runAgentPipeline(input: RunAgentInput): Promise<AgentResul
       discrepancies: [],
       observation: null,
       trace: {
-        model: process.env.VLM_MODEL || 'gemini-2.5-flash',
+        model: process.env.VLM_MODEL || 'gemini-3.5-flash',
         prompt_version: PROMPT_VERSION,
         thresholds: cfg,
         latency_ms,
