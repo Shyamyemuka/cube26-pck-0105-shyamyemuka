@@ -5,34 +5,24 @@ import { PullCord } from 'pullcord';
 import 'pullcord/pullcord.css';
 
 export default function ThemeToggle() {
-  const [dark, setDark] = useState(false);
+  const [pulled, setPulled] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    // Default to light mode unless explicitly set to dark
-    const saved = localStorage.getItem('pack_theme');
-    if (saved === 'dark') {
-      setDark(true);
-      document.documentElement.classList.add('dark');
-    } else {
-      setDark(false);
-      document.documentElement.classList.remove('dark');
-    }
+    // Dark mode is permanently disabled — ensure light mode everywhere
+    document.documentElement.classList.remove('dark');
+    localStorage.removeItem('pack_theme');
   }, []);
 
   const handlePull = () => {
-    setDark((d) => {
-      const next = !d;
-      if (next) {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem('pack_theme', 'dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('pack_theme', 'light');
-      }
-      return next;
-    });
+    setPulled((p) => !p);
+    // Ensure document never gets dark class
+    document.documentElement.classList.remove('dark');
+    // Dispatch custom event so the user can easily attach any new feature to the chain pull!
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('pullcord_action', { detail: { timestamp: Date.now() } }));
+    }
   };
 
   if (!mounted) return null;
@@ -40,8 +30,8 @@ export default function ThemeToggle() {
   return (
     <PullCord
       onPull={handlePull}
-      pulled={!dark}
-      ariaLabel="Toggle theme"
+      pulled={pulled}
+      ariaLabel="Interactive pull cord"
       config={{
         gravity: 1250,   // hang tension / fall speed
         damping: 0.94,   // the snap: higher = snappier retract

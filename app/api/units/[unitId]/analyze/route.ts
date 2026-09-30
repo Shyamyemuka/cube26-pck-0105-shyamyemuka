@@ -4,6 +4,7 @@ import { getMemoryUnit, saveMemoryUnit, StoreUnit } from '@/lib/data/store';
 import { computeAnalysisContentHash, sha256Hex } from '@/lib/evidence/hash';
 import { OrderSnapshot } from '@/lib/agent/rules';
 import { VisionImage } from '@/lib/agent/provider';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 export async function POST(
   request: NextRequest,
@@ -175,6 +176,72 @@ export async function POST(
     else unit.status = 'pending';
 
     saveMemoryUnit(unit);
+
+    // Persist capture and analysis directly to Supabase
+    try {
+      const supabase = createAdminClient();
+
+      // 1. Update order status in Supabase
+      await supabase
+        .from('orders')
+        .update({ status: unit.status })
+        .eq('org_id', unit.org_id)
+        .eq('order_id', unit.order_id);
+
+      // 2. Fetch valid operator user ID from profiles for foreign key
+      const { data: userProfiles } = await supabase
+        .from('profiles')
+        .select('user_id')
+        .eq('org_id', unit.org_id)
+        .limit(1);
+
+      const operatorId =
+        userProfiles && userProfiles.length > 0
+          ? userProfiles[0].user_id
+          : '70738be9-5881-4559-8359-53be276c3e3a';
+
+      // 3. Insert capture record
+      const captureAttempt = unit.captures.length;
+      const { data: captureRow } = await supabase
+        .from('captures')
+        .insert({
+          org_id: unit.org_id,
+          unit_id: unit.unit_id,
+          order_id: unit.order_id,
+          attempt_no: captureAttempt,
+          operator_id: operatorId,
+          photos: processedPhotos.map((p) => ({
+            path: p.path,
+            sha256: p.sha256,
+            bytes: p.bytes,
+            width: 1200,
+            height: 900,
+          })),
+        })
+        .select('id')
+        .single();
+
+      // 4. Insert analysis record
+      if (captureRow?.id) {
+        await supabase.from('analyses').insert({
+          org_id: unit.org_id,
+          capture_id: captureRow.id,
+          unit_id: unit.unit_id,
+          status: agentResult.status,
+          verdict: agentResult.verdict,
+          route: agentResult.route,
+          error_code: agentResult.trace.error_code || null,
+          observation: agentResult.observation || {},
+          checks: agentResult.checks || [],
+          discrepancies: agentResult.discrepancies || [],
+          trace: agentResult.trace || {},
+          order_snapshot: orderSnapshot || {},
+          content_hash: contentHash,
+        });
+      }
+    } catch (dbErr) {
+      console.warn('[Supabase Sync Analysis Warning]:', dbErr);
+    }
 
     return NextResponse.json({
       ...agentResult,

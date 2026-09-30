@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getMemoryUnit, saveMemoryUnit } from '@/lib/data/store';
 import { computeOverrideRowHash } from '@/lib/evidence/hash';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 export async function POST(
   request: NextRequest,
@@ -81,6 +82,57 @@ export async function POST(
     unit.overrides.push(overrideRecord);
     unit.status = 'overridden';
     saveMemoryUnit(unit);
+
+    // Persist override directly to Supabase
+    try {
+      const supabase = createAdminClient();
+
+      // 1. Update order status
+      await supabase
+        .from('orders')
+        .update({ status: 'overridden' })
+        .eq('org_id', unit.org_id)
+        .eq('order_id', unit.order_id);
+
+      // 2. Fetch valid operator user ID from profiles for foreign key
+      const { data: userProfiles } = await supabase
+        .from('profiles')
+        .select('user_id')
+        .eq('org_id', unit.org_id)
+        .limit(1);
+
+      const opUserId =
+        userProfiles && userProfiles.length > 0
+          ? userProfiles[0].user_id
+          : '70738be9-5881-4559-8359-53be276c3e3a';
+
+      // 3. Find latest analysis UUID in Supabase
+      const { data: analysisRows } = await supabase
+        .from('analyses')
+        .select('id')
+        .eq('org_id', unit.org_id)
+        .eq('unit_id', unit.unit_id)
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      if (analysisRows && analysisRows.length > 0) {
+        await supabase.from('overrides').insert({
+          org_id: unit.org_id,
+          analysis_id: analysisRows[0].id,
+          unit_id: unit.unit_id,
+          operator_id: opUserId,
+          original_verdict: latestAnalysis.verdict,
+          original_route: latestAnalysis.route,
+          new_verdict,
+          reason_code,
+          reason_text: reason_text || '',
+          prev_hash: prevHash,
+          row_hash: rowHash,
+        });
+      }
+    } catch (dbErr) {
+      console.warn('[Supabase Sync Override Warning]:', dbErr);
+    }
 
     return NextResponse.json({
       success: true,
