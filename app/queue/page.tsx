@@ -14,95 +14,51 @@ import {
   Camera,
   FileText,
   Filter,
+  Layers,
+  Inbox,
 } from 'lucide-react';
-
-interface QueueItem {
-  order_id: string;
-  unit_id: string;
-  channel: string;
-  status: 'open' | 'analyzing' | 'sealed' | 'stopped' | 'uncertain' | 'pending' | 'overridden';
-  order_lines: Array<{ sku: string; qty: number; name?: string }>;
-  analysesCount?: number;
-}
+import { StoreUnit } from '@/lib/data/store';
 
 export default function QueuePage() {
   const [orgId, setOrgId] = useState('org_demo_alpha');
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
-  const [orders, setOrders] = useState<QueueItem[]>([]);
+  const [orders, setOrders] = useState<StoreUnit[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedOrg = localStorage.getItem('pack_operator_org');
-      if (savedOrg) setOrgId(savedOrg);
-    }
-
-    // Load demo orders list from store / API
-    async function loadOrders() {
-      try {
-        // Fallback default mock items
-        const defaultItems: QueueItem[] = [
-          {
-            order_id: 'ORD-5001',
-            unit_id: 'UNIT-5001',
-            channel: 'shopify',
-            status: 'open',
-            order_lines: [
-              { sku: 'MUG-BLUE', qty: 1, name: 'Ceramic Blue Coffee Mug' },
-              { sku: 'NOTEBOOK-A5-BLACK', qty: 1, name: 'Hardcover A5 Notebook - Black' },
-            ],
-          },
-          {
-            order_id: 'ORD-5002',
-            unit_id: 'UNIT-5002',
-            channel: 'amazon_mfn',
-            status: 'open',
-            order_lines: [
-              { sku: 'CHARGER-65W', qty: 1, name: '65W USB-C Fast Charger' },
-              { sku: 'PEN-PACK', qty: 2, name: 'Black Gel Pens Pack of 3' },
-            ],
-          },
-          {
-            order_id: 'ORD-5003',
-            unit_id: 'UNIT-5003',
-            channel: 'walmart',
-            status: 'open',
-            order_lines: [
-              { sku: 'BOTTLE-WATER-SILVER', qty: 1, name: 'Insulated Water Bottle - Silver' },
-              { sku: 'SOCKS-PAIR', qty: 2, name: 'Cotton Crew Socks Pair' },
-            ],
-          },
-          {
-            order_id: 'ORD-5004',
-            unit_id: 'UNIT-5004',
-            channel: '3pl_client',
-            status: 'open',
-            order_lines: [
-              { sku: 'CREAM-TUBE', qty: 1, name: 'Moisturizing Hand Cream Tube' },
-              { sku: 'KEYCHAIN-METAL', qty: 1, name: 'Carabiner Metal Keychain' },
-            ],
-          },
-          {
-            order_id: 'ORD-5005',
-            unit_id: 'UNIT-5005',
-            channel: 'shopify',
-            status: 'open',
-            order_lines: [
-              { sku: 'HEADPHONES-CASE', qty: 1, name: 'Earbuds Protective Case' },
-              { sku: 'STICKER-PACK', qty: 1, name: 'Tech Vinyl Stickers Pack' },
-            ],
-          },
-        ];
-
-        setOrders(defaultItems);
-      } finally {
-        setLoading(false);
+  const fetchOrders = async (currentOrg: string) => {
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/units?org_id=${encodeURIComponent(currentOrg)}`);
+      const data = await res.json();
+      if (res.ok && Array.isArray(data.units)) {
+        setOrders(data.units);
+      } else {
+        setOrders([]);
       }
+    } catch (e) {
+      setOrders([]);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    loadOrders();
-  }, [orgId]);
+  useEffect(() => {
+    let savedOrg = 'org_demo_alpha';
+    if (typeof window !== 'undefined') {
+      savedOrg = localStorage.getItem('pack_operator_org') || 'org_demo_alpha';
+      setOrgId(savedOrg);
+    }
+    fetchOrders(savedOrg);
+  }, []);
+
+  const handleOrgSwitch = (newOrg: string) => {
+    setOrgId(newOrg);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('pack_operator_org', newOrg);
+    }
+    fetchOrders(newOrg);
+  };
 
   const filteredOrders = orders.filter((o) => {
     const matchSearch =
@@ -114,47 +70,46 @@ export default function QueuePage() {
     return matchSearch && matchFilter;
   });
 
-  const getStatusChip = (status: QueueItem['status']) => {
+  const getStatusBadge = (status: StoreUnit['status']) => {
     switch (status) {
       case 'sealed':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
-            <CheckCircle2 className="w-3.5 h-3.5" /> SEALED
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#23201D] text-[#FFFFFF] neu-flat-sm">
+            <CheckCircle2 className="w-3.5 h-3.5 text-[#A3E635]" />
+            SEALED
           </span>
         );
       case 'stopped':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-100 text-rose-800 border border-rose-300">
-            <XCircle className="w-3.5 h-3.5" /> STOPPED
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#381E18] text-[#FFFFFF] neu-flat-sm">
+            <XCircle className="w-3.5 h-3.5 text-[#F87171]" />
+            STOP & FIX
           </span>
         );
       case 'uncertain':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-300">
-            <HelpCircle className="w-3.5 h-3.5" /> UNCERTAIN
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#3D2C1A] text-[#FFFFFF] neu-flat-sm">
+            <HelpCircle className="w-3.5 h-3.5 text-[#FBBF24]" />
+            UNCERTAIN
           </span>
         );
       case 'pending':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-200 text-slate-800 border border-slate-300">
-            <Clock className="w-3.5 h-3.5" /> PENDING
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#2A3038] text-[#FFFFFF] neu-flat-sm">
+            <Clock className="w-3.5 h-3.5 text-[#94A3B8]" />
+            PENDING
           </span>
         );
       case 'overridden':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-800 border border-purple-300">
-            <RotateCcw className="w-3.5 h-3.5" /> OVERRIDDEN
-          </span>
-        );
-      case 'analyzing':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 border border-blue-300">
-            <Clock className="w-3.5 h-3.5 animate-spin" /> CHECKING…
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#5A3E2B] text-[#FFFFFF] neu-flat-sm">
+            <RotateCcw className="w-3.5 h-3.5 text-[#FDE68A]" />
+            OVERRIDDEN
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#D4DCE6] text-[#1C2024] neu-flat-sm">
             OPEN
           </span>
         );
@@ -162,119 +117,180 @@ export default function QueuePage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-8">
+      {/* Top Header & Tenant Switcher */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Pack Queue</h1>
-          <p className="text-xs text-slate-500">
-            Active tenant: <strong className="text-slate-800 font-mono">{orgId}</strong>
+          <div className="flex items-center gap-3">
+            <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-[#1C2024] tracking-tight">
+              Packing Station Queue
+            </h1>
+            <span className="px-3 py-1 rounded-xl neu-pressed-sm text-xs font-bold text-[#5A3E2B] uppercase">
+              {orgId}
+            </span>
+          </div>
+          <p className="text-sm font-medium text-[#4A545E] mt-1">
+            Real orders awaiting pre-seal photo audit. Select a box to capture and verify.
           </p>
         </div>
 
-        <Link
-          href="/queue/import"
-          className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs px-4 py-2.5 rounded-xl shadow-sm transition self-start sm:self-auto"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Import Orders</span>
-        </Link>
+        <div className="flex items-center gap-3">
+          {/* Tenant Switcher */}
+          <div className="flex items-center gap-1.5 rounded-2xl neu-pressed-sm p-1 bg-[#E0E5EC]">
+            <button
+              onClick={() => handleOrgSwitch('org_demo_alpha')}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                orgId === 'org_demo_alpha' ? 'neu-btn-primary' : 'text-[#4A545E] hover:text-[#1C2024]'
+              }`}
+            >
+              Alpha
+            </button>
+            <button
+              onClick={() => handleOrgSwitch('org_demo_bravo')}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                orgId === 'org_demo_bravo' ? 'neu-btn-primary' : 'text-[#4A545E] hover:text-[#1C2024]'
+              }`}
+            >
+              Bravo
+            </button>
+          </div>
+
+          <Link
+            href="/queue/import"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-2xl neu-btn-primary text-xs font-bold tracking-wide uppercase transition-all"
+          >
+            <Plus className="w-4 h-4 stroke-[2.5]" />
+            <span>Import Order</span>
+          </Link>
+        </div>
       </div>
 
-      {/* SEARCH AND FILTER BAR */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+      {/* Search and Filters Bar */}
+      <div className="rounded-[28px] neu-flat p-4 sm:p-5 flex flex-col md:flex-row items-center gap-4">
+        <div className="relative flex-1 w-full">
+          <Search className="w-5 h-5 text-[#606C78] absolute left-4 top-1/2 -translate-y-1/2" />
           <input
             type="text"
+            placeholder="Search by order ID, unit ID, or SKU..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by order ID, unit ID, or SKU…"
-            className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full pl-12 pr-4 py-3 rounded-2xl neu-input text-sm font-semibold text-[#1C2024]"
           />
         </div>
 
-        <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-slate-400" />
-          <select
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-            className="text-xs font-semibold bg-white border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          >
-            <option value="all">All Statuses</option>
-            <option value="open">Open</option>
-            <option value="sealed">Sealed</option>
-            <option value="stopped">Stopped</option>
-            <option value="uncertain">Uncertain</option>
-            <option value="overridden">Overridden</option>
-          </select>
+        {/* Filter Pills */}
+        <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
+          {['all', 'open', 'sealed', 'stopped', 'uncertain'].map((st) => (
+            <button
+              key={st}
+              onClick={() => setFilterStatus(st)}
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
+                filterStatus === st
+                  ? 'neu-pressed text-[#1C2024]'
+                  : 'neu-flat-sm text-[#4A545E] hover:text-[#1C2024]'
+              }`}
+            >
+              {st}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* ORDERS LIST */}
+      {/* Orders List or Empty State */}
       {loading ? (
-        <div className="p-12 text-center text-slate-400 text-sm">Loading queue…</div>
+        <div className="rounded-[32px] neu-flat p-16 text-center space-y-3">
+          <div className="w-12 h-12 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#5A3E2B] animate-pulse">
+            <Clock className="w-6 h-6 stroke-[2.2]" />
+          </div>
+          <p className="text-sm font-bold text-[#1C2024]">Loading real tenant queue...</p>
+        </div>
       ) : filteredOrders.length === 0 ? (
-        <div className="bg-white border border-dashed border-slate-300 rounded-2xl p-12 text-center space-y-3">
-          <div className="text-slate-400 font-semibold text-base">No matching orders found</div>
-          <p className="text-xs text-slate-500 max-w-sm mx-auto">
-            You have no open orders matching this criteria. Import catalogue items and order batches to get started.
-          </p>
-          <Link
-            href="/queue/import"
-            className="inline-flex items-center gap-1.5 bg-slate-900 text-white text-xs font-semibold px-4 py-2 rounded-lg"
-          >
-            <span>Import Now</span>
-          </Link>
+        <div className="rounded-[32px] neu-flat p-16 text-center space-y-5">
+          <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center text-[#5A3E2B]">
+            <Inbox className="w-8 h-8 stroke-[2.2]" />
+          </div>
+          <div className="max-w-md mx-auto space-y-1">
+            <h3 className="font-display font-extrabold text-xl text-[#1C2024]">
+              {orders.length === 0 ? 'No Orders in Queue' : 'No Matching Orders Found'}
+            </h3>
+            <p className="text-xs font-medium text-[#4A545E]">
+              {orders.length === 0
+                ? `Tenant ${orgId} has no active orders awaiting audit. Import your orders to begin.`
+                : 'Try adjusting your search criteria or filter status.'}
+            </p>
+          </div>
+          {orders.length === 0 && (
+            <div className="pt-2">
+              <Link
+                href="/queue/import"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl neu-btn-primary font-display font-bold text-xs uppercase tracking-wide"
+              >
+                <Plus className="w-4 h-4 stroke-[2.5]" />
+                <span>Import First Order</span>
+              </Link>
+            </div>
+          )}
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredOrders.map((order) => {
             const totalItems = order.order_lines.reduce((acc, l) => acc + l.qty, 0);
-
             return (
               <div
                 key={order.unit_id}
-                className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm hover:border-slate-300 transition flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                className="rounded-[32px] neu-flat p-6 sm:p-7 flex flex-col justify-between neu-flat-hover"
               >
-                <div className="space-y-1.5 flex-1">
-                  <div className="flex items-center gap-2.5 flex-wrap">
-                    <span className="font-bold text-slate-900 text-base">{order.order_id}</span>
-                    <span className="text-xs font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+                <div>
+                  <div className="flex items-center justify-between pb-3">
+                    <span className="font-mono text-xs font-bold text-[#5A3E2B] bg-[#D4DCE6] px-2.5 py-1 rounded-xl">
                       {order.unit_id}
                     </span>
-                    <span className="text-xs uppercase tracking-wider font-semibold text-slate-500">
-                      {order.channel}
-                    </span>
-                    {getStatusChip(order.status)}
+                    {getStatusBadge(order.status)}
                   </div>
 
-                  <div className="text-xs text-slate-600 flex items-center gap-2 flex-wrap">
-                    <span className="font-semibold text-slate-700">
-                      {order.order_lines.length} SKU{order.order_lines.length > 1 ? 's' : ''} ({totalItems} total pcs):
+                  <h3 className="font-display font-extrabold text-lg text-[#1C2024] tracking-tight">
+                    {order.order_id}
+                  </h3>
+                  <div className="flex items-center gap-2 text-xs font-semibold text-[#4A545E] mt-1">
+                    <span className="capitalize">{order.channel.replace('_', ' ')}</span>
+                    <span>•</span>
+                    <span>{totalItems} total {totalItems === 1 ? 'item' : 'items'}</span>
+                  </div>
+
+                  {/* Order lines preview well */}
+                  <div className="mt-4 rounded-2xl neu-pressed-sm p-3.5 space-y-1.5">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#606C78] block">
+                      Target Contents:
                     </span>
-                    <span>
-                      {order.order_lines.map((l) => `${l.sku} ×${l.qty}`).join(', ')}
-                    </span>
+                    {order.order_lines.slice(0, 3).map((l, i) => (
+                      <div key={i} className="flex items-center justify-between text-xs font-mono font-medium">
+                        <span className="text-[#1C2024] truncate mr-2">{l.sku}</span>
+                        <span className="text-[#5A3E2B] font-bold">x{l.qty}</span>
+                      </div>
+                    ))}
+                    {order.order_lines.length > 3 && (
+                      <div className="text-[11px] text-[#606C78] font-bold pt-1">
+                        + {order.order_lines.length - 3} more items...
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 shrink-0">
+                <div className="pt-6 mt-2 flex items-center gap-2">
                   <Link
                     href={`/units/${order.unit_id}/capture`}
-                    className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs px-3.5 py-2.5 rounded-xl shadow-sm transition"
+                    className="flex-1 py-3 rounded-2xl neu-btn-primary font-display font-bold text-xs uppercase tracking-wide text-center flex items-center justify-center gap-2"
                   >
-                    <Camera className="w-3.5 h-3.5" />
-                    <span>Audit Box</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <Camera className="w-4 h-4 stroke-[2.2]" />
+                    <span>Audit Unit</span>
                   </Link>
 
                   <Link
                     href={`/units/${order.unit_id}/record`}
-                    className="flex items-center gap-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs px-3 py-2.5 rounded-xl transition"
                     title="View Evidence Record"
+                    className="w-12 h-12 rounded-2xl neu-btn-secondary flex items-center justify-center text-[#3D4852] hover:text-[#5A3E2B]"
                   >
-                    <FileText className="w-3.5 h-3.5" />
-                    <span className="hidden sm:inline">Record</span>
+                    <FileText className="w-4 h-4 stroke-[2.2]" />
                   </Link>
                 </div>
               </div>

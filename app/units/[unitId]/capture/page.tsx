@@ -10,9 +10,10 @@ import {
   Upload,
   CheckCircle2,
   AlertCircle,
-  HelpCircle,
   Package,
   Loader2,
+  Image as ImageIcon,
+  ShieldCheck,
 } from 'lucide-react';
 import { sha256Hex } from '@/lib/evidence/hash';
 
@@ -27,17 +28,46 @@ export default function CapturePage() {
   const router = useRouter();
   const unitId = params.unitId as string;
 
+  const [orgId, setOrgId] = useState('org_demo_alpha');
   const [orderId, setOrderId] = useState(`ORD-${unitId}`);
   const [channel, setChannel] = useState('shopify');
-  const [lines, setLines] = useState<Array<{ sku: string; qty: number; name: string }>>([
-    { sku: 'MUG-BLUE', qty: 1, name: 'Ceramic Blue Coffee Mug' },
-    { sku: 'NOTEBOOK-A5-BLACK', qty: 1, name: 'Hardcover A5 Notebook - Black' },
-  ]);
+  const [lines, setLines] = useState<Array<{ sku: string; qty: number; name?: string }>>([]);
+  const [loadingUnit, setLoadingUnit] = useState(true);
 
   const [photos, setPhotos] = useState<PhotoItem[]>([]);
   const [analyzing, setAnalyzing] = useState(false);
   const [error, setError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    let savedOrg = 'org_demo_alpha';
+    if (typeof window !== 'undefined') {
+      savedOrg = localStorage.getItem('pack_operator_org') || 'org_demo_alpha';
+      setOrgId(savedOrg);
+    }
+
+    async function loadUnit() {
+      try {
+        const res = await fetch(`/api/units/${encodeURIComponent(unitId)}?org_id=${encodeURIComponent(savedOrg)}`);
+        const data = await res.json();
+        if (res.ok && data.unit) {
+          setOrderId(data.unit.order_id);
+          setChannel(data.unit.channel);
+          setLines(data.unit.order_lines || []);
+        } else {
+          // If unit not in store, fallback to unitId
+          setOrderId(`ORD-${unitId}`);
+        }
+      } catch (e) {
+        // Fallback
+      } finally {
+        setLoadingUnit(false);
+      }
+    }
+
+    loadUnit();
+  }, [unitId]);
 
   // Client-side downscaling and SHA-256 hashing
   const processImageFile = async (file: File): Promise<PhotoItem> => {
@@ -69,34 +99,36 @@ export default function CapturePage() {
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
-        if (!ctx) return reject(new Error('Canvas context unavailable'));
+        if (!ctx) {
+          reject(new Error('Canvas 2D context unavailable'));
+          return;
+        }
 
         ctx.drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
 
-        // Export as JPEG quality 0.8
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        // Compute real SHA-256
         const base64 = dataUrl.split(',')[1];
         const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
 
-        // SHA-256 computation in browser
         crypto.subtle.digest('SHA-256', bytes).then((hashBuffer) => {
           const hashArray = Array.from(new Uint8Array(hashBuffer));
           const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-
           resolve({
             dataUrl,
             sha256: hashHex,
             sizeKb: Math.round(bytes.length / 1024),
           });
-        });
+        }).catch(reject);
       };
 
       img.onerror = () => reject(new Error('Failed to load image'));
+      reader.onerror = () => reject(new Error('Failed to read file'));
       reader.readAsDataURL(file);
     });
   };
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilesSelected = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
@@ -119,52 +151,6 @@ export default function CapturePage() {
     }
   };
 
-  const handleAddSampleBoxPhoto = () => {
-    // Generates a mock canvas photo of an open box for easy testing
-    const canvas = document.createElement('canvas');
-    canvas.width = 600;
-    canvas.height = 400;
-    const ctx = canvas.getContext('2d')!;
-
-    // Draw carton
-    ctx.fillStyle = '#d2b48c'; // cardboard color
-    ctx.fillRect(20, 20, 560, 360);
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = '#8b5a2b';
-    ctx.strokeRect(20, 20, 560, 360);
-
-    // Draw box contents
-    ctx.fillStyle = '#2563eb'; // blue mug
-    ctx.beginPath();
-    ctx.arc(180, 200, 70, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '16px sans-serif';
-    ctx.fillText('MUG-BLUE', 135, 205);
-
-    ctx.fillStyle = '#1e293b'; // black notebook
-    ctx.fillRect(320, 120, 160, 160);
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText('NOTEBOOK', 345, 205);
-
-    const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-    const base64 = dataUrl.split(',')[1];
-    const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
-
-    crypto.subtle.digest('SHA-256', bytes).then((hashBuffer) => {
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-      setPhotos((prev) => [
-        ...prev,
-        {
-          dataUrl,
-          sha256: hashHex,
-          sizeKb: Math.round(bytes.length / 1024),
-        },
-      ]);
-    });
-  };
-
   const handleRemovePhoto = (idx: number) => {
     setPhotos((prev) => prev.filter((_, i) => i !== idx));
   };
@@ -179,9 +165,7 @@ export default function CapturePage() {
     setError('');
 
     try {
-      const orgId = typeof window !== 'undefined' ? localStorage.getItem('pack_operator_org') || 'org_demo_alpha' : 'org_demo_alpha';
-
-      const res = await fetch(`/api/units/${unitId}/analyze`, {
+      const res = await fetch(`/api/units/${encodeURIComponent(unitId)}/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -199,7 +183,9 @@ export default function CapturePage() {
       }
 
       // Save result in sessionStorage for decision view
-      sessionStorage.setItem(`decision_${unitId}`, JSON.stringify(data));
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem(`decision_${unitId}`, JSON.stringify(data));
+      }
       router.push(`/units/${unitId}/decision`);
     } catch (err: unknown) {
       const e = err as Error;
@@ -209,143 +195,207 @@ export default function CapturePage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      {/* HEADER */}
+    <div className="max-w-3xl mx-auto space-y-8">
+      {/* Header */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Link href="/queue" className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 transition text-slate-600">
-            <ArrowLeft className="w-5 h-5" />
+        <div className="flex items-center gap-4">
+          <Link
+            href="/queue"
+            className="w-12 h-12 rounded-2xl neu-flat hover:neu-flat-hover flex items-center justify-center text-[#3D4852] hover:text-[#1C2024] transition-all"
+          >
+            <ArrowLeft className="w-5 h-5 stroke-[2.2]" />
           </Link>
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold text-slate-900">{orderId}</h1>
-              <span className="text-xs font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+            <div className="flex items-center gap-2.5">
+              <h1 className="font-display font-extrabold text-2xl text-[#1C2024] tracking-tight">
+                {orderId}
+              </h1>
+              <span className="font-mono text-xs font-bold text-[#5A3E2B] bg-[#D4DCE6] px-2.5 py-1 rounded-xl">
                 {unitId}
               </span>
             </div>
-            <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold">
-              Channel: {channel}
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#6E492F] mt-0.5">
+              Channel: {channel.replace('_', ' ')} • Tenant: {orgId}
             </p>
           </div>
         </div>
+
+        <div className="w-11 h-11 rounded-2xl neu-icon-well flex items-center justify-center text-[#5A3E2B]">
+          <Camera className="w-6 h-6 stroke-[2.2]" />
+        </div>
       </div>
 
+      {/* Target Items Checklist */}
+      <div className="rounded-[32px] neu-flat p-6 sm:p-8 space-y-4">
+        <div className="flex items-center justify-between pb-1">
+          <span className="font-display font-bold text-sm text-[#1C2024] uppercase tracking-wider flex items-center gap-2">
+            <Package className="w-4 h-4 text-[#5A3E2B]" />
+            Order Packing Manifest
+          </span>
+          <span className="text-xs font-bold text-[#4A545E]">
+            {lines.length} {lines.length === 1 ? 'Line Item' : 'Line Items'}
+          </span>
+        </div>
+
+        {lines.length === 0 ? (
+          <div className="rounded-2xl neu-pressed p-4 text-xs font-semibold text-[#606C78]">
+            No pre-defined SKU lines found for this unit. You can still photograph the open box to evaluate packaging integrity.
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {lines.map((l, idx) => (
+              <div
+                key={idx}
+                className="rounded-2xl neu-pressed-sm p-4 flex items-center justify-between"
+              >
+                <div>
+                  <span className="font-mono font-bold text-sm text-[#1C2024]">{l.sku}</span>
+                  {l.name && <p className="text-xs font-medium text-[#4A545E]">{l.name}</p>}
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-[#606C78]">Target Qty:</span>
+                  <span className="px-3 py-1 rounded-xl neu-flat-sm text-xs font-mono font-extrabold text-[#5A3E2B]">
+                    {l.qty}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Error alert */}
       {error && (
-        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
-          <span>{error}</span>
+        <div className="p-4 rounded-2xl neu-flat bg-[#E0E5EC] flex items-center gap-3">
+          <div className="w-8 h-8 rounded-xl neu-icon-well flex items-center justify-center text-[#6B2D1C]">
+            <AlertCircle className="w-4 h-4 stroke-[2.5]" />
+          </div>
+          <span className="text-xs font-bold text-[#6B2D1C]">{error}</span>
         </div>
       )}
 
-      {/* EXPECTED LINES CARD */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-            Expected Order Items
-          </h2>
-          <span className="text-xs text-slate-500 font-medium">{lines.length} lines</span>
-        </div>
-
-        <div className="divide-y divide-slate-100">
-          {lines.map((l) => (
-            <div key={l.sku} className="py-2.5 flex items-center justify-between text-sm">
-              <div className="space-y-0.5">
-                <div className="font-semibold text-slate-900">{l.name}</div>
-                <div className="font-mono text-xs text-slate-500">{l.sku}</div>
-              </div>
-              <div className="font-bold text-slate-900 bg-slate-100 px-3 py-1 rounded-lg text-xs">
-                Qty: {l.qty}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* CAPTURE GUIDANCE */}
-      <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-start gap-2">
-        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+      {/* Photo Capture Section */}
+      <div className="rounded-[32px] neu-flat p-6 sm:p-8 space-y-6">
         <div>
-          <strong>Guidance:</strong> Open box from above. Whole box in frame. Spread items if you can.
-        </div>
-      </div>
-
-      {/* PHOTO TRAY (1-3 slots) */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-            Box Photos ({photos.length}/3)
+          <h2 className="font-display font-extrabold text-base text-[#1C2024]">
+            Pre-Seal Photos ({photos.length}/3)
           </h2>
-          {photos.length < 3 && (
-            <button
-              type="button"
-              onClick={handleAddSampleBoxPhoto}
-              className="text-[11px] font-semibold text-emerald-600 hover:text-emerald-700 bg-emerald-50 px-2 py-1 rounded border border-emerald-200 transition"
-            >
-              + Add Sample Box Image
-            </button>
-          )}
+          <p className="text-xs font-medium text-[#4A545E] mt-0.5">
+            Capture 1 to 3 real photos: recommended top-down inside the carton, 45-degree angle, or close-up.
+          </p>
         </div>
 
-        <div className="grid grid-cols-3 gap-3">
-          {photos.map((photo, idx) => (
-            <div key={idx} className="relative rounded-xl overflow-hidden border border-slate-200 group bg-slate-100 aspect-square">
-              <img
-                src={photo.dataUrl}
-                alt={`Box photo ${idx + 1}`}
-                className="w-full h-full object-cover"
-              />
-              <button
-                type="button"
-                onClick={() => handleRemovePhoto(idx)}
-                className="absolute top-1.5 right-1.5 p-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg shadow transition"
-                title="Remove photo"
-              >
-                <Trash2 className="w-3.5 h-3.5" />
-              </button>
-              <div className="absolute bottom-0 inset-x-0 bg-slate-900/80 text-white text-[10px] px-1.5 py-0.5 truncate font-mono">
-                {photo.sizeKb} KB · {photo.sha256.substring(0, 8)}…
-              </div>
-            </div>
-          ))}
+        {/* Hidden native camera & file inputs */}
+        <input
+          ref={cameraInputRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          onChange={handleFilesSelected}
+          className="hidden"
+        />
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={handleFilesSelected}
+          className="hidden"
+        />
 
-          {photos.length < 3 && (
-            <label className="border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-xl flex flex-col items-center justify-center gap-1.5 p-3 text-slate-500 hover:text-emerald-600 cursor-pointer transition aspect-square">
-              <Camera className="w-6 h-6" />
-              <span className="text-[11px] font-semibold text-center leading-tight">
-                Take Photo
-              </span>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                capture="environment"
-                onChange={handleFileChange}
-                className="hidden"
-              />
-            </label>
-          )}
+        {/* Photo Wells Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {[0, 1, 2].map((idx) => {
+            const photo = photos[idx];
+            return (
+              <div
+                key={idx}
+                className="aspect-square rounded-[28px] neu-pressed-deep relative overflow-hidden flex flex-col items-center justify-center p-3 text-center"
+              >
+                {photo ? (
+                  <>
+                    <img
+                      src={photo.dataUrl}
+                      alt={`Box Photo ${idx + 1}`}
+                      className="w-full h-full object-cover rounded-2xl"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleRemovePhoto(idx)}
+                      disabled={analyzing}
+                      className="absolute top-3 right-3 w-8 h-8 rounded-xl neu-btn-primary flex items-center justify-center text-[#FFFFFF] hover:bg-[#6B2D1C] transition-all"
+                      title="Remove Photo"
+                    >
+                      <Trash2 className="w-4 h-4 stroke-[2.2]" />
+                    </button>
+                    <div className="absolute bottom-2 left-2 right-2 px-2 py-1 rounded-lg bg-[#23201D]/80 backdrop-blur-sm text-[9px] font-mono text-white truncate text-center">
+                      SHA: {photo.sha256.substring(0, 12)}...
+                    </div>
+                  </>
+                ) : (
+                  <div className="space-y-2 text-[#606C78]">
+                    <div className="w-10 h-10 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#5A3E2B]">
+                      <ImageIcon className="w-5 h-5 stroke-[2]" />
+                    </div>
+                    <span className="text-xs font-bold block text-[#4A545E]">
+                      Angle {idx + 1}
+                    </span>
+                    <span className="text-[10px] text-[#606C78] block">Empty Slot</span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Action Buttons */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <button
+            type="button"
+            onClick={() => cameraInputRef.current?.click()}
+            disabled={photos.length >= 3 || analyzing}
+            className="py-3.5 px-4 rounded-2xl neu-btn-secondary font-display font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-2 disabled:opacity-50"
+          >
+            <Camera className="w-4 h-4 text-[#5A3E2B] stroke-[2.2]" />
+            <span>Open Camera</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={photos.length >= 3 || analyzing}
+            className="py-3.5 px-4 rounded-2xl neu-btn-secondary font-display font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-2 disabled:opacity-50"
+          >
+            <Upload className="w-4 h-4 text-[#5A3E2B] stroke-[2.2]" />
+            <span>Upload Photo File</span>
+          </button>
+        </div>
+
+        {/* Main Audit Trigger */}
+        <div className="pt-4 border-t border-[#D4DCE6]/40">
+          <button
+            type="button"
+            onClick={handleAnalyze}
+            disabled={photos.length === 0 || analyzing}
+            className="w-full py-4 rounded-2xl neu-btn-primary font-display font-extrabold text-sm uppercase tracking-wider flex items-center justify-center gap-3 disabled:opacity-40 transition-all"
+          >
+            {analyzing ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin text-[#FFFFFF]" />
+                <span>Running Fail-Open Package Audit...</span>
+              </>
+            ) : (
+              <>
+                <ShieldCheck className="w-5 h-5 text-[#A3E635] stroke-[2.5]" />
+                <span>Audit Box & Generate Decision</span>
+              </>
+            )}
+          </button>
+          <p className="text-[11px] font-medium text-[#606C78] text-center mt-2.5">
+            Exactly one model call • Photos hashed and persisted fail-open • Verdicts evaluated by pure deterministic rules
+          </p>
         </div>
       </div>
-
-      {/* AUDIT CTA */}
-      <button
-        type="button"
-        disabled={photos.length === 0 || analyzing}
-        onClick={handleAnalyze}
-        className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 text-white font-bold py-3.5 rounded-xl text-base shadow-sm transition flex items-center justify-center gap-2"
-      >
-        {analyzing ? (
-          <>
-            <Loader2 className="w-5 h-5 animate-spin" />
-            <span>Checking box…</span>
-          </>
-        ) : (
-          <>
-            <Package className="w-5 h-5" />
-            <span>Check Box</span>
-          </>
-        )}
-      </button>
     </div>
   );
 }

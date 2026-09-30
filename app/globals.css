@@ -1,19 +1,146 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --seal: #16a34a;
-  --stop: #dc2626;
-  --unsure: #d97706;
-  --pending: #64748b;
+  --neu-bg: #E0E5EC;
+  --neu-text-primary: #1C2024;
+  --neu-text-secondary: #4A545E;
+  --neu-text-muted: #606C78;
+  --neu-brown-dark: #382417;
+  --neu-brown-accent: #6E492F;
+  --neu-brown-light: #9B6C48;
+  --neu-shadow-dark: rgba(163, 177, 198, 0.65);
+  --neu-shadow-light: rgba(255, 255, 255, 0.6);
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--neu-bg);
+  color: var(--neu-text-primary);
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Neumorphic Shadow Utility Classes */
+.neu-flat {
+  background-color: #E0E5EC;
+  box-shadow: 9px 9px 16px rgb(163, 177, 198, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5);
+}
+
+.neu-flat-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.neu-flat-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 12px 12px 20px rgb(163, 177, 198, 0.7), -12px -12px 20px rgba(255, 255, 255, 0.6);
+}
+
+.neu-flat-sm {
+  background-color: #E0E5EC;
+  box-shadow: 5px 5px 10px rgb(163, 177, 198, 0.6), -5px -5px 10px rgba(255, 255, 255, 0.5);
+}
+
+.neu-pressed {
+  background-color: #E0E5EC;
+  box-shadow: inset 6px 6px 10px rgb(163, 177, 198, 0.6), inset -6px -6px 10px rgba(255, 255, 255, 0.5);
+}
+
+.neu-pressed-deep {
+  background-color: #E0E5EC;
+  box-shadow: inset 10px 10px 20px rgb(163, 177, 198, 0.7), inset -10px -10px 20px rgba(255, 255, 255, 0.6);
+}
+
+.neu-pressed-sm {
+  background-color: #E0E5EC;
+  box-shadow: inset 3px 3px 6px rgb(163, 177, 198, 0.6), inset -3px -3px 6px rgba(255, 255, 255, 0.5);
+}
+
+/* Primary Neumorphic Button in Dark Charcoal / Espresso */
+.neu-btn-primary {
+  background-color: #23201D;
+  color: #FFFFFF;
+  box-shadow: 6px 6px 14px rgb(163, 177, 198, 0.6), -6px -6px 14px rgba(255, 255, 255, 0.5);
+  transition: all 0.25s ease-out;
+}
+
+.neu-btn-primary:hover {
+  transform: translateY(-1px);
+  background-color: #1A1715;
+  box-shadow: 8px 8px 18px rgb(163, 177, 198, 0.7), -8px -8px 18px rgba(255, 255, 255, 0.6);
+}
+
+.neu-btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.8), inset -3px -3px 6px rgba(255, 255, 255, 0.1);
+}
+
+/* Secondary Neumorphic Button (molded from surface) */
+.neu-btn-secondary {
+  background-color: #E0E5EC;
+  color: #1C2024;
+  box-shadow: 6px 6px 14px rgb(163, 177, 198, 0.6), -6px -6px 14px rgba(255, 255, 255, 0.5);
+  transition: all 0.25s ease-out;
+}
+
+.neu-btn-secondary:hover {
+  transform: translateY(-1px);
+  box-shadow: 8px 8px 18px rgb(163, 177, 198, 0.7), -8px -8px 18px rgba(255, 255, 255, 0.6);
+  color: #382417;
+}
+
+.neu-btn-secondary:active {
+  transform: translateY(1px);
+  box-shadow: inset 4px 4px 8px rgb(163, 177, 198, 0.7), inset -4px -4px 8px rgba(255, 255, 255, 0.6);
+}
+
+/* Rich Brown Accent Button */
+.neu-btn-brown {
+  background-color: #5A3E2B;
+  color: #FFFFFF;
+  box-shadow: 6px 6px 14px rgb(163, 177, 198, 0.6), -6px -6px 14px rgba(255, 255, 255, 0.5);
+  transition: all 0.25s ease-out;
+}
+
+.neu-btn-brown:hover {
+  transform: translateY(-1px);
+  background-color: #4A3323;
+  box-shadow: 8px 8px 18px rgb(163, 177, 198, 0.7), -8px -8px 18px rgba(255, 255, 255, 0.6);
+}
+
+.neu-btn-brown:active {
+  transform: translateY(1px);
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.6), inset -3px -3px 6px rgba(255, 255, 255, 0.15);
+}
+
+/* Neumorphic Input Well */
+.neu-input {
+  background-color: #E0E5EC;
+  color: #1C2024;
+  box-shadow: inset 6px 6px 12px rgb(163, 177, 198, 0.65), inset -6px -6px 12px rgba(255, 255, 255, 0.6);
+  border: none;
+  outline: none;
+  transition: box-shadow 0.2s ease;
+}
+
+.neu-input:focus {
+  box-shadow: inset 8px 8px 16px rgb(163, 177, 198, 0.8), inset -8px -8px 16px rgba(255, 255, 255, 0.7);
+}
+
+.neu-input::placeholder {
+  color: #6C7682;
+}
+
+/* Icon Well (Drilled look) */
+.neu-icon-well {
+  background-color: #E0E5EC;
+  box-shadow: inset 5px 5px 9px rgb(163, 177, 198, 0.6), inset -5px -5px 9px rgba(255, 255, 255, 0.6);
 }
 
 button {

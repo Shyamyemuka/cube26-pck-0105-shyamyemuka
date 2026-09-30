@@ -17,18 +17,11 @@ export default function LoginPage() {
     setError('');
 
     try {
-      // In full Supabase deployment:
-      // const supabase = createClient();
-      // const { error: authErr } = await supabase.auth.signInWithPassword({ email, password });
-      // if (authErr) throw authErr;
-
-      // Store active demo operator in localStorage / cookie for demo navigation
       const orgId = email.includes('bravo') ? 'org_demo_bravo' : 'org_demo_alpha';
       if (typeof window !== 'undefined') {
         localStorage.setItem('pack_operator_email', email);
         localStorage.setItem('pack_operator_org', orgId);
       }
-
       router.push('/queue');
     } catch (err: unknown) {
       const e = err as Error;
@@ -49,50 +42,56 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto py-12 space-y-6">
+    <div className="max-w-md mx-auto py-10 space-y-6">
       <div className="text-center space-y-2">
-        <div className="inline-flex p-3 rounded-2xl bg-emerald-100 text-emerald-700">
-          <Package className="w-8 h-8" />
+        <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center text-[#5A3E2B]">
+          <Package className="w-8 h-8 stroke-[2.2]" />
         </div>
-        <h1 className="text-2xl font-bold text-slate-900">Operator Sign In</h1>
-        <p className="text-xs text-slate-500">
-          Sign in to access your organization’s packing queue
+        <h1 className="font-display font-extrabold text-2xl text-[#1C2024] tracking-tight">
+          Operator Sign In
+        </h1>
+        <p className="text-xs font-medium text-[#4A545E]">
+          Select an organization to switch tenancy and view its isolated queue
         </p>
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
+      <div className="rounded-[32px] neu-flat p-8 space-y-6">
         {error && (
-          <div className="p-3 rounded-lg bg-rose-50 text-rose-700 text-xs border border-rose-200">
+          <div className="p-3.5 rounded-2xl neu-pressed bg-[#E0E5EC] text-[#6B2D1C] text-xs font-bold">
             {error}
           </div>
         )}
 
         <form onSubmit={handleLogin} className="space-y-4">
-          <div className="space-y-1">
-            <label className="text-xs font-semibold text-slate-700">Email Address</label>
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-[#3D4852] uppercase tracking-wider block">
+              Operator Email
+            </label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+              <Mail className="w-4 h-4 text-[#606C78] absolute left-4 top-1/2 -translate-y-1/2" />
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full pl-11 pr-4 py-3 rounded-2xl neu-input text-sm font-semibold text-[#1C2024]"
                 placeholder="operator@example.test"
               />
             </div>
           </div>
 
-          <div className="space-y-1">
-            <label className="text-xs font-semibold text-slate-700">Password</label>
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-[#3D4852] uppercase tracking-wider block">
+              Password
+            </label>
             <div className="relative">
-              <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+              <Lock className="w-4 h-4 text-[#606C78] absolute left-4 top-1/2 -translate-y-1/2" />
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full pl-11 pr-4 py-3 rounded-2xl neu-input text-sm font-semibold text-[#1C2024]"
                 placeholder="••••••••"
               />
             </div>
@@ -101,41 +100,45 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-lg text-sm transition flex items-center justify-center gap-2"
+            className="w-full py-4 rounded-2xl neu-btn-primary font-display font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2"
           >
-            <span>{loading ? 'Signing in…' : 'Sign In'}</span>
-            <ArrowRight className="w-4 h-4" />
+            <span>{loading ? 'Authenticating...' : 'Sign In To Station'}</span>
+            <ArrowRight className="w-4 h-4 stroke-[2.5]" />
           </button>
         </form>
 
-        <div className="border-t border-slate-200 pt-4 space-y-2">
-          <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider text-center">
-            One-Click Demo Operators
+        <div className="border-t border-[#D4DCE6]/50 pt-5 space-y-3">
+          <div className="text-[11px] font-bold text-[#606C78] uppercase tracking-wider text-center">
+            Switch Active Tenant
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => handleQuickLogin('operator.alpha@example.test')}
-              className="px-3 py-2 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition text-left"
+              className="p-3.5 rounded-2xl neu-flat-sm hover:neu-flat-hover transition-all text-left group"
             >
-              <div className="font-bold text-slate-900">Alpha Org</div>
-              <div className="text-[10px] text-slate-500 truncate">operator.alpha</div>
+              <div className="font-display font-bold text-xs text-[#1C2024] group-hover:text-[#5A3E2B]">
+                Alpha Tenant
+              </div>
+              <div className="text-[10px] font-mono text-[#606C78] truncate">org_demo_alpha</div>
             </button>
             <button
               type="button"
               onClick={() => handleQuickLogin('operator.bravo@example.test')}
-              className="px-3 py-2 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition text-left"
+              className="p-3.5 rounded-2xl neu-flat-sm hover:neu-flat-hover transition-all text-left group"
             >
-              <div className="font-bold text-slate-900">Bravo Org</div>
-              <div className="text-[10px] text-slate-500 truncate">operator.bravo</div>
+              <div className="font-display font-bold text-xs text-[#1C2024] group-hover:text-[#5A3E2B]">
+                Bravo Tenant
+              </div>
+              <div className="text-[10px] font-mono text-[#606C78] truncate">org_demo_bravo</div>
             </button>
           </div>
         </div>
       </div>
 
-      <div className="text-center text-xs text-slate-400 flex items-center justify-center gap-1">
-        <ShieldCheck className="w-4 h-4 text-emerald-600" />
-        <span>Org-scoped tenancy enforced by row-level security</span>
+      <div className="text-center text-xs font-medium text-[#4A545E] flex items-center justify-center gap-1.5">
+        <ShieldCheck className="w-4 h-4 text-[#5A3E2B]" />
+        <span>Org-scoped tenancy enforced by PostgreSQL Row-Level Security</span>
       </div>
     </div>
   );

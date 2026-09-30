@@ -46,93 +46,21 @@ export interface StoreUnit {
   }>;
 }
 
-// Global in-memory map keyed by `${org_id}:${unit_id}`
+// Clean memory store: no sample data, stores only real imported/captured units
 const memoryStore = new Map<string, StoreUnit>();
 
-// Pre-populate with initial demo orders
-function initDemoMemoryStore() {
-  if (memoryStore.size > 0) return;
-
-  const demoItems: StoreUnit[] = [
-    {
-      org_id: 'org_demo_alpha',
-      order_id: 'ORD-5001',
-      unit_id: 'UNIT-5001',
-      channel: 'shopify',
-      status: 'open',
-      order_lines: [
-        { sku: 'MUG-BLUE', qty: 1, name: 'Ceramic Blue Coffee Mug' },
-        { sku: 'NOTEBOOK-A5-BLACK', qty: 1, name: 'Hardcover A5 Notebook - Black' },
-      ],
-      captures: [],
-      analyses: [],
-      overrides: [],
-    },
-    {
-      org_id: 'org_demo_alpha',
-      order_id: 'ORD-5002',
-      unit_id: 'UNIT-5002',
-      channel: 'amazon_mfn',
-      status: 'open',
-      order_lines: [
-        { sku: 'CHARGER-65W', qty: 1, name: '65W USB-C Fast Charger' },
-        { sku: 'PEN-PACK', qty: 2, name: 'Black Gel Pens Pack of 3' },
-      ],
-      captures: [],
-      analyses: [],
-      overrides: [],
-    },
-    {
-      org_id: 'org_demo_alpha',
-      order_id: 'ORD-5003',
-      unit_id: 'UNIT-5003',
-      channel: 'walmart',
-      status: 'open',
-      order_lines: [
-        { sku: 'BOTTLE-WATER-SILVER', qty: 1, name: 'Insulated Water Bottle - Silver' },
-        { sku: 'SOCKS-PAIR', qty: 2, name: 'Cotton Crew Socks Pair' },
-      ],
-      captures: [],
-      analyses: [],
-      overrides: [],
-    },
-    {
-      org_id: 'org_demo_bravo',
-      order_id: 'ORD-5006',
-      unit_id: 'UNIT-5006',
-      channel: 'amazon_mfn',
-      status: 'open',
-      order_lines: [
-        { sku: 'NOTEBOOK-A5-NAVY', qty: 1, name: 'Hardcover A5 Notebook - Navy Blue' },
-        { sku: 'PEN-PACK', qty: 1, name: 'Black Gel Pens Pack of 3' },
-      ],
-      captures: [],
-      analyses: [],
-      overrides: [],
-    },
-  ];
-
-  for (const item of demoItems) {
-    memoryStore.set(`${item.org_id}:${item.unit_id}`, item);
-  }
-}
-
-initDemoMemoryStore();
-
 export function getMemoryUnit(orgId: string, unitId: string): StoreUnit | undefined {
-  initDemoMemoryStore();
   return memoryStore.get(`${orgId}:${unitId}`);
 }
 
 export function saveMemoryUnit(unit: StoreUnit) {
-  initDemoMemoryStore();
   memoryStore.set(`${unit.org_id}:${unit.unit_id}`, unit);
 }
 
 export function listMemoryUnits(orgId: string): StoreUnit[] {
-  initDemoMemoryStore();
   return Array.from(memoryStore.values()).filter((u) => u.org_id === orgId);
 }
+
 
 export function buildEvidenceFromStoreUnit(unit: StoreUnit): PackEvidenceV1 | null {
   if (unit.captures.length === 0 || unit.analyses.length === 0) {

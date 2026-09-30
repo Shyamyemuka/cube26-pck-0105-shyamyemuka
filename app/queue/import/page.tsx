@@ -3,193 +3,400 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Sparkles, Upload, FileText, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Upload, FileText, CheckCircle2, AlertCircle, PackagePlus, Eye } from 'lucide-react';
 import { parseOrderLines } from '@/lib/ingest/parse-lines';
 
 export default function ImportPage() {
   const router = useRouter();
-  const [pasteOrder, setPasteOrder] = useState('MUG-BLUE:1;NOTEBOOK-A5-BLACK:2');
-  const [pasteOrderId, setPasteOrderId] = useState('ORD-CUSTOM-01');
-  const [pasteChannel, setPasteChannel] = useState('shopify');
+
+  // Active tenant
+  const [orgId, setOrgId] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('pack_operator_org') || 'org_demo_alpha';
+    }
+    return 'org_demo_alpha';
+  });
+
+  const [unitId, setUnitId] = useState(`UNIT-${Math.floor(1000 + Math.random() * 9000)}`);
+  const [orderId, setOrderId] = useState(`ORD-${Math.floor(1000 + Math.random() * 9000)}`);
+  const [channel, setChannel] = useState<'shopify' | 'amazon_mfn' | 'walmart' | '3pl_client'>('shopify');
+  const [orderLinesInput, setOrderLinesInput] = useState('MUG-BLUE:1;NOTEBOOK-A5-BLACK:2');
+  
   const [statusMessage, setStatusMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [loadingDemo, setLoadingDemo] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handlePasteSubmit = (e: React.FormEvent) => {
+  // Live parsed lines preview
+  let parsedPreview: Array<{ sku: string; qty: number }> = [];
+  let previewError = '';
+  try {
+    if (orderLinesInput.trim()) {
+      parsedPreview = parseOrderLines(orderLinesInput);
+    }
+  } catch (err: unknown) {
+    previewError = (err as Error).message;
+  }
+
+  const handleOrgChange = (newOrg: string) => {
+    setOrgId(newOrg);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('pack_operator_org', newOrg);
+    }
+  };
+
+  const handleImportSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage('');
     setStatusMessage('');
 
-    try {
-      const parsed = parseOrderLines(pasteOrder);
-      const unitId = `UNIT-${Date.now().toString().slice(-4)}`;
-
-      // Post to store API / save locally
-      setStatusMessage(`Order ${pasteOrderId} imported successfully with ${parsed.length} lines! Unit ID: ${unitId}`);
-      setTimeout(() => {
-        router.push(`/units/${unitId}/capture`);
-      }, 1200);
-    } catch (err: unknown) {
-      const e = err as Error;
-      setErrorMessage(e.message);
+    if (!unitId.trim()) {
+      setErrorMessage('Please specify a valid Unit ID.');
+      return;
     }
-  };
 
-  const handleLoadDemo = () => {
-    setLoadingDemo(true);
-    setErrorMessage('');
-    setStatusMessage('');
+    if (!orderId.trim()) {
+      setErrorMessage('Please specify a valid Order ID.');
+      return;
+    }
 
-    setTimeout(() => {
-      setLoadingDemo(false);
-      setStatusMessage('Demo catalogue and 5 sample orders loaded successfully!');
+    if (parsedPreview.length === 0) {
+      setErrorMessage(previewError || 'Please provide at least one valid order line.');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const res = await fetch('/api/units', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          org_id: orgId,
+          unit_id: unitId.trim(),
+          order_id: orderId.trim(),
+          channel,
+          order_lines: parsedPreview.map((line) => ({
+            sku: line.sku,
+            qty: line.qty,
+          })),
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to save order to tenant store.');
+      }
+
+      setStatusMessage(`Order ${orderId} (${unitId}) successfully saved to ${orgId}! Redirecting to queue...`);
       setTimeout(() => {
         router.push('/queue');
       }, 1000);
-    }, 600);
+    } catch (err: unknown) {
+      const e = err as Error;
+      setErrorMessage(e.message || 'Import failed.');
+      setIsSubmitting(false);
+    }
+  };
+
+  // CSV file drag & upload handler
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setErrorMessage('');
+    setStatusMessage('');
+    setIsSubmitting(true);
+
+    try {
+      const text = await file.text();
+      const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+      if (lines.length < 2) {
+        throw new Error('CSV file is empty or missing data rows.');
+      }
+
+      // Check header
+      const header = lines[0].toLowerCase().split(',').map((h) => h.trim());
+      const orderIdIdx = header.indexOf('order_id');
+      const unitIdIdx = header.indexOf('unit_id');
+      const channelIdx = header.indexOf('channel');
+      const linesIdx = header.indexOf('order_lines');
+
+      if (orderIdIdx === -1 || linesIdx === -1) {
+        throw new Error('CSV must contain "order_id" and "order_lines" columns.');
+      }
+
+      let importedCount = 0;
+      for (let i = 1; i < lines.length; i++) {
+        const cols = lines[i].split(',').map((c) => c.trim().replace(/^"|"$/g, ''));
+        if (cols.length < 2) continue;
+
+        const rowOrderId = cols[orderIdIdx];
+        const rowUnitId = unitIdIdx !== -1 && cols[unitIdIdx] ? cols[unitIdIdx] : `UNIT-${rowOrderId}`;
+        const rowChannel = channelIdx !== -1 && cols[channelIdx] ? (cols[channelIdx] as any) : 'shopify';
+        const rowLinesStr = cols[linesIdx];
+
+        if (!rowOrderId || !rowLinesStr) continue;
+
+        const parsed = parseOrderLines(rowLinesStr);
+        await fetch('/api/units', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            org_id: orgId,
+            unit_id: rowUnitId,
+            order_id: rowOrderId,
+            channel: rowChannel,
+            order_lines: parsed,
+          }),
+        });
+        importedCount++;
+      }
+
+      setStatusMessage(`Successfully imported ${importedCount} real orders into ${orgId}!`);
+      setTimeout(() => {
+        router.push('/queue');
+      }, 1200);
+    } catch (err: unknown) {
+      const e = err as Error;
+      setErrorMessage(e.message || 'CSV import error.');
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <div className="flex items-center gap-3">
-        <Link href="/queue" className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 transition text-slate-600">
-          <ArrowLeft className="w-5 h-5" />
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Import Reference Data</h1>
-          <p className="text-xs text-slate-500">
-            Upload catalogues, paste custom orders, or load one-tap staged demo data
-          </p>
+    <div className="max-w-4xl mx-auto space-y-8">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Link
+            href="/queue"
+            className="w-12 h-12 rounded-2xl neu-flat hover:neu-flat-hover flex items-center justify-center text-[#3D4852] hover:text-[#1C2024] transition-all"
+          >
+            <ArrowLeft className="w-5 h-5 stroke-[2.2]" />
+          </Link>
+          <div>
+            <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-[#1C2024] tracking-tight">
+              Import Orders
+            </h1>
+            <p className="text-sm font-medium text-[#4A545E] mt-0.5">
+              Enter real order lines to populate the active tenant audit queue.
+            </p>
+          </div>
+        </div>
+
+        {/* Tenant Pill Selector */}
+        <div className="flex items-center gap-2 rounded-2xl neu-pressed-sm p-1.5 bg-[#E0E5EC]">
+          <button
+            type="button"
+            onClick={() => handleOrgChange('org_demo_alpha')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              orgId === 'org_demo_alpha'
+                ? 'neu-btn-primary'
+                : 'text-[#4A545E] hover:text-[#1C2024]'
+            }`}
+          >
+            Alpha Tenant
+          </button>
+          <button
+            type="button"
+            onClick={() => handleOrgChange('org_demo_bravo')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              orgId === 'org_demo_bravo'
+                ? 'neu-btn-primary'
+                : 'text-[#4A545E] hover:text-[#1C2024]'
+            }`}
+          >
+            Bravo Tenant
+          </button>
         </div>
       </div>
 
+      {/* Notifications */}
       {statusMessage && (
-        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-          <span>{statusMessage}</span>
+        <div className="p-5 rounded-2xl neu-flat bg-[#E0E5EC] flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl neu-icon-well flex items-center justify-center text-[#5A3E2B]">
+            <CheckCircle2 className="w-5 h-5 stroke-[2.5]" />
+          </div>
+          <span className="text-sm font-bold text-[#1C2024]">{statusMessage}</span>
         </div>
       )}
 
       {errorMessage && (
-        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
-          <span>{errorMessage}</span>
+        <div className="p-5 rounded-2xl neu-flat bg-[#E0E5EC] flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl neu-icon-well flex items-center justify-center text-[#6B2D1C]">
+            <AlertCircle className="w-5 h-5 stroke-[2.5]" />
+          </div>
+          <span className="text-sm font-bold text-[#6B2D1C]">{errorMessage}</span>
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* CARD 1: LOAD DEMO DATA */}
-        <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-6 space-y-4 shadow-sm flex flex-col justify-between">
-          <div className="space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold">
-              <Sparkles className="w-5 h-5" />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Main Manual Import Form */}
+        <div className="lg:col-span-2 rounded-[32px] neu-flat p-8 sm:p-10 space-y-6">
+          <div className="flex items-center gap-3 pb-2">
+            <div className="w-10 h-10 rounded-2xl neu-icon-well flex items-center justify-center text-[#5A3E2B]">
+              <PackagePlus className="w-5 h-5 stroke-[2.2]" />
             </div>
-            <h3 className="font-bold text-slate-900 text-lg">Load Demo Data</h3>
-            <p className="text-xs text-slate-600">
-              Instantly seeds 12 household catalogue items (with 2 look-alike pairs) and 5 staged orders for your active tenant.
-            </p>
+            <div>
+              <h2 className="font-display font-bold text-lg text-[#1C2024]">Single Unit Import</h2>
+              <p className="text-xs font-medium text-[#4A545E]">Define exact order requirements and target SKUs</p>
+            </div>
           </div>
 
-          <button
-            type="button"
-            onClick={handleLoadDemo}
-            disabled={loadingDemo}
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-xl text-xs shadow-sm transition"
-          >
-            {loadingDemo ? 'Seeding demo data…' : 'One-Tap Demo Seed'}
-          </button>
-        </div>
-
-        {/* CARD 2: PASTE ORDERS */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-sm md:col-span-2">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <FileText className="w-5 h-5 text-slate-700" />
-              <h3 className="font-bold text-slate-900 text-lg">Quick Paste Order</h3>
-            </div>
-            <p className="text-xs text-slate-500">
-              Format: <code className="bg-slate-100 px-1 py-0.5 rounded font-mono">SKU:qty;SKU:qty</code>
-            </p>
-          </div>
-
-          <form onSubmit={handlePasteSubmit} className="space-y-3">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-slate-700">Order ID</label>
+          <form onSubmit={handleImportSubmit} className="space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-[#3D4852] uppercase tracking-wider mb-2">
+                  Order ID
+                </label>
                 <input
                   type="text"
+                  value={orderId}
+                  onChange={(e) => setOrderId(e.target.value)}
+                  placeholder="e.g. ORD-1001"
                   required
-                  value={pasteOrderId}
-                  onChange={(e) => setPasteOrderId(e.target.value)}
-                  className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
-                  placeholder="ORD-1001"
+                  className="w-full px-4 py-3.5 rounded-2xl neu-input text-sm font-semibold text-[#1C2024]"
                 />
               </div>
 
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-slate-700">Channel</label>
-                <select
-                  value={pasteChannel}
-                  onChange={(e) => setPasteChannel(e.target.value)}
-                  className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
-                >
-                  <option value="shopify">Shopify</option>
-                  <option value="amazon_mfn">Amazon MFN</option>
-                  <option value="walmart">Walmart</option>
-                  <option value="3pl_client">3PL Client</option>
-                </select>
+              <div>
+                <label className="block text-xs font-bold text-[#3D4852] uppercase tracking-wider mb-2">
+                  Unit ID (Physical Box)
+                </label>
+                <input
+                  type="text"
+                  value={unitId}
+                  onChange={(e) => setUnitId(e.target.value)}
+                  placeholder="e.g. UNIT-1001"
+                  required
+                  className="w-full px-4 py-3.5 rounded-2xl neu-input text-sm font-semibold text-[#1C2024]"
+                />
               </div>
             </div>
 
-            <div className="space-y-1">
-              <label className="text-[11px] font-semibold text-slate-700">Order Lines</label>
+            <div>
+              <label className="block text-xs font-bold text-[#3D4852] uppercase tracking-wider mb-2">
+                Sales Channel
+              </label>
+              <select
+                value={channel}
+                onChange={(e) => setChannel(e.target.value as any)}
+                className="w-full px-4 py-3.5 rounded-2xl neu-input text-sm font-semibold text-[#1C2024] cursor-pointer"
+              >
+                <option value="shopify">Shopify Store</option>
+                <option value="amazon_mfn">Amazon Merchant Fulfilled (MFN)</option>
+                <option value="walmart">Walmart Marketplace</option>
+                <option value="3pl_client">3PL Direct Client</option>
+              </select>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-xs font-bold text-[#3D4852] uppercase tracking-wider">
+                  Order Lines (`SKU:qty;SKU:qty`)
+                </label>
+                <span className="text-[11px] font-bold text-[#6E492F]">Format: SKU:quantity</span>
+              </div>
               <textarea
-                required
                 rows={3}
-                value={pasteOrder}
-                onChange={(e) => setPasteOrder(e.target.value)}
-                placeholder="SKU-A:1;SKU-B:2"
-                className="w-full text-xs font-mono p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                value={orderLinesInput}
+                onChange={(e) => setOrderLinesInput(e.target.value)}
+                placeholder="e.g. MUG-BLUE:1;NOTEBOOK-A5-BLACK:2"
+                required
+                className="w-full p-4 rounded-2xl neu-input text-sm font-mono text-[#1C2024]"
               />
+              <p className="text-[11px] font-medium text-[#4A545E] mt-1.5">
+                Separate multiple lines with semicolons (;). Whitespace around SKUs and counts is automatically trimmed.
+              </p>
+            </div>
+
+            {/* Parsed Live Preview */}
+            <div className="rounded-2xl neu-pressed-deep p-4 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-[#3D4852] flex items-center gap-1.5">
+                  <Eye className="w-3.5 h-3.5 text-[#5A3E2B]" />
+                  Verified Line Items ({parsedPreview.length})
+                </span>
+                {previewError && (
+                  <span className="text-xs font-bold text-[#6B2D1C]">{previewError}</span>
+                )}
+              </div>
+
+              {parsedPreview.length === 0 ? (
+                <p className="text-xs text-[#6C7682] italic">No valid lines parsed yet.</p>
+              ) : (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {parsedPreview.map((line, idx) => (
+                    <div
+                      key={idx}
+                      className="px-3 py-1.5 rounded-xl neu-flat-sm text-xs font-mono font-bold text-[#1C2024] flex items-center gap-2"
+                    >
+                      <span className="text-[#5A3E2B]">{line.sku}</span>
+                      <span className="text-[#4A545E] bg-[#D4DCE6] px-1.5 py-0.5 rounded-md text-[10px]">
+                        x{line.qty}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <button
               type="submit"
-              className="bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs px-4 py-2.5 rounded-lg transition"
+              disabled={isSubmitting || parsedPreview.length === 0}
+              className="w-full py-4 rounded-2xl neu-btn-primary font-display font-bold text-sm tracking-wide uppercase transition-all disabled:opacity-50"
             >
-              Parse & Create Order
+              {isSubmitting ? 'Saving to Tenant Queue...' : 'Import Order Into Queue'}
             </button>
           </form>
         </div>
-      </div>
 
-      {/* FILE UPLOAD CARD */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-sm">
-        <div className="flex items-center gap-2">
-          <Upload className="w-5 h-5 text-slate-700" />
-          <h3 className="font-bold text-slate-900 text-lg">Batch File Ingestion (CSV / JSON)</h3>
-        </div>
-        <p className="text-xs text-slate-500">
-          Upload order CSV matching <code className="bg-slate-100 px-1 py-0.5 rounded font-mono">order_id,unit_id,channel,order_lines</code> or catalogue CSV matching <code className="bg-slate-100 px-1 py-0.5 rounded font-mono">sku,name,description,attributes</code>.
-        </p>
+        {/* Right Sidebar: Bulk CSV Upload & Information */}
+        <div className="space-y-6">
+          {/* CSV File Drop */}
+          <div className="rounded-[32px] neu-flat p-8 space-y-4 text-center">
+            <div className="w-14 h-14 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#5A3E2B]">
+              <Upload className="w-7 h-7 stroke-[2.2]" />
+            </div>
+            <div>
+              <h3 className="font-display font-bold text-base text-[#1C2024]">Bulk CSV Upload</h3>
+              <p className="text-xs font-medium text-[#4A545E] mt-1">
+                Upload a real CSV file containing order lines.
+              </p>
+            </div>
 
-        <div className="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center space-y-2 hover:border-slate-300 transition">
-          <Upload className="w-8 h-8 text-slate-400 mx-auto" />
-          <div className="text-xs font-medium text-slate-700">
-            Drag and drop your CSV or JSON file here, or{' '}
-            <label className="text-emerald-600 font-semibold cursor-pointer hover:underline">
-              browse
+            <label className="block cursor-pointer">
               <input
                 type="file"
-                accept=".csv,.json"
+                accept=".csv"
+                onChange={handleFileUpload}
+                disabled={isSubmitting}
                 className="hidden"
-                onChange={() => {
-                  setStatusMessage('File read: 10 rows validated with 0 errors.');
-                }}
               />
+              <div className="py-3 px-4 rounded-2xl neu-btn-secondary text-xs font-bold text-[#1C2024] hover:text-[#5A3E2B] transition-all">
+                Select CSV File
+              </div>
             </label>
+
+            <div className="rounded-2xl neu-pressed p-3 text-left">
+              <span className="text-[11px] font-bold text-[#3D4852] block mb-1">Expected CSV columns:</span>
+              <code className="text-[10px] text-[#4A545E] font-mono block">
+                order_id,unit_id,channel,order_lines
+              </code>
+            </div>
           </div>
-          <p className="text-[10px] text-slate-400">Supports UTF-8 CSV or JSON up to 10 MB</p>
+
+          {/* Verification Rules Pill */}
+          <div className="rounded-[32px] neu-flat p-6 space-y-3">
+            <h4 className="font-display font-bold text-sm text-[#1C2024] flex items-center gap-2">
+              <FileText className="w-4 h-4 text-[#5A3E2B]" />
+              Tenancy Guarantee
+            </h4>
+            <p className="text-xs font-medium text-[#4A545E] leading-relaxed">
+              Every imported unit is securely isolated under tenant <strong className="text-[#1C2024]">{orgId}</strong>.
+              Operators of other tenants cannot access or view these units.
+            </p>
+          </div>
         </div>
       </div>
     </div>
