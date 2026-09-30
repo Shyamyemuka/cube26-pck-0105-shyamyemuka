@@ -234,7 +234,7 @@ export default function ImportPage() {
         {/* Main Manual Import Form */}
         <div className="lg:col-span-2 rounded-[32px] neu-flat p-8 sm:p-10 space-y-6">
           <div className="flex items-center gap-3 pb-2">
-            <div className="w-10 h-10 rounded-2xl neu-icon-well flex items-center justify-center text-[#6E492F] dark:text-[#C4F82A]">
+            <div className="w-10 h-10 rounded-2xl neu-icon-well flex items-center justify-center text-[#773C30] dark:text-[#6BFF86]">
               <PackagePlus className="w-5 h-5 stroke-[2.2]" />
             </div>
             <div>
@@ -295,7 +295,7 @@ export default function ImportPage() {
                 <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider">
                   Order Lines (<span className="hl-green">SKU:qty;SKU:qty</span>)
                 </label>
-                <span className="text-[11px] font-bold text-[#6E492F] dark:text-[#C4F82A]">Format: SKU:quantity</span>
+                <span className="text-[11px] font-bold text-[#773C30] dark:text-[#6BFF86]">Format: SKU:quantity</span>
               </div>
               <textarea
                 rows={3}
@@ -314,7 +314,7 @@ export default function ImportPage() {
             <div className="rounded-2xl neu-pressed-deep p-4 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
-                  <Eye className="w-3.5 h-3.5 text-[#6E492F] dark:text-[#C4F82A]" />
+                  <Eye className="w-3.5 h-3.5 text-[#773C30] dark:text-[#6BFF86]" />
                   Verified Line Items ({parsedPreview.length})
                 </span>
                 {previewError && (
@@ -331,7 +331,7 @@ export default function ImportPage() {
                       key={idx}
                       className="px-3 py-1.5 rounded-xl neu-flat-sm text-xs font-mono font-bold text-slate-900 dark:text-white flex items-center gap-2"
                     >
-                      <span className="text-[#6E492F] dark:text-[#C4F82A]">{line.sku}</span>
+                      <span className="text-[#773C30] dark:text-[#6BFF86]">{line.sku}</span>
                       <span className="text-slate-700 dark:text-slate-200 neu-pressed-sm px-1.5 py-0.5 rounded-md text-[10px]">
                         x{line.qty}
                       </span>
@@ -355,7 +355,7 @@ export default function ImportPage() {
         <div className="space-y-6">
           {/* CSV File Drop */}
           <div className="rounded-[32px] neu-flat p-8 space-y-4 text-center">
-            <div className="w-14 h-14 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#6E492F] dark:text-[#C4F82A]">
+            <div className="w-14 h-14 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#773C30] dark:text-[#6BFF86]">
               <Upload className="w-7 h-7 stroke-[2.2]" />
             </div>
             <div>
@@ -373,7 +373,7 @@ export default function ImportPage() {
                 disabled={isSubmitting}
                 className="hidden"
               />
-              <div className="py-3 px-4 rounded-2xl neu-btn-secondary text-xs font-bold text-slate-900 dark:text-white hover:text-black dark:hover:text-[#C4F82A] transition-all">
+              <div className="py-3 px-4 rounded-2xl neu-btn-secondary text-xs font-bold text-slate-900 dark:text-white hover:text-[#773C30] dark:hover:text-[#6BFF86] transition-all">
                 Select CSV File
               </div>
             </label>
@@ -389,7 +389,7 @@ export default function ImportPage() {
           {/* Tenancy Guarantee Pill */}
           <div className="rounded-[32px] neu-flat p-6 space-y-3">
             <h4 className="font-display font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-              <FileText className="w-4 h-4 text-[#6E492F] dark:text-[#C4F82A]" />
+              <FileText className="w-4 h-4 text-[#773C30] dark:text-[#6BFF86]" />
               Enterprise Tenancy Guarantee
             </h4>
             <p className="text-xs font-medium text-slate-600 dark:text-slate-300 leading-relaxed">

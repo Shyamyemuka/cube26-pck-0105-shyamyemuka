@@ -44,7 +44,7 @@ export default function LoginPage() {
   return (
     <div className="max-w-md mx-auto py-10 space-y-6">
       <div className="text-center space-y-2">
-        <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center text-[#6E492F] dark:text-[#C4F82A]">
+        <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center text-[#773C30] dark:text-[#6BFF86]">
           <Package className="w-8 h-8 stroke-[2.2]" />
         </div>
         <h1 className="font-display font-extrabold text-2xl text-slate-900 dark:text-white tracking-tight">
@@ -117,7 +117,7 @@ export default function LoginPage() {
               onClick={() => handleQuickLogin('operator.alpha@example.test')}
               className="p-3.5 rounded-2xl neu-flat-sm hover:neu-flat-hover transition-all text-left group"
             >
-              <div className="font-display font-bold text-xs text-slate-900 dark:text-white group-hover:text-[#6E492F] dark:group-hover:text-[#C4F82A]">
+              <div className="font-display font-bold text-xs text-slate-900 dark:text-white group-hover:text-[#773C30] dark:group-hover:text-[#6BFF86]">
                 Alpha Tenant
               </div>
               <div className="text-[10px] font-mono text-slate-500 dark:text-slate-400 truncate">org_demo_alpha</div>
@@ -127,7 +127,7 @@ export default function LoginPage() {
               onClick={() => handleQuickLogin('operator.bravo@example.test')}
               className="p-3.5 rounded-2xl neu-flat-sm hover:neu-flat-hover transition-all text-left group"
             >
-              <div className="font-display font-bold text-xs text-slate-900 dark:text-white group-hover:text-[#6E492F] dark:group-hover:text-[#C4F82A]">
+              <div className="font-display font-bold text-xs text-slate-900 dark:text-white group-hover:text-[#773C30] dark:group-hover:text-[#6BFF86]">
                 Bravo Tenant
               </div>
               <div className="text-[10px] font-mono text-slate-500 dark:text-slate-400 truncate">org_demo_bravo</div>
@@ -137,7 +137,7 @@ export default function LoginPage() {
       </div>
 
       <div className="text-center text-xs font-medium text-slate-600 dark:text-slate-300 flex items-center justify-center gap-1.5">
-        <ShieldCheck className="w-4 h-4 text-[#6E492F] dark:text-[#C4F82A]" />
+        <ShieldCheck className="w-4 h-4 text-[#773C30] dark:text-[#6BFF86]" />
         <span>Enterprise Tenancy Isolation & RLS Security Enforced</span>
       </div>
     </div>

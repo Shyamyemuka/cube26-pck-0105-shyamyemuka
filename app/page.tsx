@@ -22,7 +22,7 @@ export default function LandingPage() {
     <div className="space-y-16 py-6 sm:py-10">
       {/* HERO SECTION */}
       <section className="text-center max-w-4xl mx-auto space-y-6">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl neu-flat-sm text-xs font-bold text-[#6E492F] dark:text-[#C4F82A]">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl neu-flat-sm text-xs font-bold text-[#773C30] dark:text-[#6BFF86]">
           <Zap className="w-4 h-4 stroke-[2.2]" />
           <span>Autonomous Packaging Intelligence & Verification Engine</span>
         </div>
@@ -46,7 +46,7 @@ export default function LandingPage() {
           </Link>
           <Link
             href="/queue/import"
-            className="px-8 py-4 rounded-2xl neu-btn-secondary font-display font-bold text-sm uppercase tracking-wider text-slate-900 dark:text-white hover:text-black dark:hover:text-[#C4F82A]"
+            className="px-8 py-4 rounded-2xl neu-btn-secondary font-display font-bold text-sm uppercase tracking-wider text-slate-900 dark:text-white hover:text-[#773C30] dark:hover:text-[#6BFF86]"
           >
             <span>Import Orders</span>
           </Link>
@@ -139,7 +139,7 @@ export default function LandingPage() {
       {/* 4-STEP PIPELINE ARCHITECTURE */}
       <section className="rounded-[32px] neu-flat p-8 sm:p-12 space-y-8">
         <div className="space-y-2 text-center max-w-xl mx-auto">
-          <span className="text-xs font-extrabold uppercase tracking-wider text-[#6E492F] dark:text-[#C4F82A]">
+          <span className="text-xs font-extrabold uppercase tracking-wider text-[#773C30] dark:text-[#6BFF86]">
             Fail-Open Architecture
           </span>
           <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white tracking-tight">
@@ -152,7 +152,7 @@ export default function LandingPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="rounded-2xl neu-pressed-sm p-6 space-y-3">
-            <span className="w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center font-mono font-bold text-xs text-[#6E492F] dark:text-[#C4F82A]">
+            <span className="w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center font-mono font-bold text-xs text-[#773C30] dark:text-[#6BFF86]">
               01
             </span>
             <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">Capture & Hash</h3>
@@ -162,7 +162,7 @@ export default function LandingPage() {
           </div>
 
           <div className="rounded-2xl neu-pressed-sm p-6 space-y-3">
-            <span className="w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center font-mono font-bold text-xs text-[#6E492F] dark:text-[#C4F82A]">
+            <span className="w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center font-mono font-bold text-xs text-[#773C30] dark:text-[#6BFF86]">
               02
             </span>
             <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">Single VLM Call</h3>
@@ -172,7 +172,7 @@ export default function LandingPage() {
           </div>
 
           <div className="rounded-2xl neu-pressed-sm p-6 space-y-3">
-            <span className="w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center font-mono font-bold text-xs text-[#6E492F] dark:text-[#C4F82A]">
+            <span className="w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center font-mono font-bold text-xs text-[#773C30] dark:text-[#6BFF86]">
               03
             </span>
             <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">Rules Engine</h3>
@@ -182,7 +182,7 @@ export default function LandingPage() {
           </div>
 
           <div className="rounded-2xl neu-pressed-sm p-6 space-y-3">
-            <span className="w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center font-mono font-bold text-xs text-[#6E492F] dark:text-[#C4F82A]">
+            <span className="w-8 h-8 rounded-xl neu-flat-sm flex items-center justify-center font-mono font-bold text-xs text-[#773C30] dark:text-[#6BFF86]">
               04
             </span>
             <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">Evidence Chain</h3>
@@ -198,7 +198,7 @@ export default function LandingPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--neu-border-color)]">
           <div>
             <div className="flex items-center gap-2">
-              <BarChart3 className="w-5 h-5 text-[#6E492F] dark:text-[#C4F82A]" />
+              <BarChart3 className="w-5 h-5 text-[#773C30] dark:text-[#6BFF86]" />
               <h2 className="font-display font-extrabold text-xl text-slate-900 dark:text-white">
                 Enterprise Benchmark Verification (50 Units)
               </h2>
@@ -240,7 +240,7 @@ export default function LandingPage() {
             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               UNCERTAIN Rate
             </span>
-            <div className="font-display font-extrabold text-2xl sm:text-3xl text-[#6E492F] dark:text-[#C4F82A]">
+            <div className="font-display font-extrabold text-2xl sm:text-3xl text-[#773C30] dark:text-[#6BFF86]">
               4.0%
             </div>
             <span className="text-[10px] text-slate-600 dark:text-slate-300 font-medium block">Safe review abstention</span>
@@ -261,7 +261,7 @@ export default function LandingPage() {
       {/* HONEST TERMINOLOGY & PRINCIPLES */}
       <section className="rounded-[32px] neu-flat p-8 space-y-4">
         <h3 className="font-display font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
-          <ShieldCheck className="w-5 h-5 text-[#6E492F] dark:text-[#C4F82A]" />
+          <ShieldCheck className="w-5 h-5 text-[#773C30] dark:text-[#6BFF86]" />
           Verified Security & Audit Principles
         </h3>
         <p className="text-xs font-medium text-slate-600 dark:text-slate-300 leading-relaxed">

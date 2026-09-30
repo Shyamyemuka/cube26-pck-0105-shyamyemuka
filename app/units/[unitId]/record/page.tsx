@@ -113,7 +113,7 @@ export default function EvidenceRecordPage() {
   if (loading) {
     return (
       <div className="max-w-3xl mx-auto rounded-[32px] neu-flat p-16 text-center space-y-3">
-        <div className="w-12 h-12 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#6E492F] dark:text-[#C4F82A] animate-pulse">
+        <div className="w-12 h-12 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#773C30] dark:text-[#6BFF86] animate-pulse">
           <Clock className="w-6 h-6 stroke-[2.2]" />
         </div>
         <p className="text-sm font-bold text-slate-900 dark:text-white">Loading audit evidence record...</p>
@@ -124,7 +124,7 @@ export default function EvidenceRecordPage() {
   if (!record) {
     return (
       <div className="max-w-2xl mx-auto rounded-[32px] neu-flat p-12 text-center space-y-6">
-        <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center text-[#6E492F] dark:text-[#C4F82A]">
+        <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center text-[#773C30] dark:text-[#6BFF86]">
           <FileText className="w-8 h-8 stroke-[2.2]" />
         </div>
         <div>
@@ -162,11 +162,11 @@ export default function EvidenceRecordPage() {
               <h1 className="font-display font-extrabold text-2xl text-slate-900 dark:text-white tracking-tight">
                 Evidence Record
               </h1>
-              <span className="font-mono text-xs font-bold text-[#6E492F] dark:text-[#C4F82A] neu-pressed-sm px-2.5 py-1 rounded-xl">
+              <span className="font-mono text-xs font-bold text-[#773C30] dark:text-[#6BFF86] neu-pressed-sm px-2.5 py-1 rounded-xl">
                 {record.record_id}
               </span>
             </div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#6E492F] dark:text-[#C4F82A] mt-0.5">
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#773C30] dark:text-[#6BFF86] mt-0.5">
               Schema: {record.schema} • Unit: {record.unit_id}
             </p>
           </div>
@@ -176,7 +176,7 @@ export default function EvidenceRecordPage() {
           onClick={handleDownloadJson}
           className="flex items-center gap-2 px-4 py-2.5 rounded-2xl neu-btn-secondary text-xs font-bold text-slate-900 dark:text-white"
         >
-          <Download className="w-4 h-4 text-[#6E492F] dark:text-[#C4F82A] stroke-[2.2]" />
+          <Download className="w-4 h-4 text-[#773C30] dark:text-[#6BFF86] stroke-[2.2]" />
           <span>Export JSON</span>
         </button>
       </div>
@@ -214,12 +214,12 @@ export default function EvidenceRecordPage() {
         <div className="rounded-2xl neu-pressed-deep p-4 space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-              <Hash className="w-3.5 h-3.5 text-[#6E492F] dark:text-[#C4F82A]" />
+              <Hash className="w-3.5 h-3.5 text-[#773C30] dark:text-[#6BFF86]" />
               Canonical Content Hash (SHA-256)
             </span>
             <button
               onClick={handleCopyHash}
-              className="flex items-center gap-1 text-[11px] font-bold text-[#6E492F] dark:text-[#C4F82A] hover:opacity-80"
+              className="flex items-center gap-1 text-[11px] font-bold text-[#773C30] dark:text-[#6BFF86] hover:opacity-80"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-[#2E7D32] dark:text-[#A3E635]" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copied ? 'Copied' : 'Copy'}</span>
@@ -284,7 +284,7 @@ export default function EvidenceRecordPage() {
                 className="rounded-2xl neu-pressed-sm p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2"
               >
                 <span className="text-xs font-mono text-slate-600 dark:text-slate-300 truncate sm:max-w-xs">{p.ref}</span>
-                <span className="text-xs font-mono font-bold text-[#6E492F] dark:text-[#C4F82A] break-all">{p.sha256}</span>
+                <span className="text-xs font-mono font-bold text-[#773C30] dark:text-[#6BFF86] break-all">{p.sha256}</span>
               </div>
             ))}
           </div>
@@ -293,7 +293,7 @@ export default function EvidenceRecordPage() {
         {/* Sequential Hash Chain Entry */}
         <div className="rounded-2xl neu-pressed p-4 space-y-2">
           <span className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-            <Layers className="w-3.5 h-3.5 text-[#6E492F] dark:text-[#C4F82A]" />
+            <Layers className="w-3.5 h-3.5 text-[#773C30] dark:text-[#6BFF86]" />
             Audit Override Trail ({record.overrides?.length || 0} overrides)
           </span>
           <div className="space-y-1 text-xs font-mono">
@@ -311,7 +311,7 @@ export default function EvidenceRecordPage() {
 
         {/* Security Statement */}
         <div className="rounded-2xl neu-pressed-sm p-4 flex items-center gap-3">
-          <ShieldCheck className="w-5 h-5 text-[#6E492F] dark:text-[#C4F82A] shrink-0" />
+          <ShieldCheck className="w-5 h-5 text-[#773C30] dark:text-[#6BFF86] shrink-0" />
           <p className="text-[11px] font-medium text-slate-600 dark:text-slate-300">
             <strong>Cryptographic integrity:</strong> This record uses SHA-256 <span className="hl-green">content hashing</span> and sequential hash chaining. Any modification to past records is detectable.
           </p>

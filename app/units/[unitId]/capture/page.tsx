@@ -208,17 +208,17 @@ export default function CapturePage() {
               <h1 className="font-display font-extrabold text-2xl text-slate-900 dark:text-white tracking-tight">
                 {orderId}
               </h1>
-              <span className="font-mono text-xs font-bold text-[#6E492F] dark:text-[#C4F82A] neu-pressed-sm px-2.5 py-1 rounded-xl">
+              <span className="font-mono text-xs font-bold text-[#773C30] dark:text-[#6BFF86] neu-pressed-sm px-2.5 py-1 rounded-xl">
                 {unitId}
               </span>
             </div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#6E492F] dark:text-[#C4F82A] mt-0.5">
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#773C30] dark:text-[#6BFF86] mt-0.5">
               Channel: {channel.replace('_', ' ')} • Tenant: {orgId}
             </p>
           </div>
         </div>
 
-        <div className="w-11 h-11 rounded-2xl neu-icon-well flex items-center justify-center text-[#6E492F] dark:text-[#C4F82A]">
+        <div className="w-11 h-11 rounded-2xl neu-icon-well flex items-center justify-center text-[#773C30] dark:text-[#6BFF86]">
           <Camera className="w-6 h-6 stroke-[2.2]" />
         </div>
       </div>
@@ -227,7 +227,7 @@ export default function CapturePage() {
       <div className="rounded-[32px] neu-flat p-6 sm:p-8 space-y-4">
         <div className="flex items-center justify-between pb-1">
           <span className="font-display font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
-            <Package className="w-4 h-4 text-[#6E492F] dark:text-[#C4F82A]" />
+            <Package className="w-4 h-4 text-[#773C30] dark:text-[#6BFF86]" />
             Order Packing Manifest
           </span>
           <span className="text-xs font-bold text-slate-600 dark:text-slate-300">
@@ -252,7 +252,7 @@ export default function CapturePage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-bold text-slate-500 dark:text-slate-400">Target Qty:</span>
-                  <span className="px-3 py-1 rounded-xl neu-flat-sm text-xs font-mono font-extrabold text-[#6E492F] dark:text-[#C4F82A]">
+                  <span className="px-3 py-1 rounded-xl neu-flat-sm text-xs font-mono font-extrabold text-[#773C30] dark:text-[#6BFF86]">
                     {l.qty}
                   </span>
                 </div>
@@ -332,7 +332,7 @@ export default function CapturePage() {
                   </>
                 ) : (
                   <div className="space-y-2 text-slate-500 dark:text-slate-400">
-                    <div className="w-10 h-10 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#6E492F] dark:text-[#C4F82A]">
+                    <div className="w-10 h-10 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#773C30] dark:text-[#6BFF86]">
                       <ImageIcon className="w-5 h-5 stroke-[2]" />
                     </div>
                     <span className="text-xs font-bold block text-slate-700 dark:text-slate-200">
@@ -354,7 +354,7 @@ export default function CapturePage() {
             disabled={photos.length >= 3 || analyzing}
             className="py-3.5 px-4 rounded-2xl neu-btn-secondary font-display font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-2 text-slate-900 dark:text-white disabled:opacity-50"
           >
-            <Camera className="w-4 h-4 text-[#6E492F] dark:text-[#C4F82A] stroke-[2.2]" />
+            <Camera className="w-4 h-4 text-[#773C30] dark:text-[#6BFF86] stroke-[2.2]" />
             <span>Open Camera</span>
           </button>
 
@@ -364,7 +364,7 @@ export default function CapturePage() {
             disabled={photos.length >= 3 || analyzing}
             className="py-3.5 px-4 rounded-2xl neu-btn-secondary font-display font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-2 text-slate-900 dark:text-white disabled:opacity-50"
           >
-            <Upload className="w-4 h-4 text-[#6E492F] dark:text-[#C4F82A] stroke-[2.2]" />
+            <Upload className="w-4 h-4 text-[#773C30] dark:text-[#6BFF86] stroke-[2.2]" />
             <span>Upload Photo File</span>
           </button>
         </div>

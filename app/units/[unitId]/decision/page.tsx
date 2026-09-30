@@ -92,7 +92,7 @@ export default function DecisionPage() {
   if (!result) {
     return (
       <div className="max-w-2xl mx-auto rounded-[32px] neu-flat p-12 text-center space-y-6">
-        <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center text-[#6E492F] dark:text-[#C4F82A]">
+        <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center text-[#773C30] dark:text-[#6BFF86]">
           <Package className="w-8 h-8 stroke-[2.2]" />
         </div>
         <div>
@@ -134,11 +134,11 @@ export default function DecisionPage() {
               <h1 className="font-display font-extrabold text-2xl text-slate-900 dark:text-white tracking-tight">
                 Package Audit Verdict
               </h1>
-              <span className="font-mono text-xs font-bold text-[#6E492F] dark:text-[#C4F82A] neu-pressed-sm px-2.5 py-1 rounded-xl">
+              <span className="font-mono text-xs font-bold text-[#773C30] dark:text-[#6BFF86] neu-pressed-sm px-2.5 py-1 rounded-xl">
                 {unitId}
               </span>
             </div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#6E492F] dark:text-[#C4F82A] mt-0.5">
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#773C30] dark:text-[#6BFF86] mt-0.5">
               Route: {result.route} • Pipeline: {result.status}
             </p>
           </div>
@@ -148,7 +148,7 @@ export default function DecisionPage() {
           href={`/units/${unitId}/record`}
           className="flex items-center gap-2 px-4 py-2.5 rounded-2xl neu-btn-secondary text-xs font-bold text-slate-900 dark:text-white"
         >
-          <FileText className="w-4 h-4 text-[#6E492F] dark:text-[#C4F82A] stroke-[2.2]" />
+          <FileText className="w-4 h-4 text-[#773C30] dark:text-[#6BFF86] stroke-[2.2]" />
           <span>Evidence Record</span>
         </Link>
       </div>
@@ -225,7 +225,7 @@ export default function DecisionPage() {
                 href={`/units/${unitId}/capture`}
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl neu-btn-secondary font-display font-bold text-xs uppercase tracking-wide text-slate-900 dark:text-white"
               >
-                <Camera className="w-4 h-4 stroke-[2.2] text-[#6E492F] dark:text-[#C4F82A]" />
+                <Camera className="w-4 h-4 stroke-[2.2] text-[#773C30] dark:text-[#6BFF86]" />
                 <span>Recapture Photos</span>
               </Link>
             </div>
@@ -317,7 +317,7 @@ export default function DecisionPage() {
           className="w-full flex items-center justify-between text-left"
         >
           <span className="font-display font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-            <Info className="w-4 h-4 text-[#6E492F] dark:text-[#C4F82A]" />
+            <Info className="w-4 h-4 text-[#773C30] dark:text-[#6BFF86]" />
             Why this verdict? (Rule Logic & Thresholds)
           </span>
           {showWhyExpander ? (
@@ -326,7 +326,6 @@ export default function DecisionPage() {
             <ChevronDown className="w-4 h-4 text-slate-600 dark:text-slate-300" />
           )}
         </button>
-
         {showWhyExpander && (
           <div className="mt-4 pt-4 border-t border-[var(--neu-border-color)] space-y-3 text-xs text-slate-600 dark:text-slate-300">
             <p>
@@ -353,7 +352,7 @@ export default function DecisionPage() {
         <button
           type="button"
           onClick={() => setShowOverrideModal(true)}
-          className="px-5 py-2.5 rounded-2xl neu-btn-secondary text-xs font-bold text-slate-900 dark:text-white hover:text-black dark:hover:text-[#C4F82A] transition-all whitespace-nowrap"
+          className="px-5 py-2.5 rounded-2xl neu-btn-secondary text-xs font-bold text-slate-900 dark:text-white hover:text-[#773C30] dark:hover:text-[#6BFF86] transition-all whitespace-nowrap"
         >
           Override Verdict
         </button>

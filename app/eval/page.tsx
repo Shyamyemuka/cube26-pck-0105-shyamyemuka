@@ -26,7 +26,7 @@ export default function EvalDashboardPage() {
       <div className="max-w-4xl mx-auto py-12 text-center space-y-4">
         <h1 className="font-display font-extrabold text-2xl text-slate-900 dark:text-white">Evaluation Dashboard</h1>
         <p className="text-slate-600 dark:text-slate-300 text-sm">No evaluation results found yet. Run the evaluation harness first:</p>
-        <code className="inline-block neu-pressed-sm text-[#6E492F] dark:text-[#C4F82A] font-mono text-xs px-4 py-2 rounded-xl">
+        <code className="inline-block neu-pressed-sm text-[#773C30] dark:text-[#6BFF86] font-mono text-xs px-4 py-2 rounded-xl">
           npm run eval -- --set heldout
         </code>
       </div>
@@ -51,12 +51,12 @@ export default function EvalDashboardPage() {
               <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white tracking-tight">
                 Enterprise Benchmark Verification Report
               </h1>
-              <span className="text-xs neu-pressed-sm text-[#6E492F] dark:text-[#C4F82A] font-bold px-2.5 py-1 rounded-xl uppercase">
+              <span className="text-xs neu-pressed-sm text-[#773C30] dark:text-[#6BFF86] font-bold px-2.5 py-1 rounded-xl uppercase">
                 {set} set (N={metrics.total_units})
               </span>
             </div>
             <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 mt-0.5">
-              Evaluated on {new Date(timestamp).toLocaleDateString()} · Prompt: <code className="font-mono text-[#6E492F] dark:text-[#C4F82A]">{prompt_version}</code>
+              Evaluated on {new Date(timestamp).toLocaleDateString()} · Prompt: <code className="font-mono text-[#773C30] dark:text-[#6BFF86]">{prompt_version}</code>
             </p>
           </div>
         </div>
@@ -95,7 +95,7 @@ export default function EvalDashboardPage() {
           <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
             UNCERTAIN Rate
           </div>
-          <div className="font-display font-extrabold text-3xl text-[#6E492F] dark:text-[#C4F82A]">
+          <div className="font-display font-extrabold text-3xl text-[#773C30] dark:text-[#6BFF86]">
             {metrics.uncertain_rate_pct.toFixed(1)}%
           </div>
           <div className="text-[10px] font-medium text-slate-600 dark:text-slate-300">Safe abstention</div>
@@ -199,7 +199,7 @@ export default function EvalDashboardPage() {
                   <td className="py-2 font-semibold text-slate-600 dark:text-slate-300">{f.agent}</td>
                   <td className="py-2 text-slate-600 dark:text-slate-300">{f.defect}</td>
                   <td className="py-2">
-                    <span className="neu-flat-sm text-[#6E492F] dark:text-[#C4F82A] px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold">
+                    <span className="neu-flat-sm text-[#773C30] dark:text-[#6BFF86] px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold">
                       {f.tag || 'none'}
                     </span>
                   </td>
@@ -213,11 +213,11 @@ export default function EvalDashboardPage() {
       {/* Honesty Statement */}
       <div className="rounded-[32px] neu-flat p-6 space-y-2">
         <div className="font-display font-bold text-xs uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2">
-          <ShieldCheck className="w-4 h-4 text-[#6E492F] dark:text-[#C4F82A]" />
+          <ShieldCheck className="w-4 h-4 text-[#773C30] dark:text-[#6BFF86]" />
           <span>Evaluation Integrity Statement</span>
         </div>
         <p className="text-xs font-medium text-slate-600 dark:text-slate-300 leading-relaxed">
-          Staged across physical test boxes with phone capture across 50 units. Prompt version (<code className="font-mono text-[#6E492F] dark:text-[#C4F82A]">{prompt_version}</code>) and thresholds were frozen prior to held-out evaluation.
+          Staged across physical test boxes with phone capture across 50 units. Prompt version (<code className="font-mono text-[#773C30] dark:text-[#6BFF86]">{prompt_version}</code>) and thresholds were frozen prior to held-out evaluation.
         </p>
       </div>
     </div>

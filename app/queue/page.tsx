@@ -74,42 +74,42 @@ export default function QueuePage() {
     switch (status) {
       case 'sealed':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#142318] text-[#A3E635] neu-flat-sm border border-[#224824]">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-900 border border-emerald-300 dark:bg-[#142318] dark:text-[#6BFF86] dark:border-[#224824] neu-flat-sm">
             <CheckCircle2 className="w-3.5 h-3.5" />
             SEALED
           </span>
         );
       case 'stopped':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#381816] text-[#F87171] neu-flat-sm border border-[#5A2320]">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-rose-100 text-rose-900 border border-rose-300 dark:bg-[#381816] dark:text-[#F87171] dark:border-[#5A2320] neu-flat-sm">
             <XCircle className="w-3.5 h-3.5" />
             STOP & FIX
           </span>
         );
       case 'uncertain':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#382614] text-[#FBBF24] neu-flat-sm border border-[#583C1A]">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300 dark:bg-[#382614] dark:text-[#FBBF24] dark:border-[#583C1A] neu-flat-sm">
             <HelpCircle className="w-3.5 h-3.5" />
             UNCERTAIN
           </span>
         );
       case 'pending':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#1E232B] text-[#94A3B8] neu-flat-sm border border-[#333B49]">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-slate-200 text-slate-900 border border-slate-300 dark:bg-[#1E232B] dark:text-[#94A3B8] dark:border-[#333B49] neu-flat-sm">
             <Clock className="w-3.5 h-3.5" />
             PENDING
           </span>
         );
       case 'overridden':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-[#3A2A1A] text-[#FDE68A] neu-flat-sm border border-[#5E4226]">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-orange-100 text-orange-900 border border-orange-300 dark:bg-[#3A2A1A] dark:text-[#FDE68A] dark:border-[#5E4226] neu-flat-sm">
             <RotateCcw className="w-3.5 h-3.5" />
             OVERRIDDEN
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold neu-pressed-sm text-slate-700 dark:text-slate-300">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold neu-pressed-sm text-slate-800 dark:text-slate-200">
             OPEN
           </span>
         );
@@ -125,7 +125,7 @@ export default function QueuePage() {
             <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white tracking-tight">
               Packing Station Queue
             </h1>
-            <span className="px-3 py-1 rounded-xl neu-pressed-sm text-xs font-bold text-[#6E492F] dark:text-[#C4F82A] uppercase">
+            <span className="px-3 py-1 rounded-xl neu-pressed-sm text-xs font-bold text-[#773C30] dark:text-[#6BFF86] uppercase">
               {orgId}
             </span>
           </div>
@@ -186,7 +186,7 @@ export default function QueuePage() {
               onClick={() => setFilterStatus(st)}
               className={`px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
                 filterStatus === st
-                  ? 'neu-pressed text-slate-900 dark:text-[#C4F82A] font-extrabold'
+                  ? 'neu-pressed text-[#773C30] dark:text-[#6BFF86] font-extrabold'
                   : 'neu-flat-sm text-slate-700 dark:text-slate-200 hover:text-black dark:hover:text-white'
               }`}
             >
@@ -199,14 +199,14 @@ export default function QueuePage() {
       {/* Orders List or Empty State */}
       {loading ? (
         <div className="rounded-[32px] neu-flat p-16 text-center space-y-3">
-          <div className="w-12 h-12 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#6E492F] dark:text-[#C4F82A] animate-pulse">
+          <div className="w-12 h-12 rounded-2xl neu-icon-well mx-auto flex items-center justify-center text-[#773C30] dark:text-[#6BFF86] animate-pulse">
             <Clock className="w-6 h-6 stroke-[2.2]" />
           </div>
           <p className="text-sm font-bold text-slate-900 dark:text-white">Loading tenant queue...</p>
         </div>
       ) : filteredOrders.length === 0 ? (
         <div className="rounded-[32px] neu-flat p-16 text-center space-y-5">
-          <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center text-[#6E492F] dark:text-[#C4F82A]">
+          <div className="w-16 h-16 rounded-[24px] neu-icon-well mx-auto flex items-center justify-center text-[#773C30] dark:text-[#6BFF86]">
             <Inbox className="w-8 h-8 stroke-[2.2]" />
           </div>
           <div className="max-w-md mx-auto space-y-1">
@@ -242,7 +242,7 @@ export default function QueuePage() {
               >
                 <div>
                   <div className="flex items-center justify-between pb-3">
-                    <span className="font-mono text-xs font-bold text-[#6E492F] dark:text-[#C4F82A] neu-pressed-sm px-2.5 py-1 rounded-xl">
+                    <span className="font-mono text-xs font-bold text-[#773C30] dark:text-[#6BFF86] neu-pressed-sm px-2.5 py-1 rounded-xl">
                       {order.unit_id}
                     </span>
                     {getStatusBadge(order.status)}
@@ -265,7 +265,7 @@ export default function QueuePage() {
                     {order.order_lines.slice(0, 3).map((l, i) => (
                       <div key={i} className="flex items-center justify-between text-xs font-mono font-medium">
                         <span className="text-slate-900 dark:text-white truncate mr-2">{l.sku}</span>
-                        <span className="text-[#6E492F] dark:text-[#C4F82A] font-bold">x{l.qty}</span>
+                        <span className="text-[#773C30] dark:text-[#6BFF86] font-bold">x{l.qty}</span>
                       </div>
                     ))}
                     {order.order_lines.length > 3 && (
@@ -288,7 +288,7 @@ export default function QueuePage() {
                   <Link
                     href={`/units/${order.unit_id}/record`}
                     title="View Evidence Record"
-                    className="w-12 h-12 rounded-2xl neu-btn-secondary flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-black dark:hover:text-[#C4F82A]"
+                    className="w-12 h-12 rounded-2xl neu-btn-secondary flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-[#773C30] dark:hover:text-[#6BFF86]"
                   >
                     <FileText className="w-4 h-4 stroke-[2.2]" />
                   </Link>
