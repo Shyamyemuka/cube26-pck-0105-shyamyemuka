@@ -27,6 +27,15 @@ export default function RootLayout({
       </head>
       <body className="flex flex-col min-h-screen antialiased text-slate-900 dark:text-white">
         <AuroraBackground />
+        {/* Brush-stroke SVG filter — referenced by .hl-green::before in globals.css */}
+        <svg aria-hidden="true" style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}>
+          <defs>
+            <filter id="brush-stroke-filter" x="-20%" y="-80%" width="140%" height="260%" colorInterpolationFilters="sRGB">
+              <feTurbulence type="fractalNoise" baseFrequency="0.03 0.14" numOctaves="4" seed="9" result="noise" />
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="11" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+          </defs>
+        </svg>
         {/* Sticky Neumorphic Header */}
         <header className="sticky top-0 z-50 px-4 sm:px-6 lg:px-8 pt-4 pb-2">
           <div className="max-w-7xl mx-auto rounded-[28px] neu-flat px-6 h-18 flex items-center justify-between">
