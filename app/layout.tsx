@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Package, ShieldCheck, BarChart3 } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeToggle';
 import AuroraBackground from '@/components/AuroraBackground';
+import HeaderAuth from '@/components/HeaderAuth';
 
 export const metadata: Metadata = {
   title: 'Pack Manager',
@@ -84,12 +85,7 @@ export default function RootLayout({
 
               <ThemeToggle />
 
-              <Link
-                href="/login"
-                className="px-5 py-2 rounded-2xl neu-btn-primary font-bold text-xs tracking-wide uppercase"
-              >
-                Sign In
-              </Link>
+              <HeaderAuth />
             </nav>
           </div>
         </header>
