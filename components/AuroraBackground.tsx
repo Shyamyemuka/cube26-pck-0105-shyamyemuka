@@ -108,23 +108,40 @@ export default function AuroraBackground() {
 
           gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
         } else {
-          // LIGHT MODE: WARM-TO-COOL GRADIENT — clearly visible, not white-on-white
-          // Top: soft lilac-slate (#CDD5E0), bottom: warm peach blush (#F0E6DF)
-          vec3 topColor = vec3(0.804, 0.835, 0.878);   // #CDD5E0 cool slate top
-          vec3 botColor = vec3(0.941, 0.902, 0.875);   // #F0E6DF warm peach bottom
-          vec3 midAccent = vec3(0.847, 0.804, 0.824);  // #D8CDCF dusky rose mid
+          // LIGHT MODE: VISIBLE AURORA — warm amber/peach bands on a slate canvas
+          // Palette: cool slate sky, amber glow, shrimp blush, soft lilac
+          vec3 skyBase  = vec3(0.72, 0.76, 0.84);   // #B8C2D6 slate sky
+          vec3 amber    = vec3(0.96, 0.78, 0.54);   // #F5C78A warm amber band
+          vec3 blush    = vec3(0.88, 0.62, 0.62);   // #E09E9E shrimp blush
+          vec3 lilac    = vec3(0.74, 0.68, 0.86);   // #BDADDB soft lilac
 
-          // Gradient from top to bottom
-          vec3 col = mix(topColor, botColor, uv.y);
+          // Animated slow arch — same curtain mechanics as dark mode
+          float arc1 = 0.18 * sin(p.x * 1.3 + t * 0.4) + 0.08 * cos(p.x * 2.6 - t * 0.3);
+          float arc2 = 0.05 * sin(p.x * 4.1 - t * 0.5) + 0.03 * cos(p.x * 6.2 + t * 0.7);
+          float arcY = 0.05 + arc1 + arc2;
+          float distY = p.y - arcY;
 
-          // Soft horizontal band accent at mid-screen
-          float band = smoothstep(0.35, 0.5, uv.y) * smoothstep(0.75, 0.5, uv.y);
-          float slowWave = 0.04 * sin(p.x * 1.2 + t * 0.3);
-          col = mix(col, midAccent, band * 0.28 + slowWave * 0.05);
+          // Soft curtain rays in light mode
+          float ray1 = noise(vec2(p.x * 18.0 + t * 0.25, p.y * 2.0));
+          float ray2 = noise(vec2(p.x * 42.0 - t * 0.4,  p.y * 3.5));
+          float rays = pow(ray1 * 0.55 + ray2 * 0.45, 1.6) * 1.2;
 
-          // Gentle vignette at edges
-          float vignette = 1.0 - smoothstep(0.3, 1.0, length(p * vec2(0.6, 0.8)));
-          col *= 0.92 + 0.08 * vignette;
+          // Amber core band
+          float amberCore = smoothstep(-0.18, 0.12, distY) * smoothstep(0.46, 0.05, distY);
+
+          // Blush fringe below the amber band
+          float blushFringe = smoothstep(-0.32, -0.04, distY) * smoothstep(0.04, -0.12, distY) * 0.75;
+
+          // Lilac upper rays
+          float lilacRays = smoothstep(0.08, 0.55, distY) * rays * 0.65;
+
+          vec3 col = skyBase;
+          col = mix(col, amber, amberCore * (0.55 + 0.45 * rays));
+          col = mix(col, blush, blushFringe);
+          col = mix(col, lilac, lilacRays);
+
+          // Soft top-to-bottom atmospheric fade
+          col = mix(col, skyBase * 0.88, smoothstep(0.0, 1.0, uv.y) * 0.3);
 
           gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
         }
