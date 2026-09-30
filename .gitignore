@@ -37,6 +37,16 @@ yarn-error.log*
 *.swo
 *.tsbuildinfo
 
+# Internal documentation, agent rules, and contest files
 .claude/
+claude/
 docs/
-/claude
+skills/
+submissions/
+AGENTS.md
+CLAUDE.md
+GITHUB-GUIDE.md
+INDEX.md
+RULES.md
+.github/scripts/
+.github/workflows/

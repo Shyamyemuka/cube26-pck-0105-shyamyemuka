@@ -9,9 +9,9 @@ export const metadata: Metadata = {
   title: 'Pack Manager',
   description: 'Industrial-grade pre-seal carton audit engine from phone photos. Enterprise package integrity and manifest verification.',
   icons: {
-    icon: '/p_mlogo.png',
-    shortcut: '/p_mlogo.png',
-    apple: '/p_mlogo.png',
+    icon: '/icon.png',
+    shortcut: '/icon.png',
+    apple: '/icon.png',
   },
 };
 
@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/p_mlogo.png" sizes="any" />
+        <link rel="icon" href="/icon.png" sizes="any" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -47,7 +47,7 @@ export default function RootLayout({
           <div className="max-w-7xl mx-auto rounded-[28px] neu-flat px-6 h-18 flex items-center justify-between">
             <Link href="/" className="flex items-center gap-3 group">
               <div className="w-11 h-11 rounded-2xl neu-icon-well flex items-center justify-center p-1.5 group-hover:scale-105 transition-transform duration-300 overflow-hidden">
-                <img src="/p_mlogo.png" alt="Pack Manager" className="w-full h-full object-contain" />
+                <img src="/icon.png" alt="Pack Manager" className="w-full h-full object-contain" />
               </div>
               <div className="flex flex-col">
                 <span className="font-display font-extrabold text-lg tracking-tight text-slate-900 dark:text-white">
