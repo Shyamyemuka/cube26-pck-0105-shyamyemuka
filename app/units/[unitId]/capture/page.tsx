@@ -17,7 +17,6 @@ import {
   X,
   RefreshCw,
 } from 'lucide-react';
-import { sha256Hex } from '@/lib/evidence/hash';
 
 interface PhotoItem {
   dataUrl: string;
@@ -61,9 +60,17 @@ export default function CapturePage() {
         const res = await fetch(`/api/units/${encodeURIComponent(unitId)}?org_id=${encodeURIComponent(savedOrg)}`);
         const data = await res.json();
         if (res.ok && data.unit) {
-          setOrderId(data.unit.order_id);
-          setChannel(data.unit.channel);
-          setLines(data.unit.order_lines || []);
+          if (data.unit.order_id) setOrderId(data.unit.order_id);
+          if (data.unit.channel) setChannel(data.unit.channel);
+          if (Array.isArray(data.unit.order_lines) && data.unit.order_lines.length > 0) {
+            setLines(
+              data.unit.order_lines.map((l: { sku: string; qty: number; name?: string }) => ({
+                sku: l.sku,
+                qty: l.qty,
+                name: l.name || l.sku,
+              }))
+            );
+          }
         } else {
           setOrderId(`ORD-${unitId}`);
         }
@@ -74,7 +81,9 @@ export default function CapturePage() {
       }
     }
 
-    loadUnit();
+    if (unitId) {
+      loadUnit();
+    }
   }, [unitId]);
 
   // Client-side downscaling and SHA-256 hashing

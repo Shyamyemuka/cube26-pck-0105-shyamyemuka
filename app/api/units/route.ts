@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body = await request.json().catch(() => ({}));
     const orgId = body.org_id || 'org_demo_alpha';
     const unitId = body.unit_id || `UNIT-${Date.now().toString().slice(-6)}`;
     const orderId = body.order_id || `ORD-${unitId}`;
