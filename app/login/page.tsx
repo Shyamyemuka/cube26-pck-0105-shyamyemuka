@@ -9,8 +9,8 @@ export default function LoginPage() {
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
 
   // Form fields
-  const [email, setEmail] = useState('operator.alpha@example.test');
-  const [password, setPassword] = useState('Password123!');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [orgId, setOrgId] = useState('org_demo_alpha');
   const [customOrg, setCustomOrg] = useState('');
@@ -248,7 +248,7 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full py-3.5 px-4 rounded-2xl neu-btn-primary font-display font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 text-white disabled:opacity-50 transition-all mt-4"
           >
-            <span>{loading ? 'Please wait...' : mode === 'signin' ? 'Sign In to Station' : 'Create & Store Account'}</span>
+            <span>{loading ? 'Please wait...' : mode === 'signin' ? 'Sign In' : 'Create Account'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
